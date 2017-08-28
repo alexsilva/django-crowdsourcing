@@ -119,13 +119,13 @@ submissions_as.short_description = 'Submissions as'
 
 
 class SurveyAdmin(object):
-    save_as = True
     form = SurveyAdminForm
     search_fields = ('title', 'slug', 'tease', 'description')
     prepopulated_fields = {'slug': ('title',)}
     list_display = (
         'title',
         'slug',
+        'content',
         'survey_date',
         'ends_at',
         'is_published',
@@ -135,10 +135,11 @@ class SurveyAdmin(object):
     list_filter = ('survey_date', 'is_published', 'site')
     date_hierarchy = 'survey_date'
     exclude = ('sections',)
-    inlines = [SectionInline, QuestionInline]
+    inlines = [QuestionInline, SectionInline]
 
 
 site.register(Survey, SurveyAdmin)
+# site.register(SurveyContent)
 
 
 class AnswerInline(object):

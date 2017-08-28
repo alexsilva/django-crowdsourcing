@@ -6,6 +6,9 @@ from math import sin, cos
 from operator import itemgetter
 import re
 from textwrap import fill
+
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from markdown import markdown
 
 try:
@@ -66,9 +69,21 @@ class LiveSurveyManager(models.Manager):
 FORMAT_CHOICES = ('json', 'csv', 'xml', 'html',)
 
 
+class SurveyContent(models.Model):
+    """It is an object that allows you to make a poll about a generic content."""
+    object_id = models.CharField(max_length=50, db_index=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    content_object = GenericForeignKey()
+
+    def __unicode__(self):
+        return unicode(self.content_object)
+
+
 class Survey(models.Model):
     title = models.CharField(max_length=80)
     slug = models.SlugField(unique=True)
+    content = models.ForeignKey(SurveyContent, verbose_name=_("Content"),
+                                null=True)
     tease = models.TextField(blank=True)
     description = models.TextField(blank=True)
     thanks = models.TextField(

@@ -125,7 +125,6 @@ class SurveyAdmin(object):
     list_display = (
         'title',
         'slug',
-        'content',
         'survey_date',
         'ends_at',
         'is_published',
@@ -139,7 +138,6 @@ class SurveyAdmin(object):
 
 
 site.register(Survey, SurveyAdmin)
-# site.register(SurveyContent)
 
 
 class AnswerInline(object):
@@ -152,7 +150,7 @@ class AnswerInline(object):
 class SubmissionAdmin(object):
     raw_id_fields = ('user',)
     search_fields = ('answer__text_answer',)
-    list_display = ('survey', 'submitted_at', 'user',
+    list_display = ('survey', 'content', 'submitted_at', 'user',
                     'ip_address', 'email', 'is_public',)
     list_editable = ('is_public',)
     list_filter = ('survey', 'submitted_at', 'is_public')

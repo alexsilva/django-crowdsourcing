@@ -246,7 +246,7 @@ def _survey_report_url(survey):
 def allowed_actions(request, slug):
     survey = _get_survey_or_404(slug, request)
     authenticated = request.user.is_authenticated()
-    response = HttpResponse(mimetype='application/json')
+    response = HttpResponse(content_type='application/json')
     dump({"enter": _can_show_form(request, survey),
           "view": survey.can_have_public_submissions(),
           "open": survey.is_open,
@@ -255,7 +255,7 @@ def allowed_actions(request, slug):
 
 
 def questions(request, slug):
-    response = HttpResponse(mimetype='application/json')
+    response = HttpResponse(content_type='application/json')
     dump(_get_survey_or_404(slug, request).to_jsondata(), response)
     return response
 

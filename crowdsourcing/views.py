@@ -84,7 +84,7 @@ def _survey_submit(request, survey):
     if not hasattr(request, 'session'):
         return HttpResponse("Cookies must be enabled to use this application.",
                             status=httplib.FORBIDDEN)
-    if (_entered_no_more_allowed(request, survey)):
+    if _entered_no_more_allowed(request, survey):
         slug_template = 'crowdsourcing/%s_already_submitted.html' % survey.slug
         return render_to_response([slug_template,
                                    'crowdsourcing/already_submitted.html'],

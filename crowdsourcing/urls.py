@@ -36,7 +36,7 @@ urlpatterns =[
         location_question_map,
         name="location_question_map"),
 
-    url(r'(?P<slug>[-a-z0-9_]+)/$', survey_detail, name="survey_detail"),
+    url(r'(?P<slug>[-a-z0-9_]+)/api/$', survey_detail, name="survey_detail"),
 
     url(r'(?P<slug>[-a-z0-9_]+)/api/allowed_actions/$', allowed_actions, name="allowed_actions"),
 
@@ -63,11 +63,11 @@ urlpatterns =[
         survey_report,
         name="survey_default_report"),
 
-    url(r'(?P<slug>[-a-z0-9_]+)/(?P<report>[-a-z0-9_]+)/$',
+    url(r'(?P<slug>[-a-z0-9_]+)/report/(?P<report>[-a-z0-9_]+)/$',
         survey_report,
         name="survey_report_page_1"),
 
-    url(r'(?P<slug>[-a-z0-9_]+)/(?P<report>[-a-z0-9_]+)/(?P<page>\d+)/$',
+    url(r'(?P<slug>[-a-z0-9_]+)/report/(?P<report>[-a-z0-9_]+)/(?P<page>\d+)/$',
         survey_report,
         name="survey_report")
 ]

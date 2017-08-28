@@ -395,10 +395,10 @@ def submissions(request, format):
         return sorted(key_lookup.keys())
 
     if format == 'json':
-        response = HttpResponse(mimetype='application/json')
+        response = HttpResponse(content_type='application/json')
         dump(result_data, response)
     elif format == 'csv':
-        response = HttpResponse(mimetype='text/csv')
+        response = HttpResponse(content_type='text/csv')
         writer = csv.writer(response)
         keys = get_keys()
         writer.writerow(keys)
@@ -419,7 +419,7 @@ def submissions(request, format):
                     cell = doc.createElement(key)
                     submission.appendChild(cell)
                     cell.appendChild(doc.createTextNode(u"%s" % value))
-        response = HttpResponse(doc.toxml(), mimetype='text/xml')
+        response = HttpResponse(doc.toxml(), content_type='text/xml')
     elif format == 'html': # mostly for debugging.
         keys = get_keys()
         results = [
@@ -679,7 +679,7 @@ def location_question_results(
         if answer.submission_id in icon_lookup:
             d["icon"] = icon_lookup[answer.submission_id]
         entries.append(d)
-    response = HttpResponse(mimetype='application/json')
+    response = HttpResponse(content_type='application/json')
     dump({"entries": entries}, response)
     return response
 

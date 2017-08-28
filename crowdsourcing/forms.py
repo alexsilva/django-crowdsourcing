@@ -263,6 +263,7 @@ class SubmissionForm(ModelForm):
             'survey',
             'submitted_at',
             'ip_address',
+            'content',
             'user',
             'is_public',
             'featured')

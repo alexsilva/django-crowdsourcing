@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 
-import datetime
 import logging
 from math import sin, cos
 from operator import itemgetter
@@ -16,6 +15,7 @@ except ImportError:
 
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.utils import timezone
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.db import models, connection
@@ -54,7 +54,7 @@ ARCHIVE_POLICY_CHOICES = ChoiceEnum(('immediate',
 
 class LiveSurveyManager(models.Manager):
     def get_query_set(self):
-        now = datetime.datetime.now()
+        now = timezone.now()
         return super(LiveSurveyManager, self).get_query_set().filter(
             is_published=True,
             starts_at__lte=now).filter(
@@ -97,7 +97,7 @@ class Survey(models.Model):
                     "post-close: Results are public on or after the "
                     "\"ends at\" option documented below. never: Results are "
                     "never public."))
-    starts_at = models.DateTimeField(default=datetime.datetime.now)
+    starts_at = models.DateTimeField(default=timezone.now)
     survey_date = models.DateField(blank=True, null=True, editable=False)
     ends_at = models.DateTimeField(null=True, blank=True)
     has_script = models.BooleanField(default=False,
@@ -156,14 +156,14 @@ class Survey(models.Model):
 
     @property
     def is_open(self):
-        now = datetime.datetime.now()
+        now = timezone.now()
         if self.ends_at:
             return self.starts_at <= now < self.ends_at
         return self.starts_at <= now
 
     @property
     def is_live(self):
-        now = datetime.datetime.now()
+        now = timezone.now()
         return all([
             self.is_published,
             self.starts_at <= now,
@@ -450,7 +450,7 @@ class Question(models.Model):
 
     @property
     def is_date(self):
-        return self is datetime.date
+        return self is timezone.datetime.date
 
 
 FILTER_TYPE = ChoiceEnum("choice range distance")
@@ -754,7 +754,7 @@ class Submission(models.Model):
     survey = models.ForeignKey(Survey)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     ip_address = models.GenericIPAddressField()
-    submitted_at = models.DateTimeField(default=datetime.datetime.now)
+    submitted_at = models.DateTimeField(default=timezone.now)
     session_key = models.CharField(max_length=40, blank=True, editable=False)
     featured = models.BooleanField(default=False)
 

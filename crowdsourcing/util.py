@@ -1,8 +1,6 @@
 import itertools
 import re
 
-from django.utils.importlib import import_module
-
 
 def get_function(path):
     """ This used to use import_module, but certain Django-isms such as object
@@ -37,3 +35,11 @@ class ChoiceEnum(object):
 
     def getdisplay(self, key):
         return [v[1] for v in self._choices if v[0] == key][0]
+
+    def deconstruct(self):
+        """migration serializer"""
+        path = "crowdsourcing.util.ChoiceEnum"
+        args = (self._choices,)
+        kwargs = {}
+        return path, args, kwargs
+

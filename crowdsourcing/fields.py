@@ -14,8 +14,10 @@ except ImportError:
     class ImageWithThumbnailsField(ImageField):
 
         def __init__(self, *args, **kwargs):
-            kwargs.pop('thumbnail', None)
+            self.thumbnail = kwargs.pop('thumbnail', None)
+            self.extra_thumbnails = kwargs.pop('extra_thumbnails', None)
             super(ImageWithThumbnailsField, self).__init__(*args, **kwargs)
+
 
 class RankedChoiceField(MultiValueField):
     widget = RankedChoiceWidget

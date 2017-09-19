@@ -25,7 +25,8 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-
+example_app/local_settings.py
+*.db
 #vim
 *.swo
 *.swp

@@ -24,6 +24,7 @@ except ImportError:
 class QuestionForm(ModelForm):
     class Meta:
         model = Question
+        fields = "__all__"
 
     def clean(self):
         OTC = OPTION_TYPE_CHOICES
@@ -82,6 +83,7 @@ class SurveyAdminForm(ModelForm):
 
     class Meta:
         model = Survey
+        fields = "__all__"
 
     def clean_flickr_group_name(self):
         group = self.cleaned_data.get('flickr_group_name', "")
@@ -199,6 +201,7 @@ class SurveyReportDisplayInlineForm(ModelForm):
 
     class Meta:
         model = SurveyReportDisplay
+        fields = "__all__"
 
 
 class SurveyReportDisplayInline(admin.StackedInline):

@@ -2,10 +2,12 @@
 import os
 import sys
 
-from django.core.management import execute_manager
+from django.core.management import execute_from_command_line
 
 # to be able to import the crowdsourcing app
 sys.path.append(os.path.normpath(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+os.environ["DJANGO_SETTINGS_MODULE"] = 'settings'
 
 try:
     import settings # Assumed to be in the same directory.
@@ -14,4 +16,4 @@ except ImportError:
     sys.exit(1)
 
 if __name__ == "__main__":
-    execute_manager(settings)
+    execute_from_command_line(sys.argv)

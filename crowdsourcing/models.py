@@ -755,9 +755,13 @@ BALLOT_STUFFING_FIELDS = ('ip_address', 'session_key',)
 
 class SurveyContent(models.Model):
     """It is an object that allows you to make a poll about a generic content."""
-    object_id = models.CharField(max_length=50, db_index=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    content_object = GenericForeignKey()
+    # Content-object field
+    content_type = models.ForeignKey(ContentType,
+                                     verbose_name=_('content type'),
+                                     related_name="content_type_set_for_%(class)s",
+                                     on_delete=models.CASCADE)
+    object_pk = models.TextField(_('object ID'))
+    content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
 
     def __unicode__(self):
         return unicode(self.content_object)

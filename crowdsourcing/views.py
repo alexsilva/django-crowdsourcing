@@ -19,7 +19,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext as _rc
 from django.utils.html import escape
 
-from .forms import forms_for_survey
+from .forms import forms_for_survey, SubmissionForm
 from .models import (
     Answer,
     BALLOT_STUFFING_FIELDS,
@@ -300,6 +300,11 @@ def submissions(request, format, **kwargs):
         # survey.can_have_public_submissions is complicated enough that
         # we'll check it in Python, not the database.
         results = Submission.objects.filter(is_public=True)
+    if kwargs:
+        # content type
+        form = SubmissionForm(None, data=kwargs)
+        if form.is_valid():
+            results = results.filter(**form.cleaned_data)
     results = results.select_related("survey", "user")
     get = request.GET.copy()
     limit = int(get.pop("limit", [0])[0])

@@ -93,7 +93,7 @@ def select_filter(wrapper_format, key, label, value, choices, blank=True):
         option_value = display = choice
         if hasattr(choice, "__iter__"):
             option_value, display = choice[0], choice[1]
-        option_value, display = strip_tags(option_value), strip_tags(display)
+        option_value, display = strip_tags(str(option_value)), strip_tags(str(display))
         html.append('<option value="%s"' % option_value)
         if value == u"%s" % option_value:
             html.append('selected="selected"')

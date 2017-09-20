@@ -266,7 +266,7 @@ def questions(request, slug):
     return response
 
 
-def submissions(request, format):
+def submissions(request, format, **kwargs):
     """ Use this view to make arbitrary queries on submissions. If the user is
     a logged in staff member, ignore submission.is_public,
     question.answer_is_public, and survey.can_have_public_submissions. Use the

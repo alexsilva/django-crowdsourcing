@@ -16,7 +16,15 @@ from .views import (allowed_actions,
 
 urlpatterns =[
     url(r'submissions/$', submissions, {"format": "json"}, name='submissions'),
+
+    url(r'submissions/(?P<content_type>.+?)/(?P<object_pk>\d+)/$', submissions,
+        {"format": "json"}, name='submissions_search'),
+
     url(r'submissions/(?P<format>[a-z]+)/$', submissions, name='submissions_by_format'),
+
+    url(r'submissions/(?P<content_type>.+?)/(?P<object_pk>\d+)/(?P<format>[a-z]+)/$',
+        submissions, name='submissions_search_and_format'),
+
     url(r'submission/(?P<id>\d+)/$', submission),
     url(r'submission_for_map/(?P<id>\d+)/$', submission_for_map),
 

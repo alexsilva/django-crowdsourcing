@@ -109,6 +109,12 @@ def _submit_valid_forms(forms, request, survey):
     submission.survey = survey
     submission.ip_address = _get_remote_ip(request)
     submission.is_public = not survey.moderate_submissions
+    content_type = submission_form.cleaned_data.get('content_type')
+    if content_type:  # opcional field
+        submission.content_type = content_type
+    object_pk = submission_form.cleaned_data.get('object_pk')
+    if object_pk:  # opcional field
+        submission.object_pk = object_pk
     if request.user.is_authenticated():
         submission.user = request.user
     submission.save()

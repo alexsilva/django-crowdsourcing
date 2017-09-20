@@ -31,7 +31,9 @@ from django.template.defaultfilters import slugify
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
-
+import django.forms
+from django.apps import apps
+from django.contrib.auth.models import ContentType
 from .fields import RankedChoiceField
 from .geo import get_latitude_and_longitude
 from .models import OPTION_TYPE_CHOICES, Answer, Survey, Question, Submission
@@ -252,10 +254,49 @@ QTYPE_FORM = {
 
 
 class SubmissionForm(ModelForm):
+    """SubmissionForm"""
+    content_type = django.forms.CharField(label="content-type",
+                                          widget=django.forms.HiddenInput,
+                                          required=False)
+
+    object_pk = django.forms.IntegerField(label="object-pk",
+                                          widget=django.forms.HiddenInput,
+                                          required=False)
 
     def __init__(self, survey, *args, **kwargs):
         super(SubmissionForm, self).__init__(*args, **kwargs)
         self.survey = survey
+        self.main = True
+
+    def clean_content_type(self):
+        content_type = self.cleaned_data.get('content_type')
+        if not content_type:
+            return content_type
+        try:
+            app_label, model_name = content_type.split('.')
+        except ValueError:
+            raise ValidationError("invalid format 'app_label.model_name'")
+        try:
+            model = apps.get_model(app_label, model_name)
+        except LookupError:
+            raise ValidationError("invalid format 'app_label'")
+        return ContentType.objects.get_for_model(model)
+
+    def clean_object_pk(self):
+        object_pk = self.cleaned_data.get('object_pk')
+        content_type = self.cleaned_data.get('content_type')
+        content_type_instance = isinstance(content_type, ContentType)
+        if object_pk:
+            if not content_type_instance:
+                raise ValidationError("broken relation")
+            model = apps.get_model(content_type.app_label, content_type.model)
+            try:
+                model.objects.get(pk=object_pk)
+            except model.DoesNotExist:
+                raise ValidationError("invalid pk")
+        elif content_type_instance:
+            raise ValidationError("broken relation")
+        return object_pk
 
     class Meta:
         model = Submission
@@ -263,7 +304,8 @@ class SubmissionForm(ModelForm):
             'survey',
             'submitted_at',
             'ip_address',
-            'content',
+            'content_type',
+            'object_pk',
             'user',
             'is_public',
             'featured')
@@ -275,9 +317,10 @@ def forms_for_survey(survey, request='testing', submission=None):
     post = None if testing else request.POST or None
     files = None if testing else request.FILES or None
     main_form = SubmissionForm(survey, data=post, files=files)
-    return [main_form] + [
-        _form_for_question(q, session_key, submission, post, files)
-        for q in survey.questions.all().order_by("order")]
+    forms = [main_form]
+    for q in survey.questions.all().order_by("order"):
+        forms.append(_form_for_question(q, session_key, submission, post, files))
+    return forms
 
 
 def _form_for_question(question,

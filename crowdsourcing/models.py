@@ -753,25 +753,18 @@ class AggregateResult2AxisCount(AggregateResult2Axis):
 BALLOT_STUFFING_FIELDS = ('ip_address', 'session_key',)
 
 
-class SurveyContent(models.Model):
-    """It is an object that allows you to make a poll about a generic content."""
+class Submission(models.Model):
+    survey = models.ForeignKey(Survey)
+
     # Content-object field
     content_type = models.ForeignKey(ContentType,
                                      verbose_name=_('content type'),
                                      related_name="content_type_set_for_%(class)s",
-                                     on_delete=models.CASCADE)
-    object_pk = models.TextField(_('object ID'))
+                                     on_delete=models.CASCADE,
+                                     blank=True, null=True)
+    object_pk = models.TextField(_('object ID'), blank=True, null=True)
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
 
-    def __unicode__(self):
-        return unicode(self.content_object)
-
-
-class Submission(models.Model):
-    survey = models.ForeignKey(Survey)
-    content = models.ForeignKey(SurveyContent,
-                                verbose_name=_("Content"),
-                                null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     ip_address = models.GenericIPAddressField()
     submitted_at = models.DateTimeField(default=timezone.now)

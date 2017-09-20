@@ -2,7 +2,7 @@ var googleMapCallbacks = [];
 var yahooChartCallbacks = [];
 var googleMapAPILoaded = false;
 var yahooChartAPILoaded = false;
-var baseURL = "/questionnaire/";
+var baseURL = "/crowdsourcing/questionnaire/";
 function loadMapsAndCharts() {
   /* We don't want to necessarily load the google map and yahoo chart APIs on
    * every page. Luckily, both APIs provide a mechanism for lazy loading.

@@ -858,33 +858,31 @@ class Answer(models.Model):
                                   blank=True,
                                   editable=False)
 
-    def value():
-        def get(self):
-            return getattr(self, self.question.value_column)
+    @property
+    def value(self):
+        return getattr(self, self.question.value_column)
 
-        def set(self, v):
-            ot = self.question.option_type
-            OTC = OPTION_TYPE_CHOICES
-            if ot == OTC.BOOL:
-                self.boolean_answer = bool(v)
-            elif ot == OTC.PHOTO:
-                self.image_answer = v
-            elif ot in (OTC.FLOAT,
-                        OTC.INTEGER,
-                        OTC.NUMERIC_SELECT,
-                        OTC.NUMERIC_CHOICE):
-                # Keep values in both the integer and float columns just in
-                # case the question switches between integer and float types.
-                if v:
-                    self.float_answer = float(v)
-                    self.integer_answer = int(round(self.float_answer))
-                else:
-                    self.float_answer = self.integer_answer = None
+    @value.setter
+    def value(self, v):
+        ot = self.question.option_type
+        OTC = OPTION_TYPE_CHOICES
+        if ot == OTC.BOOL:
+            self.boolean_answer = bool(v)
+        elif ot == OTC.PHOTO:
+            self.image_answer = v
+        elif ot in (OTC.FLOAT,
+                    OTC.INTEGER,
+                    OTC.NUMERIC_SELECT,
+                    OTC.NUMERIC_CHOICE):
+            # Keep values in both the integer and float columns just in
+            # case the question switches between integer and float types.
+            if v:
+                self.float_answer = float(v)
+                self.integer_answer = int(round(self.float_answer))
             else:
-                self.text_answer = v
-
-        return get, set
-    value = property(*value())
+                self.float_answer = self.integer_answer = None
+        else:
+            self.text_answer = v
 
     class Meta:
         ordering = ('question',)

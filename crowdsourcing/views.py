@@ -127,7 +127,7 @@ def _submit_valid_forms(forms, request, survey):
 
 
 def _url_for_edit(request, obj):
-    view_args = (obj._meta.app_label, obj._meta.module_name,)
+    view_args = (obj._meta.app_label, obj._meta.model_name,)
     try:
         edit_url = reverse("admin:%s_%s_change" % view_args, args=(obj.id,))
     except NoReverseMatch:

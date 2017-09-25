@@ -31,6 +31,11 @@ from .geo import get_latitude_and_longitude
 from .util import ChoiceEnum
 from . import settings as local_settings
 
+# autoslug support
+try:
+    from autoslug import AutoSlugField
+except ImportError:
+    AutoSlugField = models.SlugField
 
 try:
     from positions.fields import PositionField
@@ -68,7 +73,9 @@ FORMAT_CHOICES = ('json', 'csv', 'xml', 'html',)
 
 class Survey(models.Model):
     title = models.CharField(max_length=80)
-    slug = models.SlugField(unique=True)
+    slug = AutoSlugField(populate_from='title',
+                         unique=True,
+                         always_update=getattr(settings, "AUTOSLUGFIELD_ALWAYS_UPDATE", True))
     tease = models.TextField(blank=True)
     description = models.TextField(blank=True)
     thanks = models.TextField(

@@ -1,10 +1,9 @@
 from __future__ import absolute_import
 
-
 import logging
+import re
 from math import sin, cos
 from operator import itemgetter
-import re
 from textwrap import fill
 
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -24,10 +23,8 @@ from django.core.urlresolvers import reverse
 from django.db import models, connection
 from django.db.models import Count
 from django.db.models.fields.files import ImageFieldFile
-from django.db.models.query import EmptyQuerySet
 from decimal import Decimal
 from django.utils.translation import ugettext_lazy as _
-from django.utils.safestring import mark_safe
 
 from .fields import ImageWithThumbnailsField
 from .geo import get_latitude_and_longitude

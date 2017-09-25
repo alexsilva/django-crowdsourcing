@@ -8,6 +8,7 @@ from textwrap import fill
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.utils.functional import lazy
 from markdown import markdown
 
 try:
@@ -72,31 +73,44 @@ FORMAT_CHOICES = ('json', 'csv', 'xml', 'html',)
 
 
 class Survey(models.Model):
-    title = models.CharField(max_length=80)
-    slug = AutoSlugField(populate_from='title',
+    title = models.CharField(verbose_name=_("Title"),
+                             max_length=80)
+    slug = AutoSlugField(verbose_name=_("Slug"),
+                         populate_from='title',
                          unique=True,
                          always_update=getattr(settings, "AUTOSLUGFIELD_ALWAYS_UPDATE", True))
-    tease = models.TextField(blank=True)
-    description = models.TextField(blank=True)
+    tease = models.TextField(verbose_name=_("Tease"),
+                             blank=True)
+    description = models.TextField(verbose_name=_("Description"),
+                                   blank=True)
     thanks = models.TextField(
+        verbose_name=_("Thanks"),
         blank=True,
-        help_text="When a user submits the survey, display this message.")
-
-    require_login = models.BooleanField(default=False)
-    allow_multiple_submissions = models.BooleanField(default=False)
+        help_text=_("When a user submits the survey, display this message.")
+    )
+    require_login = models.BooleanField(verbose_name=_("Require login"),
+                                        default=False)
+    allow_multiple_submissions = models.BooleanField(
+        verbose_name=_("Allow multiple submissions"),
+        default=False)
     moderate_submissions = models.BooleanField(
+        verbose_name=_("Moderate submissions"),
         default=local_settings.MODERATE_SUBMISSIONS,
         help_text=_("If checked, all submissions will start as NOT public and "
                     "you will have to manually make them public. If your "
                     "survey doesn't show any results, it may be because this "
-                    "option is checked."))
+                    "option is checked.")
+    )
     allow_comments = models.BooleanField(
+        verbose_name=_("Allow comments"),
         default=False,
         help_text="Allow comments on user submissions.")
     allow_voting = models.BooleanField(
+        verbose_name=_("Allow voting"),
         default=False,
-        help_text="Users can vote on submissions.")
+        help_text=_("Users can vote on submissions."))
     archive_policy = models.IntegerField(
+        verbose_name=_("Archive policy"),
         choices=ARCHIVE_POLICY_CHOICES,
         default=ARCHIVE_POLICY_CHOICES.IMMEDIATE,
         help_text=_("At what point will Crowdsourcing make the results "
@@ -104,26 +118,37 @@ class Survey(models.Model):
                     "post-close: Results are public on or after the "
                     "\"ends at\" option documented below. never: Results are "
                     "never public."))
-    starts_at = models.DateTimeField(default=timezone.now)
-    survey_date = models.DateField(blank=True, null=True, editable=False)
-    ends_at = models.DateTimeField(null=True, blank=True)
-    has_script = models.BooleanField(default=False,
-                                     help_text="If enabled, template will render script tag for STATIC_URL/surveys/slug-name.js")
-    is_published = models.BooleanField(default=False)
+    starts_at = models.DateTimeField(verbose_name=_("Starts at"),
+                                     default=timezone.now)
+    survey_date = models.DateField(verbose_name=_("Survey date"),
+                                   blank=True, null=True,
+                                   editable=False)
+    ends_at = models.DateTimeField(verbose_name=_("Ends at"),
+                                   null=True, blank=True)
+    has_script = models.BooleanField(
+        verbose_name=_("Has script"),
+        default=False,
+        help_text=_("If enabled, template will render script tag for STATIC_URL/surveys/slug-name.js")
+    )
+    is_published = models.BooleanField(verbose_name=_("Is published"), default=False)
     email = models.CharField(
-        max_length=255,
-        blank=True,
-        help_text=("Send a notification to these e-mail addresses whenever "
-                   "someone submits an entry to this survey. Comma "
-                   "delimited."))
-    sections = models.ForeignKey('Section', blank=True, null=True,
-                                 editable=True, related_name='sections')
+        verbose_name=_("Email"),
+        max_length=255, blank=True,
+        help_text=_("Send a notification to these e-mail addresses whenever "
+                    "someone submits an entry to this survey. Comma "
+                    "delimited."))
+    sections = models.ForeignKey('Section',
+                                 blank=True, null=True,
+                                 editable=True,
+                                 related_name='sections')
     site = models.ForeignKey(Site)
     flickr_group_id = models.CharField(
+        verbose_name=_("Flickr group ID"),
         max_length=60,
         blank=True,
         editable=False)
     flickr_group_name = models.CharField(
+        verbose_name=_("Flickr group name"),
         max_length=255,
         blank=True)
     default_report = models.ForeignKey(
@@ -131,9 +156,9 @@ class Survey(models.Model):
         blank=True,
         null=True,
         related_name='reports',
-        help_text=("Whenever we automatically generate a link to the results "
-                   "of this survey we'll use this report. If it's left blank, "
-                   "we'll use the default report behavior."))
+        help_text=_("Whenever we automatically generate a link to the results "
+                    "of this survey we'll use this report. If it's left blank, "
+                    "we'll use the default report behavior."))
 
     def to_jsondata(self):
         kwargs = {'slug': self.slug}
@@ -300,42 +325,53 @@ FILTERABLE_OPTION_TYPES = (OPTION_TYPE_CHOICES.LOCATION,
                            OPTION_TYPE_CHOICES.RANKED,)
 
 
-POSITION_HELP = ("What order does this question appear in the survey form and "
-                 "in permalinks?")
+POSITION_HELP = _("What order does this question appear in the survey form and "
+                  "in permalinks?")
 
 
 class Question(models.Model):
     survey = models.ForeignKey(Survey, related_name="questions")
     fieldname = models.CharField(
+        verbose_name=_("Field name"),
         max_length=55,
         help_text=_('a single-word identifier used to track this value; '
                     'it must begin with a letter and may contain '
                     'alphanumerics and underscores (no spaces).'))
-    question = models.TextField(help_text=_(
-        "Appears on the survey entry page."))
-    question_html = models.TextField(editable=False, blank=True, null=True)
-    label = models.TextField(help_text=_("Appears on the results page."))
-    help_text = models.TextField(
-        blank=True)
-    section = models.ForeignKey('Section', blank=True, null=True, related_name="question_section")
+    question = models.TextField(verbose_name=_("Question"),
+                                help_text=_("Appears on the survey entry page."))
+    question_html = models.TextField(verbose_name=_("Question HTML"),
+                                     editable=False,
+                                     blank=True, null=True)
+    label = models.TextField(verbose_name=_("Label"),
+                             help_text=_("Appears on the results page."))
+    help_text = models.TextField(verbose_name=_("Help text"), blank=True)
+    section = models.ForeignKey('Section',
+                                verbose_name=lazy(lambda: Section._meta.verbose_name, unicode)(),
+                                blank=True, null=True,
+                                related_name="question_section")
     required = models.BooleanField(
+        verbose_name=_("Required"),
         default=False,
         help_text=_("Unsafe to change on live surveys. Radio button list and "
                     "drop down list questions will have a blank option if "
                     "they aren't required."))
     if PositionField:
         order = PositionField(
+            verbose_name=_("Order"),
             collection=('survey',),
             help_text=_(POSITION_HELP + " Use -1 to auto-assign."))
     else:
-        order = models.IntegerField(help_text=POSITION_HELP)
+        order = models.IntegerField(verbose_name=_("Order"), help_text=POSITION_HELP)
     option_type = models.CharField(
+        verbose_name=_("Option type"),
         max_length=max([len(key) for key, v in OPTION_TYPE_CHOICES._choices]),
         choices=OPTION_TYPE_CHOICES,
         help_text=_('You must not change this field on a live survey.'))
     # For NUMERIC_(SELECT|CHOICE) use it as an int unless they use a decimal. 
-    numeric_is_int = models.BooleanField(default=True, editable=False)
+    numeric_is_int = models.BooleanField(verbose_name=_("Numeric is INT"),
+                                         default=True,  editable=False)
     options = models.TextField(
+        verbose_name=_("Options"),
         blank=True,
         default='',
         help_text=_(

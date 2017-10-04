@@ -169,6 +169,7 @@ class Survey(models.Model):
                     id=self.id,
                     slug=self.slug,
                     description=self.description,
+                    is_published=self.is_published,
                     tease=self.tease,
                     thanks=self.thanks,
                     submit_url=submit_url,

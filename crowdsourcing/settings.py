@@ -2,6 +2,7 @@ import re
 
 from django.conf import settings as _gs
 
+CROWDSOURCING_APP_NAME = getattr(_gs, "CROWDSOURCING_APP_NAME", "Survey")
 
 """ This sets the default "Moderate submissions" value of surveys. """
 MODERATE_SUBMISSIONS = getattr(_gs,

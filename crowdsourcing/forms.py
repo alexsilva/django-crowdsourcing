@@ -266,7 +266,6 @@ class SubmissionForm(ModelForm):
     def __init__(self, survey, *args, **kwargs):
         super(SubmissionForm, self).__init__(*args, **kwargs)
         self.survey = survey
-        self.main = True
 
     def clean_content_type(self):
         content_type = self.cleaned_data.get('content_type')

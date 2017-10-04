@@ -223,15 +223,17 @@ def embeded_survey_questions(request, slug):
     survey = _get_survey_or_404(slug, request)
     templates = ['crowdsourcing/embeded_survey_questions_%s.html' % slug,
                  'crowdsourcing/embeded_survey_questions.html']
-    forms = ()
+    forms, valid = (), True
     if _can_show_form(request, survey):
         forms = forms_for_survey(survey, request)
         if request.method == 'POST':
-            if _submit_valid_forms(forms, request, survey):
+            valid = _submit_valid_forms(forms, request, survey)
+            if valid:
                 forms = ()
     return render_to_response(templates, dict(
         entered=_user_entered_survey(request, survey),
         request=request,
+        valid=valid,
         forms=forms,
         survey=survey,
         login_url=_login_url(request)), _rc(request))

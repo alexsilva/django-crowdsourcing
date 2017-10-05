@@ -1,5 +1,5 @@
 from django import forms
-from django.utils.safestring import mark_safe
+
 
 class RankedChoiceWidget(forms.MultiWidget):
     """ A widget which displays n select boxes, recording
@@ -7,13 +7,12 @@ class RankedChoiceWidget(forms.MultiWidget):
     """
 
     def __init__(self, attrs=None, *args, **kwargs):
-
         choices = kwargs.pop('choices', [])
         _widgets = (
-                forms.Select(attrs=attrs, choices=choices),
-                forms.Select(attrs=attrs, choices=choices),
-                forms.Select(attrs=attrs, choices=choices),
-                )
+            forms.Select(attrs=attrs, choices=choices),
+            forms.Select(attrs=attrs, choices=choices),
+            forms.Select(attrs=attrs, choices=choices),
+        )
         super(RankedChoiceWidget, self).__init__(_widgets, *args, **kwargs)
 
     def decompress(self, value):
@@ -32,4 +31,3 @@ class RankedChoiceWidget(forms.MultiWidget):
                            rendered_widgets[1],
                            rendered_widgets[2],)
         return markup
-

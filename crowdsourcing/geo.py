@@ -8,9 +8,8 @@ except ImportError:
     logging.warn('no geocoding support available')
     geopy = None
 
-from django.conf import settings
-
 from . import settings as local_settings
+
 
 def get_latitude_and_longitude(location):
     if geopy is None:

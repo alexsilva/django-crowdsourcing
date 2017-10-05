@@ -45,13 +45,11 @@ except ImportError:
                  'Will just use integers for position fields.')
     PositionField = None
 
-
 try:
     from .flickrsupport import sync_to_flickr, get_group_id
 except ImportError:
     logging.warn('no flickr support available')
     sync_to_flickr = None
-
 
 ARCHIVE_POLICY_CHOICES = ChoiceEnum(('immediate',
                                      'post-close',
@@ -201,7 +199,7 @@ class Survey(models.Model):
             self.is_published,
             self.starts_at <= now,
             any([self.archive_policy != ARCHIVE_POLICY_CHOICES.NEVER,
-                not self.ends_at or now < self.ends_at])])
+                 not self.ends_at or now < self.ends_at])])
 
     def get_public_fields(self, fieldnames=None):
         if fieldnames:
@@ -314,7 +312,6 @@ OPTION_TYPE_CHOICES = ChoiceEnum(sorted([('char', 'Text Box'),
                                          ('ranked', 'Ranked List')],
                                         key=itemgetter(1)))
 
-
 FILTERABLE_OPTION_TYPES = (OPTION_TYPE_CHOICES.LOCATION,
                            OPTION_TYPE_CHOICES.INTEGER,
                            OPTION_TYPE_CHOICES.FLOAT,
@@ -324,7 +321,6 @@ FILTERABLE_OPTION_TYPES = (OPTION_TYPE_CHOICES.LOCATION,
                            OPTION_TYPE_CHOICES.NUMERIC_SELECT,
                            OPTION_TYPE_CHOICES.NUMERIC_CHOICE,
                            OPTION_TYPE_CHOICES.RANKED,)
-
 
 POSITION_HELP = _("What order does this question appear in the survey form and "
                   "in permalinks?")
@@ -370,7 +366,7 @@ class Question(models.Model):
         help_text=_('You must not change this field on a live survey.'))
     # For NUMERIC_(SELECT|CHOICE) use it as an int unless they use a decimal. 
     numeric_is_int = models.BooleanField(verbose_name=_("Numeric is INT"),
-                                         default=True,  editable=False)
+                                         default=True, editable=False)
     options = models.TextField(
         verbose_name=_("Options"),
         blank=True,
@@ -383,12 +379,12 @@ class Question(models.Model):
         blank=True,
         default='',
         help_text=('Use one icon url per line. These should line up with the '
-            'options. If the user\'s submission appears on a map, we\'ll use '
-            'the corresponding icon on the map. This field only makes sense '
-            'for Radio List and Select One Choice questions. Do not enter '
-            'these map icons on a Location Field. For Google maps '
-            'use 34px high by 20px wide .png images with a transparent '
-            'background. You can safely modify this field on live surveys.'))
+                   'options. If the user\'s submission appears on a map, we\'ll use '
+                   'the corresponding icon on the map. This field only makes sense '
+                   'for Radio List and Select One Choice questions. Do not enter '
+                   'these map icons on a Location Field. For Google maps '
+                   'use 34px high by 20px wide .png images with a transparent '
+                   'background. You can safely modify this field on live surveys.'))
     answer_is_public = models.BooleanField(default=True)
     use_as_filter = models.BooleanField(default=True)
     _aggregate_result = None
@@ -517,8 +513,10 @@ class Filter:
         self.choices = field.parsed_options
         self.value = self.from_value = self.to_value = ""
         self.within_value = self.location_value = ""
+
         def get_val(suffix):
             return request_data.get(self.key + suffix, "").replace("+", " ")
+
         if field.option_type in (OPTION_TYPE_CHOICES.BOOL,
                                  OPTION_TYPE_CHOICES.CHOICE,
                                  OPTION_TYPE_CHOICES.RANKED,
@@ -622,9 +620,9 @@ def _extra_from_distance(filter, submission_id_column):
         lng,
         _D_TO_R)
     acos_of = (
-        "%f * sin(latitude / %f) + "
-        "%f * cos(latitude / %f) * "
-        "cos((longitude - %f) / %f)") % acos_of_args
+                  "%f * sin(latitude / %f) + "
+                  "%f * cos(latitude / %f) * "
+                  "cos((longitude - %f) / %f)") % acos_of_args
     # if acos_of >= 1 then the address in the database is practically the
     # same address we're searching for and acos(acos_of) is mathematically 
     # impossible so just always include it. If acos_of < 1 then we need to
@@ -656,6 +654,7 @@ def _radians(degrees):
 class AggregateResultCount(object):
     """ This helper class makes it easier to write templates that display
     pie charts. """
+
     def __init__(self,
                  survey,
                  field,
@@ -698,12 +697,12 @@ class AggregateResultCount(object):
 
 class AggregateResult2Axis(object):
     def __init__(
-        self,
-        y_axes,
-        x_axis,
-        request_data,
-        aggregate_function,
-        report):
+            self,
+            y_axes,
+            x_axis,
+            request_data,
+            aggregate_function,
+            report):
         self.answer_values = []
         answer_value_lookup = {}
 
@@ -827,6 +826,7 @@ class Submission(models.Model):
             if isinstance(v, ImageFieldFile):
                 return v.url if v else ''
             return v
+
         if not answer_lookup:
             answer_lookup = get_all_answers([self], include_private_questions)
         data = {}
@@ -880,7 +880,7 @@ class Answer(models.Model):
     integer_answer = models.IntegerField(blank=True, null=True)
     float_answer = models.FloatField(blank=True, null=True)
     boolean_answer = models.NullBooleanField()
-    image_answer_thumbnail_meta = dict(size=(250, 250)) # width, height
+    image_answer_thumbnail_meta = dict(size=(250, 250))  # width, height
     image_answer = ImageWithThumbnailsField(
         max_length=500,
         blank=True,
@@ -1042,7 +1042,6 @@ class SurveyReport(models.Model):
 
 SURVEY_DISPLAY_TYPE_CHOICES = ChoiceEnum(
     'text pie map bar line slideshow download')
-
 
 SURVEY_AGGREGATE_TYPE_CHOICES = ChoiceEnum('default sum count average')
 

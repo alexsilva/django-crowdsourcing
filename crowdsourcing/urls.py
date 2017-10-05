@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import (allowed_actions,
                     embeded_survey_questions,
@@ -14,7 +14,7 @@ from .views import (allowed_actions,
                     survey_detail,
                     survey_report)
 
-urlpatterns =[
+urlpatterns = [
     url(r'submissions/$', submissions, {"format": "json"}, name='submissions'),
 
     url(r'submissions/(?P<content_type>.+?)/(?P<object_pk>\d+)/$', submissions,
@@ -32,7 +32,8 @@ urlpatterns =[
         location_question_results,
         kwargs={"survey_report_slug": ""}),
 
-    url(r'location_question_results/(?P<question_id>\d+)/(?P<limit_map_answers>\d*)/(?P<survey_report_slug>[-a-z0-9_]*)/$',
+    url(
+        r'location_question_results/(?P<question_id>\d+)/(?P<limit_map_answers>\d*)/(?P<survey_report_slug>[-a-z0-9_]*)/$',
         location_question_results,
         name="location_question_results"),
 

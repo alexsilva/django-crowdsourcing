@@ -1,7 +1,5 @@
-from datetime import datetime, date, time
-
 import json
-
+from datetime import datetime, date, time
 
 FORMATS = {datetime: "%Y-%m-%dT%H:%M:%S",
            date: '%Y-%m-%d',
@@ -22,6 +20,7 @@ def datetime_to_string(dt):
     for k in FORMATS:
         if isinstance(dt, k):
             return dt.strftime(FORMATS[k])
+
 
 class Encoder(json.JSONEncoder):
     def default(self, obj):

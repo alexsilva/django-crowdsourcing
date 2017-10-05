@@ -2,16 +2,15 @@
 support for mirroring submitted photos on Flickr.
 """
 from __future__ import absolute_import
+
+import hashlib
 import logging
 from urllib2 import URLError
 
+import flickrapi
 from django.core.cache import cache
 
-import flickrapi
-import hashlib
-
 from . import settings as local_settings
-
 
 _flickr = None
 
@@ -20,6 +19,7 @@ def _has_flickr():
     return all([local_settings.FLICKR_API_KEY,
                 local_settings.FLICKR_API_SECRET,
                 local_settings.FLICKR_TOKEN])
+
 
 def _get_flickr():
     global _flickr
@@ -72,11 +72,11 @@ def sync_to_flickr(answer, group_id):
         answer.photo_hash = get_photo_hash(answer.image_answer)
 
         filename = answer.image_answer.path.encode('utf-8')
-        title = filename.split("/")[-1] # Should we do something fancier here?
+        title = filename.split("/")[-1]  # Should we do something fancier here?
         res = flickr.upload(
-            filename = filename,
-            title = title,
-            is_public = '1' if local_settings.FLICKR_LIVE else '0')
+            filename=filename,
+            title=title,
+            is_public='1' if local_settings.FLICKR_LIVE else '0')
 
         photo_id = res.findtext('photoid')
         if photo_id and group_id:
@@ -98,8 +98,8 @@ def sync_to_flickr(answer, group_id):
                 answer.photo_hash = new_hash
 
                 res = flickr.replace(filename=answer.image_answer.path,
-                                   photo_id=answer.flickr_id,
-                                   format='etree')
+                                     photo_id=answer.flickr_id,
+                                     format='etree')
                 photo_id = res.findtext('photoid')
                 answer.flickr_id = photo_id
     return answer

@@ -3,9 +3,10 @@ run these tests with nose.
 """
 
 from __future__ import absolute_import
+
 import unittest
 
-from .models import Survey, Question, Answer, Submission
+from .models import Survey
 
 
 class SurveyTestCase(unittest.TestCase):

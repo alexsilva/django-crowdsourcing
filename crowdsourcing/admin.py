@@ -3,9 +3,6 @@ from __future__ import absolute_import
 import re
 
 from django.contrib import admin
-from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
-from django.core.urlresolvers import reverse
-from django.db.models import ManyToOneRel
 from django.forms import ModelForm, ValidationError
 from django.forms.widgets import Select
 from django.utils.translation import ugettext_lazy as _
@@ -13,13 +10,13 @@ from django.utils.translation import ugettext_lazy as _
 from .models import (Question, Survey, Answer, Section, Submission,
                      SurveyReport, SurveyReportDisplay, OPTION_TYPE_CHOICES,
                      SURVEY_DISPLAY_TYPE_CHOICES,
-                     SURVEY_AGGREGATE_TYPE_CHOICES, FORMAT_CHOICES)
-
+                     SURVEY_AGGREGATE_TYPE_CHOICES)
 
 try:
     from .flickrsupport import get_group_names, get_group_id
 except ImportError:
     get_group_names = None
+
 
 class QuestionForm(ModelForm):
     class Meta:
@@ -39,7 +36,7 @@ class QuestionForm(ModelForm):
                     raise ValidationError(_(
                         "For numeric select or numeric choice, all your "
                         "options must be a number. This is not a number: ") +
-                        option)
+                                          option)
         if numeric_list or option_type in (OTC.SELECT, OTC.CHOICE, OTC.RANKED):
             if not opts.splitlines():
                 raise ValidationError(_(
@@ -54,13 +51,16 @@ class QuestionForm(ModelForm):
                                     'and underscore.'))
         return fieldname
 
+
 class SectionForm(ModelForm):
     model = Section
+
 
 class QuestionInline(admin.StackedInline):
     model = Question
     extra = 3
     form = QuestionForm
+
 
 class SectionInline(admin.StackedInline):
     model = Section
@@ -110,7 +110,9 @@ class SurveyAdminForm(ModelForm):
 
 def submissions_as(obj):
     return obj.get_download_tags()
-submissions_as.allow_tags=True
+
+
+submissions_as.allow_tags = True
 submissions_as.short_description = 'Submissions as'
 
 
@@ -118,7 +120,7 @@ class SurveyAdmin(admin.ModelAdmin):
     save_as = True
     form = SurveyAdminForm
     search_fields = ('title', 'slug', 'tease', 'description')
-    prepopulated_fields = {'slug' : ('title',)}
+    prepopulated_fields = {'slug': ('title',)}
     list_display = (
         'title',
         'slug',
@@ -154,7 +156,6 @@ class SubmissionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Submission, SubmissionAdmin)
-
 
 SDTC = SURVEY_DISPLAY_TYPE_CHOICES
 TEXT = SDTC.TEXT
@@ -209,23 +210,23 @@ class SurveyReportDisplayInline(admin.StackedInline):
 
     fieldsets = (
         (None,
-            {'fields': (
-                'display_type',
-                'fieldnames',
-                'annotation',
-                'order',)}),
+         {'fields': (
+             'display_type',
+             'fieldnames',
+             'annotation',
+             'order',)}),
         ('Pie, Line, and Bar Charts',
-            {'fields': (
-                'aggregate_type',
-                'x_axis_fieldname',)}),
+         {'fields': (
+             'aggregate_type',
+             'x_axis_fieldname',)}),
         ('Slideshow',
-            {'fields': ('caption_fields',)}),
+         {'fields': ('caption_fields',)}),
         ('Maps',
-            {'fields': (
-                'limit_map_answers',
-                'map_center_latitude',
-                'map_center_longitude',
-                'map_zoom',)}))
+         {'fields': (
+             'limit_map_answers',
+             'map_center_latitude',
+             'map_center_longitude',
+             'map_zoom',)}))
 
     model = SurveyReportDisplay
     extra = 3
@@ -238,4 +239,3 @@ class SurveyReportAdmin(admin.ModelAdmin):
 
 
 admin.site.register(SurveyReport, SurveyReportAdmin)
-

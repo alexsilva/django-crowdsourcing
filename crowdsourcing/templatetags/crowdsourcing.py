@@ -1,15 +1,14 @@
 from __future__ import absolute_import
+
 import logging
-import re
 
 from django import template
 from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.core.files.images import get_image_dimensions
 from django.core.urlresolvers import reverse
-from django.template import Node
-from django.utils.safestring import mark_safe
 from django.utils.html import escape, strip_tags
+from django.utils.safestring import mark_safe
 
 try:
     from sorl.thumbnail.base import ThumbnailException
@@ -43,11 +42,9 @@ else:
         logging.warn(message % str(ex))
         oembed_expand = None
 
-
 """ We originally developed for Mako templates, but we also want to support
 Django templates. We use simple tags which work both as tags and as functions
 returning safe strings. """
-
 
 register = template.Library()
 
@@ -58,6 +55,8 @@ def yahoo_api():
         '<style>',
         '  .chart_div { width: 600px; height: 300px; }',
         '</style>']))
+
+
 register.simple_tag(yahoo_api)
 
 
@@ -74,12 +73,16 @@ def jquery_and_google_api():
         '<script type="text/javascript">',
         '  google.load("jquery", "1.7");',
         '</script>']))
+
+
 register.simple_tag(jquery_and_google_api)
 
 
 def filter(wrapper_format, key, label, html):
     label_html = '<label for="%s">%s:</label> ' % (key, label,)
     return mark_safe(wrapper_format % (label_html + html))
+
+
 register.simple_tag(filter)
 
 
@@ -100,6 +103,8 @@ def select_filter(wrapper_format, key, label, value, choices, blank=True):
         html.append('>%s</option>' % display)
     html.append('</select>')
     return filter(wrapper_format, key, label, "\n".join(html))
+
+
 register.simple_tag(select_filter)
 
 
@@ -114,6 +119,8 @@ def range_filter(wrapper_format, key, label, from_value, to_value):
         'name="%s_to" value="%s" />' % (key, escape(to_value)),
         '</span>']
     return filter(wrapper_format, key, label, "\n".join(html))
+
+
 register.simple_tag(range_filter)
 
 
@@ -128,6 +135,8 @@ def distance_filter(wrapper_format, key, label, within_value, location_value):
         'name="%s_location" value="%s" />' % (key, escape(location_value)),
         '</span>']
     return filter(wrapper_format, key, label, "\n".join(html))
+
+
 register.simple_tag(distance_filter)
 
 
@@ -148,11 +157,13 @@ def filter_as_li(filter):
                                    filter.to_value))
     elif FILTER_TYPE.DISTANCE == filter.type:
         output.append(distance_filter(wrapper_format,
-                                   filter.key,
-                                   filter.label,
-                                   filter.within_value,
-                                   filter.location_value))
+                                      filter.key,
+                                      filter.label,
+                                      filter.within_value,
+                                      filter.location_value))
     return mark_safe("\n".join(output))
+
+
 register.simple_tag(filter_as_li)
 
 
@@ -166,6 +177,8 @@ def filters_as_ul(filters):
                 '<input type="submit" value="Submit" />',
                 '</form>'])
     return mark_safe("\n".join(out))
+
+
 register.simple_tag(filters_as_ul)
 
 
@@ -198,6 +211,8 @@ def yahoo_pie_chart(display, question, request_get, is_staff=False):
             }"""}
     id_args = (display.index_in_report(), question.id)
     return _yahoo_chart(display, "%d_%d" % id_args, args)
+
+
 register.simple_tag(yahoo_pie_chart)
 
 
@@ -206,6 +221,8 @@ def yahoo_bar_chart(display, request_get, is_staff=False):
                                         request_get,
                                         "ColumnChart",
                                         is_staff=is_staff)
+
+
 register.simple_tag(yahoo_bar_chart)
 
 
@@ -214,6 +231,8 @@ def yahoo_line_chart(display, request_get, is_staff=False):
                                         request_get,
                                         "LineChart",
                                         is_staff=is_staff)
+
+
 register.simple_tag(yahoo_line_chart)
 
 
@@ -388,18 +407,22 @@ def google_map(display, question, report, is_popup=False):
             '  <fieldset class="map_embed" style="display: none;">',
             '    <p>Copy and paste the HTML below to embed this map onto your web page.</p>',
             ('    <textarea id="audioplayer_125944_buttons_code" readonly="" rows="2" cols="44">'
-            '&lt;iframe src="%s" height="320" width="500" &gt;&lt;/iframe&gt;</textarea>') % full_url,
+             '&lt;iframe src="%s" height="320" width="500" &gt;&lt;/iframe&gt;</textarea>') % full_url,
             '    <a class="close-map-button" href="#">Close</a>',
             '  </fieldset>'])
     out.append('</div>')
 
     out.append(map_key(question.survey))
     return mark_safe("\n".join(out))
+
+
 register.simple_tag(google_map)
 
 
 def popup_google_map(display, question, report):
     return google_map(display, question, report, is_popup=True)
+
+
 register.simple_tag(popup_google_map)
 
 
@@ -442,6 +465,8 @@ def simple_slideshow(display, question, request_GET, css):
             '</li>'])
     out.append("</ul>")
     return mark_safe("\n".join(out))
+
+
 register.simple_tag(simple_slideshow)
 
 
@@ -450,6 +475,8 @@ def load_maps_and_charts():
         '<script type="text/javascript">',
         '  loadMapsAndCharts();',
         '</script>']))
+
+
 register.simple_tag(load_maps_and_charts)
 
 
@@ -514,6 +541,8 @@ def submission_fields(submission,
                 out.append(escape(answer.value))
             out.append('</div>')
     return mark_safe("\n".join(out))
+
+
 register.simple_tag(submission_fields)
 
 
@@ -522,7 +551,7 @@ def video_html(vid, maxheight, maxwidth):
     value = cache.get(key, None)
     if not value:
         value = "Unable to find video %s." % escape(vid)
-        try: 
+        try:
             data = oembed_expand(vid, maxheight=maxheight, maxwidth=maxwidth)
             if data and 'html' in data:
                 html = '<div class="videoplayer">%s</div>' % data['html']
@@ -544,10 +573,12 @@ def submissions(object_list, fields):
     for submission in object_list:
         out.append('<div class="submission">')
         out.append(submission_fields(submission, fields, page_answers))
-        D = link_detail_survey_none=DETAIL_SURVEY_NONE.DETAIL
+        D = link_detail_survey_none = DETAIL_SURVEY_NONE.DETAIL
         out.append(submission_link(submission, D))
         out.append('</div>')
     return mark_safe("\n".join(out))
+
+
 register.simple_tag(submissions)
 
 
@@ -570,6 +601,8 @@ def submission_link(submission,
     out.append('<a href="%s">%s</a>' % (url, text,))
     out.append('</div>')
     return mark_safe("\n".join(out))
+
+
 register.simple_tag(submission_link)
 
 
@@ -601,6 +634,8 @@ def paginator(survey, report, pages_to_link, page_obj):
             out.append('<a href="%s">Next &raquo;</a>' % url)
         out.append("</div>")
     return mark_safe("\n".join(out))
+
+
 register.simple_tag(paginator)
 
 
@@ -615,6 +650,8 @@ def map_key(survey):
             out.append(format % (icon, option, option))
         out.append('</ul>')
     return mark_safe("\n".join(out))
+
+
 register.simple_tag(map_key)
 
 
@@ -626,6 +663,8 @@ def number_to_javascript(number):
 
 def issue(message):
     return mark_safe("<div class=\"issue\">%s</div>" % message)
+
+
 register.simple_tag(issue)
 
 
@@ -634,6 +673,8 @@ def thanks_for_entering(request, forms, survey):
         message = survey.thanks or "Thanks for entering!"
         return mark_safe("<p>%s</p>" % message)
     return ""
+
+
 register.simple_tag(thanks_for_entering)
 
 
@@ -641,4 +682,6 @@ def download_tags(survey):
     return mark_safe("\n".join([
         '<h2 class="chart_title">Download Results As...</h2>',
         '<p class="download_tags">%s</p>' % survey.get_download_tags()]))
+
+
 register.simple_tag(download_tags)

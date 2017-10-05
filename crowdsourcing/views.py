@@ -1,17 +1,15 @@
 from __future__ import absolute_import
 
-import unicodecsv as csv
-from datetime import datetime
 import httplib
-from itertools import count
 import logging
 import smtplib
+from datetime import datetime
+from itertools import count
 from xml.dom.minidom import Document
 
-from django.conf import settings
-from django.core.exceptions import FieldError
+import unicodecsv as csv
 from django.core.mail import EmailMultiAlternatives
-from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from django.core.paginator import Paginator, EmptyPage
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -19,9 +17,10 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext as _rc
 from django.utils.html import escape
 
+from . import settings as crowdsourcing_settings
 from .forms import forms_for_survey, SubmissionForm
+from .jsonutils import dump, datetime_to_string
 from .models import (
-    Answer,
     BALLOT_STUFFING_FIELDS,
     FORMAT_CHOICES,
     OPTION_TYPE_CHOICES,
@@ -34,10 +33,7 @@ from .models import (
     extra_from_filters,
     get_all_answers,
     get_filters)
-from .jsonutils import dump, dumps, datetime_to_string
-
-from .util import ChoiceEnum, get_function
-from . import settings as crowdsourcing_settings
+from .util import get_function
 
 
 def _user_entered_survey(request, survey):
@@ -56,7 +52,7 @@ def _entered_no_more_allowed(request, survey):
 
 
 def _get_remote_ip(request):
-    forwarded=request.META.get('HTTP_X_FORWARDED_FOR')
+    forwarded = request.META.get('HTTP_X_FORWARDED_FOR')
     if forwarded:
         return forwarded.split(',')[-1].strip()
     return request.META['REMOTE_ADDR']
@@ -125,8 +121,8 @@ def _submit_valid_forms(forms, request, survey):
                 a.submission = submission
                 a.save()
         elif answer:
-                answer.submission = submission
-                answer.save()
+            answer.submission = submission
+            answer.save()
     if survey.email:
         _send_survey_email(request, survey, submission)
     return True
@@ -152,7 +148,7 @@ def _send_survey_email(request, survey, submission):
     subject = survey.title
     sender = crowdsourcing_settings.SURVEY_EMAIL_FROM
     links = [(_url_for_edit(request, submission), "Edit Submission"),
-             (_url_for_edit(request, survey), "Edit Survey"),]
+             (_url_for_edit(request, survey), "Edit Survey"), ]
     if survey.can_have_public_submissions():
         u = "http://" + request.META["HTTP_HOST"] + _survey_report_url(survey)
         links.append((u, "View Survey",))
@@ -214,7 +210,7 @@ def survey_detail(request, slug):
         forms = ()
     elif survey.can_have_public_submissions():
         return _survey_results_redirect(request, survey)
-    else: # Survey is closed with private results.
+    else:  # Survey is closed with private results.
         forms = ()
     return _survey_show_form(request, survey, forms)
 
@@ -344,7 +340,7 @@ def submissions(request, format, **kwargs):
                 search_field = 'submitted_at__gte'
             else:
                 search_field = 'submitted_at__lte'
-        elif field in('featured', 'is_public',):
+        elif field in ('featured', 'is_public',):
             falses = ('f', 'false', 'no', 'n', '0',)
             value = len(value) and not value.lower() in falses
         # search_field is unicode but needs to be ascii.
@@ -433,7 +429,7 @@ def submissions(request, format, **kwargs):
                     submission.appendChild(cell)
                     cell.appendChild(doc.createTextNode(u"%s" % value))
         response = HttpResponse(doc.toxml(), content_type='text/xml')
-    elif format == 'html': # mostly for debugging.
+    elif format == 'html':  # mostly for debugging.
         keys = get_keys()
         results = [
             "<html><body><table>",
@@ -532,7 +528,7 @@ def _survey_report(request, slug, report, page, templates):
     elif survey.default_report:
         args = {"slug": survey.slug, "report": survey.default_report.slug}
         return HttpResponseRedirect(reverse("survey_report_page_1",
-                                    kwargs=args))
+                                            kwargs=args))
     else:
         report_obj = _default_report(survey)
 
@@ -635,10 +631,10 @@ def paginate_or_404(queryset, page, num_per_page=20):
 
 
 def location_question_results(
-    request,
-    question_id,
-    limit_map_answers,
-    survey_report_slug=""):
+        request,
+        question_id,
+        limit_map_answers,
+        survey_report_slug=""):
     question = get_object_or_404(Question.objects.select_related("survey"),
                                  pk=question_id,
                                  answer_is_public=True)
@@ -680,7 +676,7 @@ def location_question_results(
     limit_map_answers = int(limit_map_answers) if limit_map_answers else 0
     if limit_map_answers or limit_results_to:
         answers = answers[:min(filter(None, [limit_map_answers,
-                                             limit_results_to,]))]
+                                             limit_results_to, ]))]
     entries = []
     view = "crowdsourcing.views.submission_for_map"
     for answer in answers:
@@ -696,12 +692,12 @@ def location_question_results(
     dump({"entries": entries}, response)
     return response
 
-def location_question_map(
-    request,
-    question_id,
-    display_id,
-    survey_report_slug=""):
 
+def location_question_map(
+        request,
+        question_id,
+        display_id,
+        survey_report_slug=""):
     question = Question.objects.get(pk=question_id)
     if not question.answer_is_public and not request.user.is_staff:
         raise Http404
@@ -730,6 +726,7 @@ def location_question_map(
         display=display,
         question=question,
         report=report))
+
 
 def submission_for_map(request, id):
     template = 'crowdsourcing/submission_for_map.html'

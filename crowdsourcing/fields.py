@@ -1,15 +1,17 @@
 from __future__ import absolute_import
 
-from .widgets import RankedChoiceWidget
+import copy
+
 from django.forms import MultiValueField
 from django.forms.fields import ChoiceField
 
-import copy
+from .widgets import RankedChoiceWidget
 
 try:
     from sorl.thumbnail.fields import ImageWithThumbnailsField
 except ImportError:
     from django.db.models import ImageField
+
 
     class ImageWithThumbnailsField(ImageField):
 
@@ -27,9 +29,9 @@ class RankedChoiceField(MultiValueField):
             choices = ()
 
         fields = (
-                ChoiceField(),
-                ChoiceField(),
-                ChoiceField(),
+            ChoiceField(),
+            ChoiceField(),
+            ChoiceField(),
         )
         super(RankedChoiceField, self).__init__(fields, *args, **kwargs)
         self.choices = choices

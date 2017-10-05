@@ -8,7 +8,7 @@ def get_function(path):
     parts = path.split(".")
     to_exec = "from %s import %s as got" % (".".join(parts[:-1]), parts[-1])
     try:
-        exec(to_exec)
+        exec (to_exec)
     except ImportError, error:
         raise ImportError(error.msg, to_exec)
     return got
@@ -18,7 +18,7 @@ class ChoiceEnum(object):
     def __init__(self, choices):
         if isinstance(choices, basestring):
             choices = choices.split()
-        if all([isinstance(choices, (list,tuple)),
+        if all([isinstance(choices, (list, tuple)),
                 all(isinstance(x, tuple) and len(x) == 2 for x in choices)]):
             values = choices
         else:
@@ -42,4 +42,3 @@ class ChoiceEnum(object):
         args = (self._choices,)
         kwargs = {}
         return path, args, kwargs
-

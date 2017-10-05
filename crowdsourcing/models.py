@@ -78,6 +78,7 @@ class Survey(models.Model):
                          unique=True,
                          always_update=getattr(settings, "AUTOSLUGFIELD_ALWAYS_UPDATE", True))
     tease = models.TextField(verbose_name=_("Tease"),
+                             help_text=_("User encouraging message."),
                              blank=True)
     description = models.TextField(verbose_name=_("Description"),
                                    blank=True)

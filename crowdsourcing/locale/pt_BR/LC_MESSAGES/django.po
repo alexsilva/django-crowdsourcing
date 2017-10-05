@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-05 15:10-0300\n"
+"POT-Creation-Date: 2017-10-05 16:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,8 +22,8 @@ msgid ""
 "For numeric select or numeric choice, all your options must be a number. "
 "This is not a number: "
 msgstr ""
-"Para seleção numérica ou opção numérica, todas as suas opções devem ser um número. "
-"Isso não é um número: "
+"Para seleção numérica ou opção numérica, todas as suas opções devem ser um "
+"número. Isso não é um número: "
 
 #: .\crowdsourcing\admin.py:43
 msgid "Choice type questions require a list of options."
@@ -39,7 +39,8 @@ msgstr ""
 
 #: .\crowdsourcing\admin.py:93
 msgid "Flickr support is broken. Contact a programmer."
-msgstr "O suporte do Flickr está quebrado. Entre em contato com um adminstrador."
+msgstr ""
+"O suporte do Flickr está quebrado. Entre em contato com um adminstrador."
 
 #: .\crowdsourcing\admin.py:98
 #, python-format
@@ -47,30 +48,32 @@ msgid ""
 "You can't access this group: %(group)s. Either the group doesn't exist, or "
 "you don't have permission. You have permission to these groups: %(names)s"
 msgstr ""
-"Você não pode acessar este grupo: %(group)s. O grupo não existe, ou "
-"você não tem permissão. Tem permissão para esses grupos: %(names)s"
+"Você não pode acessar este grupo: %(group)s. O grupo não existe, ou você não "
+"tem permissão. Tem permissão para esses grupos: %(names)s"
 
 #: .\crowdsourcing\admin.py:106
 msgid ""
 "You can't access any Flickr groups. Either you don't have any groups or your "
 "configuration settings are incorrect and you need to contact a programmer."
 msgstr ""
-"Você não pode acessar nenhum grupo do Flickr. Ou você não possui nenhum grupo ou seu "
-"as configurações estão incorretas e você precisa entrar em contato com um adminstrador."
+"Você não pode acessar nenhum grupo do Flickr. Ou você não possui nenhum "
+"grupo ou seu as configurações estão incorretas e você precisa entrar em "
+"contato com um adminstrador."
 
 #: .\crowdsourcing\admin.py:184
 msgid ""
 "Use the 'annotation' of Text Survey Report Displays to insert arbitrary text."
 msgstr ""
-"Use a 'anotação' do texto de relatório da enqute para inserir texto arbitrário."
+"Use a 'anotação' do texto de relatório da enqute para inserir texto "
+"arbitrário."
 
 #: .\crowdsourcing\admin.py:188
 msgid ""
 "Given the options you picked, you need to specify some fieldnames or this "
 "Survey Report Display won't do anything."
 msgstr ""
-"Dadas as opções que você escolheu, precisa especificar alguns nomes de campo ou este "
-"relatório de enquete não fará nada."
+"Dadas as opções que você escolheu, precisa especificar alguns nomes de campo "
+"ou este relatório de enquete não fará nada."
 
 #: .\crowdsourcing\admin.py:193
 msgid "An x axis only makes sense for Bar and Line graphs."
@@ -101,9 +104,8 @@ msgid ""
 "We couldn't read your file. Make sure it's a .jpeg, .png, or .gif file, not "
 "a .psd or other unsupported type."
 msgstr ""
-"Não foi possível ler seu arquivo. Certifique-se de que seja um arquivo .jpeg, .png ou .gif, não "
-"a .psd ou outro tipo não suportado."
-
+"Não foi possível ler seu arquivo. Certifique-se de que seja um arquivo ."
+"jpeg, .png ou .gif, não a .psd ou outro tipo não suportado."
 
 #: .\crowdsourcing\forms.py:271
 msgid "invalid format 'app_label.model_name'"
@@ -143,11 +145,11 @@ msgstr "Agradecimento"
 
 #: .\crowdsourcing\models.py:87
 msgid "When a user submits the survey, display this message."
-msgstr "Quando um usuário envia uma submissão, exiba esta mensagem."
+msgstr "Quando um usuário enviar uma submissão, exiba esta mensagem."
 
 #: .\crowdsourcing\models.py:89
 msgid "Require login"
-msgstr "Requer login"
+msgstr "Requer autenticação"
 
 #: .\crowdsourcing\models.py:92
 msgid "Allow multiple submissions"
@@ -171,13 +173,17 @@ msgstr ""
 msgid "Allow comments"
 msgstr "Permitir comentários"
 
+#: .\crowdsourcing\models.py:105
+msgid "Allow comments on user submissions."
+msgstr "Permitir comentários sobre submissões de usuários."
+
 #: .\crowdsourcing\models.py:107
 msgid "Allow voting"
 msgstr "Permitir voto"
 
 #: .\crowdsourcing\models.py:109
 msgid "Users can vote on submissions."
-msgstr "Os usuários podem votar nas sumissões"
+msgstr "Os usuários podem votar nas submissões"
 
 #: .\crowdsourcing\models.py:111
 msgid "Archive policy"
@@ -187,12 +193,11 @@ msgstr "Política de arquivamento"
 msgid ""
 "How to make the results public ? immediate: All results are immediately "
 "public. post-close: Results are public on or after the \"ends at\" option "
-"documented below. never: Results are never public."
+"shown below. never: Results are never public."
 msgstr ""
-"Como tornar os resultados públicoimediato: Todos os resultados são "
-"imediatamente públicos. fechar-posteriormente: Os resultados são públicos "
-"após a opção \"termina em\" documentado abaixo. nunca: Os resultados nunca "
-"são públicos."
+"Como tornar os resultados público ? immediate: Todos os resultados serão "
+"imediatamente público. post-close: Os resultados serão públicos após a opção "
+"\"termina em\" mostrado abaixo. never: Os resultados nunca serão público."
 
 #: .\crowdsourcing\models.py:119
 msgid "Starts at"
@@ -286,7 +291,7 @@ msgstr "Caixa de texto decimal"
 
 #: .\crowdsourcing\models.py:305
 msgid "Checkbox"
-msgstr "Checkbox"
+msgstr "Caixa de marcação"
 
 #: .\crowdsourcing\models.py:306
 msgid "Text Area"
@@ -302,7 +307,7 @@ msgstr "Lista de botões de rádio"
 
 #: .\crowdsourcing\models.py:309
 msgid "Checkbox List"
-msgstr "Lista Checkbox"
+msgstr "Lista caixa de marcação"
 
 #: .\crowdsourcing\models.py:310
 msgid "Numeric Drop Down List"
@@ -320,8 +325,8 @@ msgstr "Lista classificada"
 msgid ""
 "What order does this question appear in the survey form and in permalinks?"
 msgstr ""
-"Qual a ordem dessa pergunta que aparece no formulário de pesquisa e nos "
-"permalinks?"
+"Em que ordem essa pergunta deve aparecer nos formulários de enquete e nos "
+"permalinks ?"
 
 #: .\crowdsourcing\models.py:332
 msgid "Field name"
@@ -332,7 +337,7 @@ msgid ""
 "a single-word identifier used to track this value; it must begin with a "
 "letter and may contain alphanumerics and underscores (no spaces)."
 msgstr ""
-"um identificador de uma única palavra usado para rastrear esse valor; ele "
+"Um identificador de palavra única usada para rastrear esse valor; ele "
 "deve começar com um letra e pode conter alfanuméricos e sublinhados (sem "
 "espaços)."
 
@@ -358,7 +363,7 @@ msgstr "Aparece na página de resultados."
 
 #: .\crowdsourcing\models.py:344
 msgid "Help text"
-msgstr "Text de ajuda"
+msgstr "Texto de ajuda"
 
 #: .\crowdsourcing\models.py:350
 msgid "Required"
@@ -369,8 +374,8 @@ msgid ""
 "Unsafe to change on live surveys. Radio button list and drop down list "
 "questions will have a blank option if they aren't required."
 msgstr ""
-"Inseguro de mudar em enquetes ao vivo. Lista de botões de rádio e lista "
-"suspensa as perguntas terão uma opção em branco se não forem necessárias."
+"Inseguro de mudar em enquetes ao vivo. Questões do tipo 'lista de botões de rádio' e 'listas "
+"suspensas' terão uma opção em branco se não forem necessárias."
 
 #: .\crowdsourcing\models.py:357 .\crowdsourcing\models.py:361
 msgid "Order"

@@ -102,7 +102,7 @@ class Survey(models.Model):
     allow_comments = models.BooleanField(
         verbose_name=_("Allow comments"),
         default=False,
-        help_text="Allow comments on user submissions.")
+        help_text=_("Allow comments on user submissions."))
     allow_voting = models.BooleanField(
         verbose_name=_("Allow voting"),
         default=False,
@@ -114,7 +114,7 @@ class Survey(models.Model):
         help_text=_("How to make the results public ? "
                     "immediate: All results are immediately public. "
                     "post-close: Results are public on or after the "
-                    "\"ends at\" option documented below. never: Results are "
+                    "\"ends at\" option shown below. never: Results are "
                     "never public."))
     starts_at = models.DateTimeField(verbose_name=_("Starts at"),
                                      default=timezone.now)

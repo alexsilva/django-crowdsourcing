@@ -78,7 +78,7 @@ class BaseAnswerForm(Form):
     def save(self, commit=True):
         if self.cleaned_data['answer'] is None:
             if self.fields['answer'].required:
-                raise ValidationError, _('This field is required.')
+                raise ValidationError(_('This field is required.'))
             return
         ans = Answer()
         if self.submission:

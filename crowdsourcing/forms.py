@@ -272,7 +272,7 @@ class SubmissionForm(ModelForm):
         try:
             model = apps.get_model(app_label, model_name)
         except LookupError:
-            raise ValidationError(_("invalid format 'app_label'"))
+            raise ValidationError(_("invalid 'app_label'"))
         return ContentType.objects.get_for_model(model)
 
     def clean_object_pk(self):

@@ -111,8 +111,8 @@ class Survey(models.Model):
         verbose_name=_("Archive policy"),
         choices=ARCHIVE_POLICY_CHOICES,
         default=ARCHIVE_POLICY_CHOICES.IMMEDIATE,
-        help_text=_("At what point will Crowdsourcing make the results "
-                    "public? immediate: All results are immediately public. "
+        help_text=_("How to make the results public ? "
+                    "immediate: All results are immediately public. "
                     "post-close: Results are public on or after the "
                     "\"ends at\" option documented below. never: Results are "
                     "never public."))

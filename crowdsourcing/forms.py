@@ -143,9 +143,7 @@ class VideoAnswer(BaseAnswerForm):
                 first_match = reduce(lambda x, y: x or y, matches)
                 if first_match:
                     return first_match.group(0)
-            raise ValidationError(_(
-                "I don't recognize this video url format. Try something like "
-                "http://www.youtube.com/watch?v=Bfli1yuby58."))
+            raise ValidationError(_("Unknown video url format."))
         return value
 
 

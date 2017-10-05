@@ -10,6 +10,7 @@ from xml.dom.minidom import Document
 import unicodecsv as csv
 from django.core.mail import EmailMultiAlternatives
 from django.core.paginator import Paginator, EmptyPage
+from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -78,7 +79,7 @@ def _survey_submit(request, survey):
         # to be safe...
         return HttpResponseRedirect(_login_url(request))
     if not hasattr(request, 'session'):
-        return HttpResponse("Cookies must be enabled to use this application.",
+        return HttpResponse(_("Cookies must be enabled to use this application."),
                             status=httplib.FORBIDDEN)
     if _entered_no_more_allowed(request, survey):
         slug_template = 'crowdsourcing/%s_already_submitted.html' % survey.slug
@@ -147,11 +148,11 @@ def _url_for_edit(request, obj):
 def _send_survey_email(request, survey, submission):
     subject = survey.title
     sender = crowdsourcing_settings.SURVEY_EMAIL_FROM
-    links = [(_url_for_edit(request, submission), "Edit Submission"),
-             (_url_for_edit(request, survey), "Edit Survey"), ]
+    links = [(_url_for_edit(request, submission), _("Edit Submission")),
+             (_url_for_edit(request, survey), _("Edit Survey")), ]
     if survey.can_have_public_submissions():
         u = "http://" + request.META["HTTP_HOST"] + _survey_report_url(survey)
-        links.append((u, "View Survey",))
+        links.append((u, _("View Survey"),))
     parts = ["<a href=\"%s\">%s</a>" % link for link in links]
     set = submission.answer_set.all()
     lines = ["%s: %s" % (a.question.label, escape(a.value),) for a in set]
@@ -288,8 +289,8 @@ def submissions(request, format, **kwargs):
         parameters are filled out. Use those same parameters here. """
     format = format.lower()
     if format not in FORMAT_CHOICES:
-        msg = ("%s is an unrecognized format. Crowdsourcing recognizes "
-               "these: %s") % (format, ", ".join(FORMAT_CHOICES))
+        msg = _("%s is an unrecognized format. Crowdsourcing recognizes "
+                "these: %s") % (format, ", ".join(FORMAT_CHOICES))
         return HttpResponse(msg)
     is_staff = request.user.is_authenticated() and request.user.is_staff
     if is_staff:
@@ -441,7 +442,7 @@ def submissions(request, format, **kwargs):
         results.append("</table></body></html>")
         response = HttpResponse("\n".join(results))
     else:
-        return HttpResponse("Unsure how to handle %s format" % format)
+        return HttpResponse(_("Unsure how to handle %s format") % format)
     return response
 
 

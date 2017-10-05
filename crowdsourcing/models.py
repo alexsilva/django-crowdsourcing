@@ -294,23 +294,23 @@ class Survey(models.Model):
     live = LiveSurveyManager()
 
 
-OPTION_TYPE_CHOICES = ChoiceEnum(sorted([('char', 'Text Box'),
-                                         ('email', 'Email Text Box'),
-                                         ('date', 'Date Box'),
-                                         ('photo', 'Photo Upload'),
-                                         ('video', 'Video Link Text Box'),
-                                         ('location', 'Location Text Box'),
-                                         ('integer', 'Integer Text Box'),
-                                         ('float', 'Decimal Text Box'),
-                                         ('bool', 'Checkbox'),
-                                         ('text', 'Text Area'),
-                                         ('select', 'Drop Down List'),
-                                         ('choice', 'Radio Button List'),
-                                         ('bool_list', 'Checkbox List'),
-                                         ('numeric_select', 'Numeric Drop Down List'),
-                                         ('numeric_choice', 'Numeric Radio Button List'),
-                                         ('ranked', 'Ranked List')],
-                                        key=itemgetter(1)))
+OPTION_TYPE_CHOICES = ChoiceEnum(sorted([('char', _('Text Box')),
+                                         ('email', _('Email Text Box')),
+                                         ('date', _('Date Box')),
+                                         ('photo', _('Photo Upload')),
+                                         ('video', _('Video Link Text Box')),
+                                         ('location', _('Location Text Box')),
+                                         ('integer', _('Integer Text Box')),
+                                         ('float', _('Decimal Text Box')),
+                                         ('bool', _('Checkbox')),
+                                         ('text', _('Text Area')),
+                                         ('select', _('Drop Down List')),
+                                         ('choice', _('Radio Button List')),
+                                         ('bool_list', _('Checkbox List')),
+                                         ('numeric_select', _('Numeric Drop Down List')),
+                                         ('numeric_choice', _('Numeric Radio Button List')),
+                                         ('ranked', _('Ranked List'))
+                                         ], key=itemgetter(1)))
 
 FILTERABLE_OPTION_TYPES = (OPTION_TYPE_CHOICES.LOCATION,
                            OPTION_TYPE_CHOICES.INTEGER,
@@ -814,7 +814,7 @@ class Submission(models.Model):
     # for moderation
     is_public = models.BooleanField(
         default=True,
-        help_text=_("Crowdsourcing only displays public submissions. The "
+        help_text=_("Only displays public submissions. The "
                     "'Moderate submissions' checkbox of the survey determines "
                     "the default value of this field."))
 
@@ -982,15 +982,15 @@ class SurveyReport(models.Model):
     # project. Rather, see settings.PRE_REPORT
     sort_by_rating = models.BooleanField(
         default=False,
-        help_text="By default, sort descending by highest rating. Otherwise, "
-                  "the default sort is by date descending.")
+        help_text=_("By default, sort descending by highest rating. Otherwise, "
+                    "the default sort is by date descending."))
     display_the_filters = models.BooleanField(
         default=True,
-        help_text="Display the filters at the top of the report page.")
+        help_text=_("Display the filters at the top of the report page."))
     limit_results_to = models.PositiveIntegerField(
         blank=True,
         null=True,
-        help_text="Only use the top X submissions.")
+        help_text=_("Only use the top X submissions."))
     featured = models.BooleanField(
         default=False,
         help_text=_("Include only featured submissions."))
@@ -1040,8 +1040,7 @@ class SurveyReport(models.Model):
         return self.get_title()
 
 
-SURVEY_DISPLAY_TYPE_CHOICES = ChoiceEnum(
-    'text pie map bar line slideshow download')
+SURVEY_DISPLAY_TYPE_CHOICES = ChoiceEnum('text pie map bar line slideshow download')
 
 SURVEY_AGGREGATE_TYPE_CHOICES = ChoiceEnum('default sum count average')
 

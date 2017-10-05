@@ -10,13 +10,13 @@ from xml.dom.minidom import Document
 import unicodecsv as csv
 from django.core.mail import EmailMultiAlternatives
 from django.core.paginator import Paginator, EmptyPage
-from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext as _rc
 from django.utils.html import escape
+from django.utils.translation import ugettext_lazy as _
 
 from . import settings as crowdsourcing_settings
 from .forms import forms_for_survey, SubmissionForm
@@ -141,10 +141,11 @@ def _url_for_edit(request, obj):
         # admin. Just fake it.
         edit_url = "/{}/{}".format(admin_app_name, "%s/%s/%d/" % (view_args + (obj.id,)))
     admin_url = crowdsourcing_settings.SURVEY_ADMIN_SITE
+    http = "http{}://".format("s" if request.is_secure() else "")
     if not admin_url:
-        admin_url = "http://" + request.META["HTTP_HOST"]
+        admin_url = http + request.META["HTTP_HOST"]
     elif len(admin_url) < 4 or admin_url[:4].lower() != "http":
-        admin_url = "http://" + admin_url
+        admin_url = http + admin_url
     return admin_url + edit_url
 
 
@@ -153,9 +154,10 @@ def _send_survey_email(request, survey, submission):
     sender = crowdsourcing_settings.SURVEY_EMAIL_FROM
     links = [(_url_for_edit(request, submission), _("Edit Submission")),
              (_url_for_edit(request, survey), _("Edit Survey")), ]
+    http = "http{}://".format("s" if request.is_secure() else "")
     if survey.can_have_public_submissions():
-        u = "http://" + request.META["HTTP_HOST"] + _survey_report_url(survey)
-        links.append((u, _("View Survey"),))
+        url = http + request.META["HTTP_HOST"] + _survey_report_url(survey)
+        links.append((url, _("View Survey"),))
     parts = ["<a href=\"%s\">%s</a>" % link for link in links]
     set = submission.answer_set.all()
     lines = ["%s: %s" % (a.question.label, escape(a.value),) for a in set]

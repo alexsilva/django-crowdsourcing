@@ -182,6 +182,8 @@ class Survey(models.Model):
         super(Survey, self).save(**kwargs)
 
     class Meta:
+        verbose_name = _("Survey")
+        verbose_name_plural = _("Surveys")
         ordering = ('-starts_at',)
         unique_together = (('survey_date', 'slug'),)
 
@@ -413,6 +415,8 @@ class Question(models.Model):
         return self.answer_set.none()
 
     class Meta:
+        verbose_name = _("Question")
+        verbose_name_plural = _("Questions")
         ordering = ('order',)
         unique_together = ('fieldname', 'survey')
 
@@ -503,6 +507,10 @@ class Section(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _("Section")
+        verbose_name_plural = _("Sections")
 
 
 class Filter:
@@ -819,6 +827,8 @@ class Submission(models.Model):
                     "the default value of this field."))
 
     class Meta:
+        verbose_name = _("Submission")
+        verbose_name_plural = _("Submissions")
         ordering = ('-submitted_at',)
 
     def to_jsondata(self, answer_lookup=None, include_private_questions=False):
@@ -923,6 +933,8 @@ class Answer(models.Model):
             self.text_answer = v
 
     class Meta:
+        verbose_name = _("Answer")
+        verbose_name_plural = _("Answers")
         ordering = ('question',)
 
     def save(self, **kwargs):
@@ -1027,6 +1039,8 @@ class SurveyReport(models.Model):
                                              'report': self.slug})
 
     class Meta:
+        verbose_name = _("Survey report")
+        verbose_name_plural = _("Survey reports")
         unique_together = (('survey', 'slug'),)
         ordering = ('title',)
 

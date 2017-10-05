@@ -7,6 +7,13 @@ This fork adds some additional features and bugfixes to django-crowdsourcing.
 [documentation](http://packages.python.org/django-crowdsourcing/)
 
 
+Reason fork
+====================
+I made this fork so I could relate a poll to generic content in django (content-type).
+This will allow you to create a poll for a django model instance.
+Useful to allow poll on django content by site users.
+
+
 Date Option
 -----------
 An *Option* type for Dates has been added, with a sample frontend implementation using [bootstrap-datepicker](https://github.com/eternicode/bootstrap-datepicker)

@@ -25,7 +25,7 @@ from django.db import models, connection
 from django.db.models import Count
 from django.db.models.fields.files import ImageFieldFile
 from decimal import Decimal
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 
 from .fields import ImageWithThumbnailsField
 from .geo import get_latitude_and_longitude

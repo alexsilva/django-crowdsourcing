@@ -1,0 +1,546 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-05 15:10-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\crowdsourcing\admin.py:37
+msgid ""
+"For numeric select or numeric choice, all your options must be a number. "
+"This is not a number: "
+msgstr ""
+"Para seleção numérica ou opção numérica, todas as suas opções devem ser um número. "
+"Isso não é um número: "
+
+#: .\crowdsourcing\admin.py:43
+msgid "Choice type questions require a list of options."
+msgstr "As questões de tipo de opção exigem uma lista de opções."
+
+#: .\crowdsourcing\admin.py:49
+msgid ""
+"The field name must start with a letter and contain nothing but "
+"alphanumerics and underscore."
+msgstr ""
+"O nome do campo deve começar com uma letra e não contém nada mas, exceto "
+"alfanuméricos e sublinhado."
+
+#: .\crowdsourcing\admin.py:93
+msgid "Flickr support is broken. Contact a programmer."
+msgstr "O suporte do Flickr está quebrado. Entre em contato com um adminstrador."
+
+#: .\crowdsourcing\admin.py:98
+#, python-format
+msgid ""
+"You can't access this group: %(group)s. Either the group doesn't exist, or "
+"you don't have permission. You have permission to these groups: %(names)s"
+msgstr ""
+"Você não pode acessar este grupo: %(group)s. O grupo não existe, ou "
+"você não tem permissão. Tem permissão para esses grupos: %(names)s"
+
+#: .\crowdsourcing\admin.py:106
+msgid ""
+"You can't access any Flickr groups. Either you don't have any groups or your "
+"configuration settings are incorrect and you need to contact a programmer."
+msgstr ""
+"Você não pode acessar nenhum grupo do Flickr. Ou você não possui nenhum grupo ou seu "
+"as configurações estão incorretas e você precisa entrar em contato com um adminstrador."
+
+#: .\crowdsourcing\admin.py:184
+msgid ""
+"Use the 'annotation' of Text Survey Report Displays to insert arbitrary text."
+msgstr ""
+"Use a 'anotação' do texto de relatório da enqute para inserir texto arbitrário."
+
+#: .\crowdsourcing\admin.py:188
+msgid ""
+"Given the options you picked, you need to specify some fieldnames or this "
+"Survey Report Display won't do anything."
+msgstr ""
+"Dadas as opções que você escolheu, precisa especificar alguns nomes de campo ou este "
+"relatório de enquete não fará nada."
+
+#: .\crowdsourcing\admin.py:193
+msgid "An x axis only makes sense for Bar and Line graphs."
+msgstr "Um eixo x só faz sentido para gráficos de barras e linhas."
+
+#: .\crowdsourcing\admin.py:196
+msgid "You have to specify an x-axis for bar and line graphs."
+msgstr "Você precisa especificar um eixo x para gráficos barras e de linha."
+
+#: .\crowdsourcing\admin.py:199
+msgid "Use 'Default' for Text."
+msgstr "Use 'Padrão' para Texto."
+
+#: .\crowdsourcing\admin.py:202
+msgid "Use 'Default' or 'Count' for Pie charts."
+msgstr "Use \"Padrão\" ou \"Contagem\" para gráficos de pizza."
+
+#: .\crowdsourcing\forms.py:77 .\crowdsourcing\forms.py:193
+msgid "This field is required."
+msgstr "Esse campos é obrigatório."
+
+#: .\crowdsourcing\forms.py:146
+msgid "Unknown video url format."
+msgstr "Formato de URL de vídeo desconhecido."
+
+#: .\crowdsourcing\forms.py:157
+msgid ""
+"We couldn't read your file. Make sure it's a .jpeg, .png, or .gif file, not "
+"a .psd or other unsupported type."
+msgstr ""
+"Não foi possível ler seu arquivo. Certifique-se de que seja um arquivo .jpeg, .png ou .gif, não "
+"a .psd ou outro tipo não suportado."
+
+
+#: .\crowdsourcing\forms.py:271
+msgid "invalid format 'app_label.model_name'"
+msgstr "format inválido 'app_label.model_name'"
+
+#: .\crowdsourcing\forms.py:275
+msgid "invalid 'app_label'"
+msgstr "'app_label' inválido"
+
+#: .\crowdsourcing\forms.py:284 .\crowdsourcing\forms.py:291
+msgid "broken relation"
+msgstr "relação quebrada"
+
+#: .\crowdsourcing\forms.py:289
+msgid "invalid pk"
+msgstr "pk inválida"
+
+#: .\crowdsourcing\models.py:74
+msgid "Title"
+msgstr "Título"
+
+#: .\crowdsourcing\models.py:76
+msgid "Slug"
+msgstr "Apelido"
+
+#: .\crowdsourcing\models.py:80
+msgid "Tease"
+msgstr "Provocação"
+
+#: .\crowdsourcing\models.py:82
+msgid "Description"
+msgstr "Descrição"
+
+#: .\crowdsourcing\models.py:85
+msgid "Thanks"
+msgstr "Agradecimento"
+
+#: .\crowdsourcing\models.py:87
+msgid "When a user submits the survey, display this message."
+msgstr "Quando um usuário envia uma submissão, exiba esta mensagem."
+
+#: .\crowdsourcing\models.py:89
+msgid "Require login"
+msgstr "Requer login"
+
+#: .\crowdsourcing\models.py:92
+msgid "Allow multiple submissions"
+msgstr "Permitir multiplas submissões"
+
+#: .\crowdsourcing\models.py:95
+msgid "Moderate submissions"
+msgstr "Moderar submissões"
+
+#: .\crowdsourcing\models.py:97
+msgid ""
+"If checked, all submissions will start as NOT public and you will have to "
+"manually make them public. If your survey doesn't show any results, it may "
+"be because this option is checked."
+msgstr ""
+"Se marcada, todas as submissões começam como NÃO públicas e você terá que "
+"manualmente torná-las públicas. Se o sua enquete não mostrar quaisquer "
+"resultados, pode ser porque esta opção está marcada."
+
+#: .\crowdsourcing\models.py:103
+msgid "Allow comments"
+msgstr "Permitir comentários"
+
+#: .\crowdsourcing\models.py:107
+msgid "Allow voting"
+msgstr "Permitir voto"
+
+#: .\crowdsourcing\models.py:109
+msgid "Users can vote on submissions."
+msgstr "Os usuários podem votar nas sumissões"
+
+#: .\crowdsourcing\models.py:111
+msgid "Archive policy"
+msgstr "Política de arquivamento"
+
+#: .\crowdsourcing\models.py:114
+msgid ""
+"How to make the results public ? immediate: All results are immediately "
+"public. post-close: Results are public on or after the \"ends at\" option "
+"documented below. never: Results are never public."
+msgstr ""
+"Como tornar os resultados públicoimediato: Todos os resultados são "
+"imediatamente públicos. fechar-posteriormente: Os resultados são públicos "
+"após a opção \"termina em\" documentado abaixo. nunca: Os resultados nunca "
+"são públicos."
+
+#: .\crowdsourcing\models.py:119
+msgid "Starts at"
+msgstr "Inicia em"
+
+#: .\crowdsourcing\models.py:121
+msgid "Survey date"
+msgstr "Data da enquete"
+
+#: .\crowdsourcing\models.py:124
+msgid "Ends at"
+msgstr "Termina em"
+
+#: .\crowdsourcing\models.py:127
+msgid "Has script"
+msgstr "Tem script"
+
+#: .\crowdsourcing\models.py:129
+msgid ""
+"If enabled, template will render script tag for STATIC_URL/surveys/slug-name."
+"js"
+msgstr ""
+"Se ativado, o modelo renderizará a tag do script para STATIC_URL/surveys/"
+"slug-name.js"
+
+#: .\crowdsourcing\models.py:131
+msgid "Is published"
+msgstr "Está publicado"
+
+#: .\crowdsourcing\models.py:133
+msgid "Email"
+msgstr "Email"
+
+#: .\crowdsourcing\models.py:135
+msgid ""
+"Send a notification to these e-mail addresses whenever someone submits an "
+"entry to this survey. Comma delimited."
+msgstr ""
+"Enviar uma notificação para esses endereços de e-mail sempre que alguém "
+"enviar uma entrada para esta enquete. Separar por vígula."
+
+#: .\crowdsourcing\models.py:144
+msgid "Flickr group ID"
+msgstr "ID do grupo Flickr"
+
+#: .\crowdsourcing\models.py:149
+msgid "Flickr group name"
+msgstr "Nome do grupo Flickr"
+
+#: .\crowdsourcing\models.py:157
+msgid ""
+"Whenever we automatically generate a link to the results of this survey "
+"we'll use this report. If it's left blank, we'll use the default report "
+"behavior."
+msgstr ""
+"Sempre geramos automaticamente um link para os resultados desta enquete nós "
+"usaremos esse relatório. Se ele for deixado em branco, usaremos o "
+"comportamento do relatório padrão."
+
+#: .\crowdsourcing\models.py:297
+msgid "Text Box"
+msgstr "Caixa de texto"
+
+#: .\crowdsourcing\models.py:298
+msgid "Email Text Box"
+msgstr "Caixa de email"
+
+#: .\crowdsourcing\models.py:299
+msgid "Date Box"
+msgstr "Caixa de data"
+
+#: .\crowdsourcing\models.py:300
+msgid "Photo Upload"
+msgstr "Upload de fotos"
+
+#: .\crowdsourcing\models.py:301
+msgid "Video Link Text Box"
+msgstr "Caixa de texto com link de vídeo"
+
+#: .\crowdsourcing\models.py:302
+msgid "Location Text Box"
+msgstr "Caixa de texto de localização"
+
+#: .\crowdsourcing\models.py:303
+msgid "Integer Text Box"
+msgstr "Caixa de texto inteiro"
+
+#: .\crowdsourcing\models.py:304
+msgid "Decimal Text Box"
+msgstr "Caixa de texto decimal"
+
+#: .\crowdsourcing\models.py:305
+msgid "Checkbox"
+msgstr "Checkbox"
+
+#: .\crowdsourcing\models.py:306
+msgid "Text Area"
+msgstr "Área de texto"
+
+#: .\crowdsourcing\models.py:307
+msgid "Drop Down List"
+msgstr "Lista suspensa"
+
+#: .\crowdsourcing\models.py:308
+msgid "Radio Button List"
+msgstr "Lista de botões de rádio"
+
+#: .\crowdsourcing\models.py:309
+msgid "Checkbox List"
+msgstr "Lista Checkbox"
+
+#: .\crowdsourcing\models.py:310
+msgid "Numeric Drop Down List"
+msgstr "Lista de lista suspensa numérica"
+
+#: .\crowdsourcing\models.py:311
+msgid "Numeric Radio Button List"
+msgstr "Lista de botões de rádio numéricos"
+
+#: .\crowdsourcing\models.py:312
+msgid "Ranked List"
+msgstr "Lista classificada"
+
+#: .\crowdsourcing\models.py:325
+msgid ""
+"What order does this question appear in the survey form and in permalinks?"
+msgstr ""
+"Qual a ordem dessa pergunta que aparece no formulário de pesquisa e nos "
+"permalinks?"
+
+#: .\crowdsourcing\models.py:332
+msgid "Field name"
+msgstr "Nome do campo"
+
+#: .\crowdsourcing\models.py:334
+msgid ""
+"a single-word identifier used to track this value; it must begin with a "
+"letter and may contain alphanumerics and underscores (no spaces)."
+msgstr ""
+"um identificador de uma única palavra usado para rastrear esse valor; ele "
+"deve começar com um letra e pode conter alfanuméricos e sublinhados (sem "
+"espaços)."
+
+#: .\crowdsourcing\models.py:337
+msgid "Question"
+msgstr "Questão"
+
+#: .\crowdsourcing\models.py:338
+msgid "Appears on the survey entry page."
+msgstr "Aparece na página de entrada da pesquisa."
+
+#: .\crowdsourcing\models.py:339
+msgid "Question HTML"
+msgstr "Questão HTML"
+
+#: .\crowdsourcing\models.py:342
+msgid "Label"
+msgstr "Legenda"
+
+#: .\crowdsourcing\models.py:343
+msgid "Appears on the results page."
+msgstr "Aparece na página de resultados."
+
+#: .\crowdsourcing\models.py:344
+msgid "Help text"
+msgstr "Text de ajuda"
+
+#: .\crowdsourcing\models.py:350
+msgid "Required"
+msgstr "Obrigatório"
+
+#: .\crowdsourcing\models.py:352
+msgid ""
+"Unsafe to change on live surveys. Radio button list and drop down list "
+"questions will have a blank option if they aren't required."
+msgstr ""
+"Inseguro de mudar em enquetes ao vivo. Lista de botões de rádio e lista "
+"suspensa as perguntas terão uma opção em branco se não forem necessárias."
+
+#: .\crowdsourcing\models.py:357 .\crowdsourcing\models.py:361
+msgid "Order"
+msgstr "Ordem"
+
+#: .\crowdsourcing\models.py:359
+msgid " Use -1 to auto-assign."
+msgstr " Use -1 para atribuir automaticamente."
+
+#: .\crowdsourcing\models.py:363
+msgid "Option type"
+msgstr "Tipo de opção"
+
+#: .\crowdsourcing\models.py:366
+msgid "You must not change this field on a live survey."
+msgstr "Você não deve alterar esse campo em uma enqute ao vivo."
+
+#: .\crowdsourcing\models.py:368
+msgid "Numeric is INT"
+msgstr "Numérico é um inteiro"
+
+#: .\crowdsourcing\models.py:371
+msgid "Options"
+msgstr "Opções"
+
+#: .\crowdsourcing\models.py:375
+msgid ""
+"Use one option per line. On a live survey you can modify the order of these "
+"options. You can, at your own risk, add new options, but you must not change "
+"or remove options."
+msgstr ""
+"Use uma opção por linha. Em uma esquete ao vivo, você pode modificar a ordem "
+"dessas opções. Você pode, por sua conta e risco, adicionar novas opções, mas "
+"você não deve alterar ou remover opções."
+
+#: .\crowdsourcing\models.py:801
+#, fuzzy
+#| msgid "Option type"
+msgid "content type"
+msgstr "Tipo de opção"
+
+#: .\crowdsourcing\models.py:805
+msgid "object ID"
+msgstr "ID do objeto"
+
+#: .\crowdsourcing\models.py:817
+msgid ""
+"Only displays public submissions. The 'Moderate submissions' checkbox of the "
+"survey determines the default value of this field."
+msgstr ""
+"Somente exibe submissões públicas. A caixa de seleção 'Envio moderado' da "
+"enquete determina o valor padrão desse campo."
+
+#: .\crowdsourcing\models.py:973
+msgid ""
+"You may leave this field blank. Crowdsourcing will use the survey title as a "
+"default."
+msgstr ""
+"Você pode deixar este campo em branco. Crowdsourcing usará o título da "
+"pesquisa como um padrão."
+
+#: .\crowdsourcing\models.py:977
+msgid "The default is the description of the survey."
+msgstr "O padrão é a descrição da enquete."
+
+#: .\crowdsourcing\models.py:985
+msgid ""
+"By default, sort descending by highest rating. Otherwise, the default sort "
+"is by date descending."
+msgstr ""
+"Por padrão, ordena decrescente pela classificação mais alta. Caso contrário, "
+"a ordenção padrão é por data decrescente."
+
+#: .\crowdsourcing\models.py:989
+msgid "Display the filters at the top of the report page."
+msgstr "Exibir os filtros na parte superior da página do relatório."
+
+#: .\crowdsourcing\models.py:993
+msgid "Only use the top X submissions."
+msgstr "Utilize apenas as submissões X superiores."
+
+#: .\crowdsourcing\models.py:996
+msgid "Include only featured submissions."
+msgstr "Inclua apenas submissões em destaque."
+
+#: .\crowdsourcing\models.py:999
+msgid ""
+"Display separate, individual results if this field is True and you have "
+"archivable questions, like those with paragraph answers."
+msgstr ""
+"Exibir resultados individuais separados se este campo for Verdadeiro e você "
+"tiverperguntas arquiváveis, como aquelas com respostas de parágrafo."
+
+#: .\crowdsourcing\models.py:1055
+msgid ""
+"We only use this field if you chose a Bar or Line Chart. How should we "
+"aggregate the y-axis? 'Average' is good for things like ratings, 'Sum' is "
+"good for totals, and 'Count' is good for a show of hands."
+msgstr ""
+"Nós só usamos esse campo se você escolher um Gráfico de Barra ou Linha. Como "
+"devemos agrega o eixo y ? 'Average' é bom para coisas como avaliações, 'Sum' "
+"é mom para os totais, e 'Count' é bom para mostrar as mãos."
+
+#: .\crowdsourcing\models.py:1062
+msgid ""
+"Pull these values from Survey -> Questions -> Fieldname. Separate by spaces. "
+"These are the y-axes of bar and line charts."
+msgstr ""
+"Puxe esses valores de Pesquisa -> Perguntas -> Nome de campo. Separar por "
+"espaços.Estes são os eixos-y de barras e gráficos de linhas."
+
+#: .\crowdsourcing\models.py:1067
+msgid "This only applies to bar and line charts. Use only 1 field."
+msgstr ""
+"Isso se aplica apenas a gráficos de barras e linhas. Use apenas 1 campo."
+
+#: .\crowdsourcing\models.py:1074
+msgid ""
+"Google maps gets pretty slow if you add too many points. Use this field to "
+"limit the number of points that display on the map."
+msgstr ""
+"O Google Maps fica muito lento se você adicionar muitos pontos. Use este "
+"campo para limitar o número de pontos que aparecem no mapa."
+
+#: .\crowdsourcing\models.py:1080
+msgid ""
+"If you don't specify latitude, longitude, or zoom, the map will just center "
+"and zoom so that the map shows all the points."
+msgstr ""
+"Se você não especificar latitude, longitude ou zoom, o mapa apenas no centro "
+"e zoom para que o mapa mostre todos os pontos."
+
+#: .\crowdsourcing\models.py:1087
+msgid "13 is about the right level for Manhattan. 0 shows the entire world."
+msgstr "13 é sobre o nível certo de Manhattan. 0 mostra o mundo inteiro."
+
+#: .\crowdsourcing\models.py:1092
+msgid ""
+"The answers to these questions will appear as captions below their "
+"corresponding slides. Separate by spaces."
+msgstr ""
+"As respostas a essas perguntas aparecerão como legendas abaixo de seus "
+"slides correspondentes. Separar por espaços."
+
+#: .\crowdsourcing\views.py:82
+msgid "Cookies must be enabled to use this application."
+msgstr "Cookies precisam estar ativados para usar essa aplicação."
+
+#: .\crowdsourcing\views.py:151
+msgid "Edit Submission"
+msgstr "Editar Submissão"
+
+#: .\crowdsourcing\views.py:152
+msgid "Edit Survey"
+msgstr "Editar Enquete"
+
+#: .\crowdsourcing\views.py:155
+msgid "View Survey"
+msgstr "Ver Enquete"
+
+#: .\crowdsourcing\views.py:292
+#, python-format
+msgid ""
+"%(format)s is an unrecognized format. Crowdsourcing recognizes these: "
+"%(choices)s"
+msgstr ""
+"%(format)s é um formato desconhecido. Crowdsourcing reconhece esses: "
+"%(choices)s"
+
+#: .\crowdsourcing\views.py:448
+#, python-format
+msgid "Unsure how to handle %s format"
+msgstr "Incapaz de controlar do format %s"

@@ -270,11 +270,11 @@ class SubmissionForm(ModelForm):
         try:
             app_label, model_name = content_type.split('.')
         except ValueError:
-            raise ValidationError("invalid format 'app_label.model_name'")
+            raise ValidationError(_("invalid format 'app_label.model_name'"))
         try:
             model = apps.get_model(app_label, model_name)
         except LookupError:
-            raise ValidationError("invalid format 'app_label'")
+            raise ValidationError(_("invalid format 'app_label'"))
         return ContentType.objects.get_for_model(model)
 
     def clean_object_pk(self):
@@ -283,14 +283,14 @@ class SubmissionForm(ModelForm):
         content_type_instance = isinstance(content_type, ContentType)
         if object_pk:
             if not content_type_instance:
-                raise ValidationError("broken relation")
+                raise ValidationError(_("broken relation"))
             model = apps.get_model(content_type.app_label, content_type.model)
             try:
                 model.objects.get(pk=object_pk)
             except model.DoesNotExist:
-                raise ValidationError("invalid pk")
+                raise ValidationError(_("invalid pk"))
         elif content_type_instance:
-            raise ValidationError("broken relation")
+            raise ValidationError(_("broken relation"))
         return object_pk
 
     class Meta:

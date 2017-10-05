@@ -1,4 +1,4 @@
-django-crowdsourcing
+django-crowdsourcing [FORK - Try to bring the project to life with django 1.9+]
 ====================
 This fork adds some additional features and bugfixes to django-crowdsourcing.
 

@@ -94,11 +94,13 @@ class SurveyAdminForm(ModelForm):
             elif not get_group_id(group):
                 names = ", ".join(get_group_names())
                 if names:
-                    args = (group, names)
                     raise ValidationError(
-                        _("You can't access this group: %s. Either the group "
+                        _("You can't access this group: %(group)s. Either the group "
                           "doesn't exist, or you don't have permission. You "
-                          "have permission to these groups: %s") % args)
+                          "have permission to these groups: %(names)s") % {
+                                'group': group,
+                                'names': names
+                            })
                 else:
                     raise ValidationError(
                         _("You can't access any Flickr groups. Either you "

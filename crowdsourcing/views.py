@@ -289,8 +289,11 @@ def submissions(request, format, **kwargs):
         parameters are filled out. Use those same parameters here. """
     format = format.lower()
     if format not in FORMAT_CHOICES:
-        msg = _("%s is an unrecognized format. Crowdsourcing recognizes "
-                "these: %s") % (format, ", ".join(FORMAT_CHOICES))
+        msg = _("%(format)s is an unrecognized format. Crowdsourcing recognizes "
+                "these: %(choices)s") % {
+                    'format': format,
+                    'choices': ", ".join(FORMAT_CHOICES)
+                }
         return HttpResponse(msg)
     is_staff = request.user.is_authenticated() and request.user.is_staff
     if is_staff:

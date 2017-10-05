@@ -36,6 +36,8 @@ from .models import (
     get_filters)
 from .util import get_function
 
+admin_app_name = crowdsourcing_settings.CROWDSOURCING_ADMIN_APP_NAME
+
 
 def _user_entered_survey(request, survey):
     if not request.user.is_authenticated():
@@ -132,11 +134,12 @@ def _submit_valid_forms(forms, request, survey):
 def _url_for_edit(request, obj):
     view_args = (obj._meta.app_label, obj._meta.model_name,)
     try:
-        edit_url = reverse("admin:%s_%s_change" % view_args, args=(obj.id,))
+        s = admin_app_name + ":%s_%s_change"
+        edit_url = reverse(s % view_args, args=(obj.id,))
     except NoReverseMatch:
         # Probably 'admin' is not a registered namespace on a site without an
         # admin. Just fake it.
-        edit_url = "/admin/%s/%s/%d/" % (view_args + (obj.id,))
+        edit_url = "/{}/{}".format(admin_app_name, "%s/%s/%d/" % (view_args + (obj.id,)))
     admin_url = crowdsourcing_settings.SURVEY_ADMIN_SITE
     if not admin_url:
         admin_url = "http://" + request.META["HTTP_HOST"]

@@ -1,5 +1,8 @@
 from django.conf import settings
 
+# there are several admin apps for django.
+CROWDSOURCING_ADMIN_APP_NAME = getattr(settings, "CROWDSOURCING_APP_NAME", "admin")
+
 CROWDSOURCING_APP_NAME = getattr(settings, "CROWDSOURCING_APP_NAME", "Survey")
 
 """ This sets the default "Moderate submissions" value of surveys. """

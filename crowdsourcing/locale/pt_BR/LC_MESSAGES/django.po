@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-05 17:20-0300\n"
+"POT-Creation-Date: 2017-10-05 17:49-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,11 +123,11 @@ msgstr "relação quebrada"
 msgid "invalid pk"
 msgstr "pk inválida"
 
-#: .\crowdsourcing\models.py:74
+#: .\crowdsourcing\models.py:74 .\crowdsourcing\models.py:987
 msgid "Title"
 msgstr "Título"
 
-#: .\crowdsourcing\models.py:76
+#: .\crowdsourcing\models.py:76 .\crowdsourcing\models.py:993
 msgid "Slug"
 msgstr "Apelido"
 
@@ -386,6 +386,7 @@ msgstr ""
 "necessárias."
 
 #: .\crowdsourcing\models.py:359 .\crowdsourcing\models.py:363
+#: .\crowdsourcing\models.py:1130 .\crowdsourcing\models.py:1132
 msgid "Order"
 msgstr "Ordem"
 
@@ -436,8 +437,6 @@ msgid "Section"
 msgstr "Seção"
 
 #: .\crowdsourcing\models.py:513
-#, fuzzy
-#| msgid "Options"
 msgid "Sections"
 msgstr "Seções"
 
@@ -449,7 +448,27 @@ msgstr "Tipo de conteúdo"
 msgid "object ID"
 msgstr "ID do objeto"
 
-#: .\crowdsourcing\models.py:825
+#: .\crowdsourcing\models.py:817
+msgid "User"
+msgstr "Usuário"
+
+#: .\crowdsourcing\models.py:819
+msgid "IP address"
+msgstr "Endereço de IP"
+
+#: .\crowdsourcing\models.py:820
+msgid "Submitted at"
+msgstr "Submetido em"
+
+#: .\crowdsourcing\models.py:823 .\crowdsourcing\models.py:1016
+msgid "Featured"
+msgstr "Destaque"
+
+#: .\crowdsourcing\models.py:827
+msgid "Is public"
+msgstr "É público"
+
+#: .\crowdsourcing\models.py:829
 msgid ""
 "Only displays public submissions. The 'Moderate submissions' checkbox of the "
 "survey determines the default value of this field."
@@ -457,25 +476,23 @@ msgstr ""
 "Somente exibe submissões públicas. A caixa de seleção 'Envio moderado' da "
 "enquete determina o valor padrão desse campo."
 
-#: .\crowdsourcing\models.py:830
-#, fuzzy
-#| msgid "Edit Submission"
+#: .\crowdsourcing\models.py:834
 msgid "Submission"
-msgstr "Editar Submissão"
+msgstr "Submissão"
 
-#: .\crowdsourcing\models.py:831
+#: .\crowdsourcing\models.py:835
 msgid "Submissions"
 msgstr "Submissões"
 
-#: .\crowdsourcing\models.py:936
+#: .\crowdsourcing\models.py:940
 msgid "Answer"
 msgstr "Resposta"
 
-#: .\crowdsourcing\models.py:937
+#: .\crowdsourcing\models.py:941
 msgid "Answers"
 msgstr "Respostas"
 
-#: .\crowdsourcing\models.py:985
+#: .\crowdsourcing\models.py:990
 msgid ""
 "You may leave this field blank. Crowdsourcing will use the survey title as a "
 "default."
@@ -483,11 +500,19 @@ msgstr ""
 "Você pode deixar este campo em branco. Crowdsourcing usará o título da "
 "pesquisa como um padrão."
 
-#: .\crowdsourcing\models.py:989
+#: .\crowdsourcing\models.py:995
 msgid "The default is the description of the survey."
 msgstr "O padrão é a descrição da enquete."
 
 #: .\crowdsourcing\models.py:997
+msgid "Summary"
+msgstr "Resumo"
+
+#: .\crowdsourcing\models.py:1002
+msgid "Sort by rating"
+msgstr "Ordenar por classificação"
+
+#: .\crowdsourcing\models.py:1004
 msgid ""
 "By default, sort descending by highest rating. Otherwise, the default sort "
 "is by date descending."
@@ -495,45 +520,69 @@ msgstr ""
 "Por padrão, ordena decrescente pela classificação mais alta. Caso contrário, "
 "a ordenção padrão é por data decrescente."
 
-#: .\crowdsourcing\models.py:1001
+#: .\crowdsourcing\models.py:1007
+msgid "Display the filters"
+msgstr "Exibir os filtros"
+
+#: .\crowdsourcing\models.py:1009
 msgid "Display the filters at the top of the report page."
 msgstr "Exibir os filtros na parte superior da página do relatório."
 
-#: .\crowdsourcing\models.py:1005
+#: .\crowdsourcing\models.py:1011
+msgid "Limit results to"
+msgstr "Limite resultados para"
+
+#: .\crowdsourcing\models.py:1014
 msgid "Only use the top X submissions."
 msgstr "Utilize apenas as submissões X superiores."
 
-#: .\crowdsourcing\models.py:1008
+#: .\crowdsourcing\models.py:1018
 msgid "Include only featured submissions."
 msgstr "Inclua apenas submissões em destaque."
 
-#: .\crowdsourcing\models.py:1011
+#: .\crowdsourcing\models.py:1020
+msgid "Display individual results"
+msgstr "Exiba resultados individuais"
+
+#: .\crowdsourcing\models.py:1022
 msgid ""
 "Display separate, individual results if this field is True and you have "
 "archivable questions, like those with paragraph answers."
 msgstr ""
-"Exibir resultados individuais separados se este campo for Verdadeiro e você "
-"tiverperguntas arquiváveis, como aquelas com respostas de parágrafo."
+"Exibir resultados individuais separados se este campo for 'verdadeiro' e "
+"você tiver perguntas arquiváveis, como aquelas com respostas de parágrafo."
 
-#: .\crowdsourcing\models.py:1042
+#: .\crowdsourcing\models.py:1053
 msgid "Survey report"
-msgstr "Relatório da enquete"
+msgstr "Relatório"
 
-#: .\crowdsourcing\models.py:1043
+#: .\crowdsourcing\models.py:1054
 msgid "Survey reports"
-msgstr "Relatórios da enquete"
+msgstr "Relatórios"
 
-#: .\crowdsourcing\models.py:1069
+#: .\crowdsourcing\models.py:1077
+msgid "Display type"
+msgstr "Tipo de exibição"
+
+#: .\crowdsourcing\models.py:1080
+msgid "Aggregate type"
+msgstr "Tipo de agregador"
+
+#: .\crowdsourcing\models.py:1082
 msgid ""
 "We only use this field if you chose a Bar or Line Chart. How should we "
 "aggregate the y-axis? 'Average' is good for things like ratings, 'Sum' is "
 "good for totals, and 'Count' is good for a show of hands."
 msgstr ""
-"Nós só usamos esse campo se você escolher um Gráfico de Barra ou Linha. Como "
-"devemos agrega o eixo y ? 'Average' é bom para coisas como avaliações, 'Sum' "
-"é mom para os totais, e 'Count' é bom para mostrar as mãos."
+"Nós só usamos esse campo se você escolher um gráfico de barra ou linha. Como "
+"devemos agrega o eixo y ? 'average' é bom para coisas como avaliações, 'sum' "
+"é bom para os totais, e 'count' é bom para mostrar quantidade."
 
-#: .\crowdsourcing\models.py:1076
+#: .\crowdsourcing\models.py:1088
+msgid "Field names"
+msgstr "Nome do campos"
+
+#: .\crowdsourcing\models.py:1090
 msgid ""
 "Pull these values from Survey -> Questions -> Fieldname. Separate by spaces. "
 "These are the y-axes of bar and line charts."
@@ -541,12 +590,24 @@ msgstr ""
 "Puxe esses valores de Pesquisa -> Perguntas -> Nome de campo. Separar por "
 "espaços.Estes são os eixos-y de barras e gráficos de linhas."
 
-#: .\crowdsourcing\models.py:1081
+#: .\crowdsourcing\models.py:1094
+msgid "X axis field name"
+msgstr "Nome do campo do exio X"
+
+#: .\crowdsourcing\models.py:1096
 msgid "This only applies to bar and line charts. Use only 1 field."
 msgstr ""
 "Isso se aplica apenas a gráficos de barras e linhas. Use apenas 1 campo."
 
-#: .\crowdsourcing\models.py:1088
+#: .\crowdsourcing\models.py:1099
+msgid "Annotation"
+msgstr "Anotação"
+
+#: .\crowdsourcing\models.py:1101
+msgid "Limit map answers"
+msgstr "Limitar resposta ao mapa"
+
+#: .\crowdsourcing\models.py:1104
 msgid ""
 "Google maps gets pretty slow if you add too many points. Use this field to "
 "limit the number of points that display on the map."
@@ -554,7 +615,11 @@ msgstr ""
 "O Google Maps fica muito lento se você adicionar muitos pontos. Use este "
 "campo para limitar o número de pontos que aparecem no mapa."
 
-#: .\crowdsourcing\models.py:1094
+#: .\crowdsourcing\models.py:1108
+msgid "Map center latitude"
+msgstr "Latitude central do mapa"
+
+#: .\crowdsourcing\models.py:1111
 msgid ""
 "If you don't specify latitude, longitude, or zoom, the map will just center "
 "and zoom so that the map shows all the points."
@@ -562,17 +627,33 @@ msgstr ""
 "Se você não especificar latitude, longitude ou zoom, o mapa apenas no centro "
 "e zoom para que o mapa mostre todos os pontos."
 
-#: .\crowdsourcing\models.py:1101
+#: .\crowdsourcing\models.py:1116
+msgid "Map zoom"
+msgstr "Zoom do mapa"
+
+#: .\crowdsourcing\models.py:1119
 msgid "13 is about the right level for Manhattan. 0 shows the entire world."
 msgstr "13 é sobre o nível certo de Manhattan. 0 mostra o mundo inteiro."
 
-#: .\crowdsourcing\models.py:1106
+#: .\crowdsourcing\models.py:1122
+msgid "Caption fields"
+msgstr "Campos de legenda"
+
+#: .\crowdsourcing\models.py:1125
 msgid ""
 "The answers to these questions will appear as captions below their "
 "corresponding slides. Separate by spaces."
 msgstr ""
 "As respostas a essas perguntas aparecerão como legendas abaixo de seus "
 "slides correspondentes. Separar por espaços."
+
+#: .\crowdsourcing\models.py:1180"
+msgid "Survey report display"
+msgstr "Exibição de relatórios"
+
+#: .\crowdsourcing\models.py:1181
+msgid "Survey reports display"
+msgstr "Exibição de relatórios"
 
 #: .\crowdsourcing\views.py:82
 msgid "Cookies must be enabled to use this application."

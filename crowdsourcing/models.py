@@ -802,7 +802,7 @@ BALLOT_STUFFING_FIELDS = ('ip_address', 'session_key',)
 
 
 class Submission(models.Model):
-    survey = models.ForeignKey(Survey)
+    survey = models.ForeignKey(Survey, verbose_name=Survey._meta.verbose_name)
 
     # Content-object field
     content_type = models.ForeignKey(ContentType,
@@ -813,14 +813,18 @@ class Submission(models.Model):
     object_pk = models.TextField(_('object ID'), blank=True, null=True)
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-    ip_address = models.GenericIPAddressField()
-    submitted_at = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             verbose_name=_("User"),
+                             blank=True, null=True)
+    ip_address = models.GenericIPAddressField(verbose_name=_("IP address"))
+    submitted_at = models.DateTimeField(verbose_name=_("Submitted at"),
+                                        default=timezone.now)
     session_key = models.CharField(max_length=40, blank=True, editable=False)
-    featured = models.BooleanField(default=False)
+    featured = models.BooleanField(verbose_name=_("Featured"), default=False)
 
     # for moderation
     is_public = models.BooleanField(
+        verbose_name=_("Is public"),
         default=True,
         help_text=_("Only displays public submissions. The "
                     "'Moderate submissions' checkbox of the survey determines "
@@ -978,35 +982,42 @@ class SurveyReport(models.Model):
     options, which each take a display type, a series of fieldnames,
     and an annotation.  It also has article-like fields of its own.
     """
-    survey = models.ForeignKey(Survey)
+    survey = models.ForeignKey(Survey, verbose_name=Survey._meta.verbose_name)
     title = models.CharField(
+        verbose_name=_("Title"),
         max_length=100,
         blank=True,
         help_text=_("You may leave this field blank. Crowdsourcing will use "
                     "the survey title as a default."))
     slug = models.CharField(
+        verbose_name=_("Slug"),
         max_length=50,
         help_text=_("The default is the description of the survey."))
     # some text at the beginning
-    summary = models.TextField(blank=True)
+    summary = models.TextField(verbose_name=_("Summary"), blank=True)
     # As crowdsourcing doesn't implement rating because we want to let you use
     # your own, we don't actually use this flag anywhere in the crowdsourcing
     # project. Rather, see settings.PRE_REPORT
     sort_by_rating = models.BooleanField(
+        verbose_name=_("Sort by rating"),
         default=False,
         help_text=_("By default, sort descending by highest rating. Otherwise, "
                     "the default sort is by date descending."))
     display_the_filters = models.BooleanField(
+        verbose_name=_("Display the filters"),
         default=True,
         help_text=_("Display the filters at the top of the report page."))
     limit_results_to = models.PositiveIntegerField(
+        verbose_name=_("Limit results to"),
         blank=True,
         null=True,
         help_text=_("Only use the top X submissions."))
     featured = models.BooleanField(
+        verbose_name=_("Featured"),
         default=False,
         help_text=_("Include only featured submissions."))
     display_individual_results = models.BooleanField(
+        verbose_name=_("Display individual results"),
         default=True,
         help_text=_("Display separate, individual results if this field is "
                     "True and you have archivable questions, like those with "
@@ -1061,10 +1072,12 @@ SURVEY_AGGREGATE_TYPE_CHOICES = ChoiceEnum('default sum count average')
 
 class SurveyReportDisplay(models.Model):
     """ Think of this as a line item of SurveyReport. """
-    report = models.ForeignKey(SurveyReport)
+    report = models.ForeignKey(SurveyReport, verbose_name=SurveyReport._meta.verbose_name)
     display_type = models.PositiveIntegerField(
+        verbose_name=_("Display type"),
         choices=SURVEY_DISPLAY_TYPE_CHOICES)
     aggregate_type = models.PositiveIntegerField(
+        verbose_name=_("Aggregate type"),
         choices=SURVEY_AGGREGATE_TYPE_CHOICES,
         help_text=_("We only use this field if you chose a Bar or Line Chart. "
                     "How should we aggregate the y-axis? 'Average' is good "
@@ -1072,23 +1085,27 @@ class SurveyReportDisplay(models.Model):
                     "'Count' is good for a show of hands."),
         default=SURVEY_AGGREGATE_TYPE_CHOICES.DEFAULT)
     fieldnames = models.TextField(
+        verbose_name=_("Field names"),
         blank=True,
         help_text=_("Pull these values from Survey -> Questions -> Fieldname. "
                     "Separate by spaces. These are the y-axes of bar and line "
                     "charts."))
     x_axis_fieldname = models.CharField(
+        verbose_name=_("X axis field name"),
         blank=True,
         help_text=_("This only applies to bar and line charts. Use only 1 "
                     "field."),
         max_length=80)
-    annotation = models.TextField(blank=True)
+    annotation = models.TextField(verbose_name=_("Annotation"), blank=True)
     limit_map_answers = models.IntegerField(
+        verbose_name=_("Limit map answers"),
         null=True,
         blank=True,
         help_text=_('Google maps gets pretty slow if you add too many points. '
                     'Use this field to limit the number of points that '
                     'display on the map.'))
     map_center_latitude = models.FloatField(
+        verbose_name=_("Map center latitude"),
         blank=True,
         null=True,
         help_text=_('If you don\'t specify latitude, longitude, or zoom, the '
@@ -1096,11 +1113,13 @@ class SurveyReportDisplay(models.Model):
                     'the points.'))
     map_center_longitude = models.FloatField(blank=True, null=True)
     map_zoom = models.IntegerField(
+        verbose_name=_("Map zoom"),
         blank=True,
         null=True,
         help_text=_('13 is about the right level for Manhattan. 0 shows the '
                     'entire world.'))
     caption_fields = models.CharField(
+        verbose_name=_("Caption fields"),
         max_length=200,
         blank=True,
         help_text=_('The answers to these questions will appear as '
@@ -1108,9 +1127,9 @@ class SurveyReportDisplay(models.Model):
                     'spaces.'))
 
     if PositionField:
-        order = PositionField(collection=('report',))
+        order = PositionField(verbose_name=_("Order"), collection=('report',))
     else:
-        order = models.IntegerField()
+        order = models.IntegerField(verbose_name=_("Order"))
 
     def __unicode__(self):
         type = SURVEY_DISPLAY_TYPE_CHOICES.getdisplay(self.display_type)
@@ -1158,6 +1177,8 @@ class SurveyReportDisplay(models.Model):
         assert False, "This display isn't in its report's displays."
 
     class Meta:
+        verbose_name = _("Survey report display")
+        verbose_name_plural = _("Survey reports display")
         ordering = ('order',)
 
     def __getattribute__(self, key):

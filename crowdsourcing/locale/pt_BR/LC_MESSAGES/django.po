@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-05 17:04-0300\n"
+"POT-Creation-Date: 2017-10-05 17:20-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -415,9 +415,17 @@ msgid ""
 "options. You can, at your own risk, add new options, but you must not change "
 "or remove options."
 msgstr ""
-"Use uma opção por linha. Em uma esquete ao vivo, você pode modificar a ordem "
+"Use uma opção por linha. Em uma enquete ao vivo, você pode modificar a ordem "
 "dessas opções. Você pode, por sua conta e risco, adicionar novas opções, mas "
 "você não deve alterar ou remover opções."
+
+#: .\crowdsourcing\models.py:390
+msgid "Answer is public"
+msgstr "Reposta é pública"
+
+#: .\crowdsourcing\models.py:391
+msgid "Use as filter"
+msgstr "Use com filtro"
 
 #: .\crowdsourcing\models.py:419
 msgid "Questions"

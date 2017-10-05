@@ -387,8 +387,8 @@ class Question(models.Model):
                    'these map icons on a Location Field. For Google maps '
                    'use 34px high by 20px wide .png images with a transparent '
                    'background. You can safely modify this field on live surveys.'))
-    answer_is_public = models.BooleanField(default=True)
-    use_as_filter = models.BooleanField(default=True)
+    answer_is_public = models.BooleanField(verbose_name=_("Answer is public"), default=True)
+    use_as_filter = models.BooleanField(verbose_name=_("Use as filter"), default=True)
     _aggregate_result = None
 
     @property

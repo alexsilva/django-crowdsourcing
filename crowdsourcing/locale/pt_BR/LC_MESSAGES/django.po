@@ -283,7 +283,7 @@ msgstr "Caixa de data"
 
 #: .\crowdsourcing\models.py:303
 msgid "Photo Upload"
-msgstr "Upload de fotos"
+msgstr "Envio de fotos"
 
 #: .\crowdsourcing\models.py:304
 msgid "Video Link Text Box"

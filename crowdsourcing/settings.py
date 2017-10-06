@@ -101,7 +101,10 @@ GOOGLE_MAPS_API_KEY = getattr(
 # A dictionary of extra thumbnails for Submission.image_answer, which is a sorl
 # ImageWithThumbnailsField. For example, {'slideshow': {'size': (620, 350)}}
 # max_enlarge is in case users upload huge images that enlarge far too big.
-EXTRA_THUMBNAILS = {'max_enlarge': {'size': (1000, 1000)}}
+EXTRA_THUMBNAILS = {
+    'default': {'size': (250, 250)},
+    'max_enlarge': {'size': (1000, 1000)}
+}
 EXTRA_THUMBNAILS.update(getattr(settings, 'CROWDSOURCING_EXTRA_THUMBNAILS', {}))
 
 # Syncing flickr synchronously means that crowdsourcing will attempt to sync on

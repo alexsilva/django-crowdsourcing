@@ -427,15 +427,11 @@ register.simple_tag(popup_google_map)
 
 
 def simple_slideshow(display, question, request_GET, css):
-    id = "slideshow_%d_%d" % (display.order, question.id)
+    slideshow_id = "slideshow_%d_%d" % (display.order, question.id)
     out = [
         '<h2 class="chart_title">%s</h2>' % display.annotation,
-        '<ul class="%s" id="%s">' % (css, id),
-        '<script type="text/javascript">',
-        '$(function() {',
-        "  $('#%s').jcarousel();" % id,
-        '});',
-        '</script>']
+        '<ul class="%s" id="%s">' % (css, slideshow_id)
+    ]
     caption_fieldnames = display.get_caption_fieldnames()
     caption_lookup = {}
     if caption_fieldnames:
@@ -444,26 +440,32 @@ def simple_slideshow(display, question, request_GET, css):
             question__survey=display.report.survey,
             submission__is_public=True)
         for caption in captions:
-            if not caption.submission_id in caption_lookup:
+            if caption.submission_id not in caption_lookup:
                 caption_lookup[caption.submission_id] = []
             append = "<div class='caption'>%s</div>" % str(caption.value)
             caption_lookup[caption.submission_id].append(append)
-    answers = extra_from_filters(
-        question.answer_set.all(),
-        "submission_id",
-        display.report.survey,
-        request_GET)
+    answers = extra_from_filters(question.answer_set.all(),
+                                 "submission_id",
+                                 display.report.survey,
+                                 request_GET)
     for answer in answers:
         try:
             image = answer.image_answer.thumbnail_tag
-        except ThumbnailException:
+        except ThumbnailException as err:
             image = "Can't find %s" % answer.image_answer.url
+            print err
         out.extend([
             '<li>',
             image,
             "\n".join(caption_lookup.get(answer.submission_id, [])),
-            '</li>'])
+            '</li>'
+        ])
     out.append("</ul>")
+    out.append('<script type="text/javascript">')
+    out.append('$(function() {')
+    out.append("  $('#%s').jcarousel();" % slideshow_id)
+    out.append('});')
+    out.append('</script>')
     return mark_safe("\n".join(out))
 
 
@@ -511,14 +513,15 @@ def submission_fields(submission,
             if answer.image_answer:
                 valid = True
                 try:
-                    thmb = answer.image_answer.thumbnail.absolute_url
-                    args = (thmb, answer.id,)
+                    thmb = answer.image_answer.thumbnail.url
+                    args = (thmb, answer.pk,)
                     out.append('<img src="%s" id="img_%d" />' % args)
                     x_y = get_image_dimensions(answer.image_answer.file)
-                except ThumbnailException as ex:
+                except ThumbnailException as err:
                     valid = False
                     out.append('<div class="error">%s</div>' % str(ex))
-                thumb_width = Answer.image_answer_thumbnail_meta["size"][0]
+                    print err
+                thumb_width = answer.image_answer.extra_thumbnails['default']["size"][0]
                 # This extra hidden input is in case you want to enlarge
                 # images. Don't bother enlarging images unless we'll increase
                 # their dimensions by at least 10%.
@@ -527,8 +530,8 @@ def submission_fields(submission,
                               'value="%s" class="enlargeable" />')
                     enlarge = answer.image_answer
                     enlarge = enlarge.extra_thumbnails["max_enlarge"]
-                    enlarge = enlarge.absolute_url
-                    args = (answer.id, enlarge)
+                    enlarge = enlarge.get("absolute_url", '')
+                    args = (answer.pk, enlarge)
                     out.append(format % args)
             elif question.option_type == OPTION_TYPE_CHOICES.VIDEO:
                 if oembed_expand:

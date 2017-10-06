@@ -2,23 +2,40 @@ from __future__ import absolute_import
 
 import copy
 
+from django.db.models.fields.files import ImageFieldFile
 from django.forms import MultiValueField
 from django.forms.fields import ChoiceField
 
 from .widgets import RankedChoiceWidget
-
 try:
-    from sorl.thumbnail.fields import ImageWithThumbnailsField
+    from sorl.thumbnail.fields import ImageField
 except ImportError:
     from django.db.models import ImageField
 
 
-    class ImageWithThumbnailsField(ImageField):
+class ImageFieldThumbnailsFile(ImageFieldFile):
 
-        def __init__(self, *args, **kwargs):
-            self.thumbnail = kwargs.pop('thumbnail', None)
-            self.extra_thumbnails = kwargs.pop('extra_thumbnails', None)
-            super(ImageWithThumbnailsField, self).__init__(*args, **kwargs)
+    @property
+    def extra_thumbnails(self):
+        return self.field.extra_thumbnails
+
+    @property
+    def thumbnail_tag(self):
+        return self.name
+
+    @property
+    def thumbnail(self):
+        from sorl.thumbnail import get_thumbnail
+        size = self.extra_thumbnails['default']['size']
+        return get_thumbnail(self.file, "x".join([str(s) for s in size]))
+
+
+class ImageWithThumbnailsField(ImageField):
+    attr_class = ImageFieldThumbnailsFile
+
+    def __init__(self, *args, **kwargs):
+        self.extra_thumbnails = kwargs.pop('extra_thumbnails')
+        super(ImageWithThumbnailsField, self).__init__(*args, **kwargs)
 
 
 class RankedChoiceField(MultiValueField):

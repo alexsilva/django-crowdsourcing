@@ -358,7 +358,7 @@ msgstr "Questão"
 
 #: .\crowdsourcing\models.py:341
 msgid "Appears on the survey entry page."
-msgstr "Aparece na página de entrada da pesquisa."
+msgstr "Aparece na página de entrada da enquete."
 
 #: .\crowdsourcing\models.py:342
 msgid "Question HTML"

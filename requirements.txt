@@ -4,6 +4,9 @@
 # $ pip install -r crowdsourcing_requirements.txt
 
 markdown
+django-positions
+sorl-thumbnail==12.4.1
+django-filter==1.1.0
 
 # Python Image Library for processing image answers.
 PIL>=1.1.6

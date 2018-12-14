@@ -34,7 +34,7 @@ class ImageWithThumbnailsField(ImageField):
     attr_class = ImageFieldThumbnailsFile
 
     def __init__(self, *args, **kwargs):
-        self.extra_thumbnails = kwargs.pop('extra_thumbnails')
+        self.extra_thumbnails = kwargs.pop('extra_thumbnails', None)
         super(ImageWithThumbnailsField, self).__init__(*args, **kwargs)
 
 

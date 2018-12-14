@@ -3,6 +3,8 @@
 # $ easy_install pip
 # $ pip install -r crowdsourcing_requirements.txt
 
+markdown
+
 # Python Image Library for processing image answers.
 PIL>=1.1.6
 

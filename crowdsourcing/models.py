@@ -9,7 +9,6 @@ from textwrap import fill
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.utils.functional import lazy
-from markdown import markdown
 
 try:
     import simplejson as json
@@ -436,8 +435,9 @@ class Question(models.Model):
                     self.numeric_is_int = False
         elif self.option_type == OTC.FLOAT:
             self.numeric_is_int = False
+        from markdown import markdown  # lazy import
         self.question_html = markdown(self.question)
-        super(Question, self).save(*args, **kwargs)
+        return super(Question, self).save(*args, **kwargs)
 
     @property
     def parsed_options(self):

@@ -69,7 +69,8 @@ class LiveSurveyManager(models.Manager):
 FORMAT_CHOICES = ('json', 'csv', 'xml', 'html',)
 
 
-class Survey(models.Model):
+class AbstractSurvey(models.Model):
+    """Abstract Survey Class"""
     title = models.CharField(verbose_name=_("Title"),
                              max_length=80)
     slug = AutoSlugField(verbose_name=_("Slug"),
@@ -179,13 +180,7 @@ class Survey(models.Model):
         self.flickr_group_id = ""
         if self.flickr_group_name and sync_to_flickr:
             self.flickr_group_id = get_group_id(self.flickr_group_name)
-        super(Survey, self).save(**kwargs)
-
-    class Meta:
-        verbose_name = _("Survey")
-        verbose_name_plural = _("Surveys")
-        ordering = ('-starts_at',)
-        unique_together = (('survey_date', 'slug'),)
+        return super(AbstractSurvey, self).save(**kwargs)
 
     @property
     def is_open(self):
@@ -294,6 +289,17 @@ class Survey(models.Model):
 
     objects = models.Manager()
     live = LiveSurveyManager()
+
+    class Meta:
+        verbose_name = _("Survey")
+        verbose_name_plural = _("Surveys")
+        ordering = ('-starts_at',)
+        unique_together = (('survey_date', 'slug'),)
+        abstract = True
+
+
+class Survey(AbstractSurvey):
+    """Dummy Survey Class"""
 
 
 OPTION_TYPE_CHOICES = ChoiceEnum(sorted([('char', _('Text Box')),

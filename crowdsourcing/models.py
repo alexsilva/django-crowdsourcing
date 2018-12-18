@@ -830,16 +830,6 @@ BALLOT_STUFFING_FIELDS = ('ip_address', 'session_key',)
 
 class Submission(models.Model):
     survey = models.ForeignKey(Survey, verbose_name=Survey._meta.verbose_name)
-
-    # Content-object field
-    content_type = models.ForeignKey(ContentType,
-                                     verbose_name=_('content type'),
-                                     related_name="content_type_set_for_%(class)s",
-                                     on_delete=models.CASCADE,
-                                     blank=True, null=True)
-    object_pk = models.TextField(_('object ID'), blank=True, null=True)
-    content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              verbose_name=_("User"),
                              blank=True, null=True)

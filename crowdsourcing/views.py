@@ -222,6 +222,7 @@ def survey_detail(request, slug):
 
 
 def embeded_survey_questions(request, slug):
+    """Survey questions merged into a form"""
     survey = _get_survey_or_404(slug, request)
     templates = ['crowdsourcing/embeded_survey_questions_%s.html' % slug,
                  'crowdsourcing/embeded_survey_questions.html']

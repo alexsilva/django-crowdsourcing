@@ -69,6 +69,23 @@ class LiveSurveyManager(models.Manager):
 FORMAT_CHOICES = ('json', 'csv', 'xml', 'html',)
 
 
+class GenericContent(models.Model):
+    """Generic related content"""
+    content_type = models.ForeignKey(ContentType,
+                                     verbose_name=_('content type'),
+                                     related_name="content_type_set_for_%(class)s",
+                                     on_delete=models.CASCADE)
+    object_pk = models.TextField(_('object ID'))
+    object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
+
+    def __unicode__(self):
+        return unicode(self.object)
+
+    class Meta:
+        verbose_name = _("Content")
+        verbose_name_plural = verbose_name
+
+
 class AbstractSurvey(models.Model):
     """Abstract Survey Class"""
     title = models.CharField(verbose_name=_("Title"),
@@ -82,6 +99,9 @@ class AbstractSurvey(models.Model):
                              blank=True)
     description = models.TextField(verbose_name=_("Description"),
                                    blank=True)
+
+    content = models.ManyToManyField(GenericContent, blank=True)
+
     thanks = models.TextField(
         verbose_name=_("Thanks"),
         blank=True,

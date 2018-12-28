@@ -102,6 +102,9 @@ class AbstractSurvey(models.Model):
 
     content = models.ManyToManyField(GenericContent, blank=True)
 
+    # the user who creates the survey
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+
     thanks = models.TextField(
         verbose_name=_("Thanks"),
         blank=True,

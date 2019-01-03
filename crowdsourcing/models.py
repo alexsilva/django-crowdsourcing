@@ -411,13 +411,13 @@ class Question(models.Model):
     map_icons = models.TextField(
         blank=True,
         default='',
-        help_text=('Use one icon url per line. These should line up with the '
-                   'options. If the user\'s submission appears on a map, we\'ll use '
-                   'the corresponding icon on the map. This field only makes sense '
-                   'for Radio List and Select One Choice questions. Do not enter '
-                   'these map icons on a Location Field. For Google maps '
-                   'use 34px high by 20px wide .png images with a transparent '
-                   'background. You can safely modify this field on live surveys.'))
+        help_text=_('Use one icon url per line. These should line up with the '
+                    'options. If the user\'s submission appears on a map, we\'ll use '
+                    'the corresponding icon on the map. This field only makes sense '
+                    'for Radio List and Select One Choice questions. Do not enter '
+                    'these map icons on a Location Field. For Google maps '
+                    'use 34px high by 20px wide .png images with a transparent '
+                    'background. You can safely modify this field on live surveys.'))
     answer_is_public = models.BooleanField(verbose_name=_("Answer is public"), default=True)
     use_as_filter = models.BooleanField(verbose_name=_("Use as filter"), default=True)
     _aggregate_result = None

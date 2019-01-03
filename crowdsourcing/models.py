@@ -244,7 +244,8 @@ class AbstractSurvey(models.Model):
             OPTION_TYPE_CHOICES.PHOTO,
             OPTION_TYPE_CHOICES.VIDEO,
             OPTION_TYPE_CHOICES.DATE,
-            OPTION_TYPE_CHOICES.TEXT)
+            OPTION_TYPE_CHOICES.TEXT,
+            OPTION_TYPE_CHOICES.CHOICE)
         return [f for f in self.get_public_fields() if f.option_type in types]
 
     def icon_questions(self):

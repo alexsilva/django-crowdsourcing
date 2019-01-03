@@ -552,7 +552,7 @@ def _survey_report(request, slug, report, page, templates):
         fields = list(survey.get_public_fields())
     filters = get_filters(survey, request.GET)
 
-    id_field = "crowdsourcing_submission.id"
+    id_field = Submission.get_id_field()
     if not report_obj.display_individual_results:
         submissions = submissions.none()
     else:

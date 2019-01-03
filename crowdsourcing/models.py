@@ -533,9 +533,9 @@ FILTER_TYPE = ChoiceEnum("choice range distance")
 
 
 class Section(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
-    survey = models.ForeignKey('Survey', related_name='survey')
+    name = models.CharField(verbose_name=_("Name"), max_length=100)
+    description = models.TextField(verbose_name=_("Description"), blank=True)
+    survey = models.ForeignKey('Survey', verbose_name=_("Survey"), related_name='survey')
 
     def __unicode__(self):
         return self.name

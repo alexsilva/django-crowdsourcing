@@ -760,6 +760,7 @@ class AggregateResult2Axis(object):
         [new_answer_value(x_value) for x_value in x_axis.parsed_options]
 
         x_value_column = "x_axis." + x_axis.value_column
+        found_any = False
         for y_axis in y_axes:
             params = [y_axis.id, x_axis.id]
             y_axis_column = y_axis.value_column
@@ -795,7 +796,6 @@ class AggregateResult2Axis(object):
             query.append(x_value_column)
             cursor = connection.cursor()
             cursor.execute("".join(query), params)
-            found_any = False
             for x_value, y_value in cursor.fetchall():
                 found_any = True
                 if isinstance(y_value, Decimal):
@@ -814,20 +814,17 @@ class AggregateResult2Axis(object):
 
 class AggregateResultSum(AggregateResult2Axis):
     def __init__(self, y_axes, x_axis, request_data, report=None):
-        sup = super(AggregateResultSum, self)
-        sup.__init__(y_axes, x_axis, request_data, "SUM", report)
+        super(AggregateResultSum, self).__init__(y_axes, x_axis, request_data, "SUM", report)
 
 
 class AggregateResultAverage(AggregateResult2Axis):
     def __init__(self, y_axes, x_axis, request_data, report=None):
-        sup = super(AggregateResultAverage, self)
-        sup.__init__(y_axes, x_axis, request_data, "AVG", report)
+        super(AggregateResultAverage, self).__init__(y_axes, x_axis, request_data, "AVG", report)
 
 
 class AggregateResult2AxisCount(AggregateResult2Axis):
     def __init__(self, y_axes, x_axis, request_data, report=None):
-        sup = super(AggregateResult2AxisCount, self)
-        sup.__init__(y_axes, x_axis, request_data, "COUNT", report)
+        super(AggregateResult2AxisCount, self).__init__(y_axes, x_axis, request_data, "COUNT", report)
 
 
 BALLOT_STUFFING_FIELDS = ('ip_address', 'session_key',)

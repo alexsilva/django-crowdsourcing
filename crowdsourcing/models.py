@@ -854,6 +854,11 @@ class Submission(models.Model):
         verbose_name_plural = _("Submissions")
         ordering = ('-submitted_at',)
 
+    @classmethod
+    def get_id_field(cls):
+        opts = cls._meta
+        return "{0.db_table}.{1.name}".format(opts, opts.get_field("id"))
+
     def to_jsondata(self, answer_lookup=None, include_private_questions=False):
         def to_json(v):
             if isinstance(v, ImageFieldFile):

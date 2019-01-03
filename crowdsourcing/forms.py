@@ -64,8 +64,8 @@ class BaseAnswerForm(Form):
         return answer
 
     def as_template(self):
-        "Helper function for fieldsting fields data from form."
-        bound_fields = [BoundField(self, field, name) \
+        """Helper function for fieldsting fields data from form """
+        bound_fields = [BoundField(self, field, name)
                         for name, field in self.fields.items()]
         c = Context(dict(form=self, bound_fields=bound_fields))
         t = loader.get_template('forms/form.html')

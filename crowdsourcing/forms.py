@@ -34,6 +34,9 @@ from .fields import RankedChoiceField
 from .geo import get_latitude_and_longitude
 from .models import OPTION_TYPE_CHOICES, Answer, Submission
 from .settings import VIDEO_URL_PATTERNS
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 try:
     from .oembedutils import oembed_expand
@@ -265,7 +268,7 @@ class SubmissionForm(ModelForm):
             'featured')
 
 
-class SubmissionSurveyForm(SubmissionForm):
+class SubmissionFormFilter(django.forms.Form):
     """Form used as the filter base for submissions related to a survey content"""
     content_type = django.forms.CharField(label="content-type",
                                           widget=django.forms.HiddenInput,
@@ -274,6 +277,20 @@ class SubmissionSurveyForm(SubmissionForm):
     object_pk = django.forms.IntegerField(label="object-pk",
                                           widget=django.forms.HiddenInput,
                                           required=False)
+
+    creator = django.forms.IntegerField("creator")
+    creator.request_filter = True
+
+    @classmethod
+    def get_field_filters(cls, request_params):
+        filters = {}
+        for field_name in cls.base_fields:
+            if getattr(cls.base_fields[field_name], "request_filter", False):
+                value = request_params.pop(field_name, cls.base_fields[field_name].initial)
+                if isinstance(value, list) and len(value) == 1:
+                    value = value[0]
+                filters[field_name] = value
+        return filters
 
     def clean_content_type(self):
         content_type = self.cleaned_data.get('content_type')
@@ -300,16 +317,28 @@ class SubmissionSurveyForm(SubmissionForm):
             try:
                 model.objects.get(pk=object_pk)
             except model.DoesNotExist:
-                raise ValidationError(_("invalid pk"))
+                raise ValidationError(_("invalid object pk"))
         elif content_type_instance:
             raise ValidationError(_("broken relation"))
         return object_pk
+
+    def clean_creator(self):
+        """The user who creates the survey"""
+        creator = self.cleaned_data['creator']
+        if not creator:
+            return None
+        try:
+            creator = User.objects.get(pk=creator)
+        except User.DoesNotExist:
+            raise ValidationError(_("invalid user pk"))
+        return creator
 
     @property
     def filter_kwargs(self):
         kwargs = self.cleaned_data.copy()
         kwargs['survey__content__content_type'] = kwargs.pop('content_type')
         kwargs['survey__content__object_pk'] = kwargs.pop('object_pk')
+        kwargs['survey__creator'] = kwargs.pop('creator')
         return kwargs
 
 

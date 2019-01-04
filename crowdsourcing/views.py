@@ -19,7 +19,7 @@ from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 
 from . import settings as crowdsourcing_settings
-from .forms import forms_for_survey, SubmissionSurveyForm
+from .forms import forms_for_survey, SubmissionFormFilter
 from .jsonutils import dump, datetime_to_string
 from .models import (
     BALLOT_STUFFING_FIELDS,
@@ -301,6 +301,7 @@ def submissions(request, format, **kwargs):
                     'choices': ", ".join(FORMAT_CHOICES)
                 }
         return HttpResponse(msg)
+    get = request.GET.copy()
     is_staff = request.user.is_authenticated() and request.user.is_staff
     if is_staff:
         results = Submission.objects.all()
@@ -309,13 +310,13 @@ def submissions(request, format, **kwargs):
         # we'll check it in Python, not the database.
         results = Submission.objects.filter(is_public=True)
     if kwargs:  # content type filters
-        form = SubmissionSurveyForm(None, data=kwargs)
+        kwargs.update(SubmissionFormFilter.get_field_filters(get))
+        form = SubmissionFormFilter(data=kwargs)
         if form.is_valid():
             results = results.filter(**form.filter_kwargs)
         else:
             results = Submission.objects.none()
     results = results.select_related("survey", "user")
-    get = request.GET.copy()
     limit = int(get.pop("limit", [0])[0])
     keys = get.keys()
     basic_filters = (

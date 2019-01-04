@@ -249,6 +249,24 @@ QTYPE_FORM = {
 
 class SubmissionForm(ModelForm):
     """SubmissionForm"""
+
+    def __init__(self, survey, *args, **kwargs):
+        super(SubmissionForm, self).__init__(*args, **kwargs)
+        self.survey = survey
+
+    class Meta:
+        model = Submission
+        exclude = (
+            'survey',
+            'submitted_at',
+            'ip_address',
+            'user',
+            'is_public',
+            'featured')
+
+
+class SubmissionSurveyForm(SubmissionForm):
+    """Form used as the filter base for submissions related to a survey content"""
     content_type = django.forms.CharField(label="content-type",
                                           widget=django.forms.HiddenInput,
                                           required=False)
@@ -256,10 +274,6 @@ class SubmissionForm(ModelForm):
     object_pk = django.forms.IntegerField(label="object-pk",
                                           widget=django.forms.HiddenInput,
                                           required=False)
-
-    def __init__(self, survey, *args, **kwargs):
-        super(SubmissionForm, self).__init__(*args, **kwargs)
-        self.survey = survey
 
     def clean_content_type(self):
         content_type = self.cleaned_data.get('content_type')
@@ -291,17 +305,12 @@ class SubmissionForm(ModelForm):
             raise ValidationError(_("broken relation"))
         return object_pk
 
-    class Meta:
-        model = Submission
-        exclude = (
-            'survey',
-            'submitted_at',
-            'ip_address',
-            'content_type',
-            'object_pk',
-            'user',
-            'is_public',
-            'featured')
+    @property
+    def filter_kwargs(self):
+        kwargs = self.cleaned_data.copy()
+        kwargs['survey__content__content_type'] = kwargs.pop('content_type')
+        kwargs['survey__content__object_pk'] = kwargs.pop('object_pk')
+        return kwargs
 
 
 def forms_for_survey(survey, request='testing', submission=None):

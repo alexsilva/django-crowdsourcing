@@ -17,9 +17,10 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext as _rc
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
+from django.core import serializers
 
 from . import settings as crowdsourcing_settings
-from .forms import forms_for_survey, SubmissionFormFilter
+from .forms import forms_for_survey, SubmissionFormFilter, SurveyFormFilter
 from .jsonutils import dump, datetime_to_string
 from .models import (
     BALLOT_STUFFING_FIELDS,
@@ -196,6 +197,22 @@ def _can_show_form(request, survey):
         survey.is_open,
         authenticated or not survey.require_login,
         not _entered_no_more_allowed(request, survey)))
+
+
+def survey_search(request, **kwargs):
+    """Search for surveys by generic content"""
+    _format = kwargs.pop('format', 'json')
+    get = request.GET.copy()
+    kwargs.update(SubmissionFormFilter.get_field_filters(get))
+    form = SurveyFormFilter(data=kwargs)
+    results = Survey.objects.all()
+    if form.is_valid():
+        results = results.filter(**form.filter_kwargs)
+    else:
+        results = Submission.objects.none()
+    data = serializers.serialize(_format, results)
+    response = HttpResponse(data, content_type='application/json')
+    return response
 
 
 def survey_detail(request, slug):

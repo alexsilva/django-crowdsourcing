@@ -12,7 +12,8 @@ from .views import (allowed_actions,
                     submission,
                     submission_for_map,
                     survey_detail,
-                    survey_report)
+                    survey_report,
+                    survey_search)
 
 urlpatterns = [
     url(r'submissions/$', submissions, {"format": "json"}, name='submissions'),
@@ -44,6 +45,9 @@ urlpatterns = [
     url(r'location_question_map/(?P<question_id>\d+)/(?P<display_id>\d+)/(?P<survey_report_slug>[-a-z0-9_]*)/$',
         location_question_map,
         name="location_question_map"),
+
+    url(r'survey/(?P<content_type>.+?)/(?P<object_pk>\d+)/$', survey_search, {"format": "json"},
+        name='survey_search'),
 
     url(r'(?P<slug>[-a-z0-9_]+)/api/$', survey_detail, name="survey_detail"),
 

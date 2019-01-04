@@ -268,8 +268,7 @@ class SubmissionForm(ModelForm):
             'featured')
 
 
-class SubmissionFormFilter(django.forms.Form):
-    """Form used as the filter base for submissions related to a survey content"""
+class SurveyFormFilter(django.forms.Form):
     content_type = django.forms.CharField(label="content-type",
                                           widget=django.forms.HiddenInput,
                                           required=False)
@@ -278,18 +277,20 @@ class SubmissionFormFilter(django.forms.Form):
                                           widget=django.forms.HiddenInput,
                                           required=False)
 
-    creator = django.forms.IntegerField("creator")
-    creator.request_filter = True
+    creator = django.forms.IntegerField(label="creator", required=False)
+    is_published = django.forms.BooleanField(label='is published',
+                                             required=False,
+                                             initial=True)
+    request_filter = ('creator', 'is_published')
 
     @classmethod
-    def get_field_filters(cls, request_params):
+    def get_field_filters(cls, params):
         filters = {}
-        for field_name in cls.base_fields:
-            if getattr(cls.base_fields[field_name], "request_filter", False):
-                value = request_params.pop(field_name, cls.base_fields[field_name].initial)
-                if isinstance(value, list) and len(value) == 1:
-                    value = value[0]
-                filters[field_name] = value
+        for field_name in cls.request_filter:
+            value = params.pop(field_name, cls.base_fields[field_name].initial)
+            if isinstance(value, list) and len(value) == 1:
+                value = value[0]
+            filters[field_name] = value
         return filters
 
     def clean_content_type(self):
@@ -336,10 +337,26 @@ class SubmissionFormFilter(django.forms.Form):
     @property
     def filter_kwargs(self):
         kwargs = self.cleaned_data.copy()
-        kwargs['survey__content__content_type'] = kwargs.pop('content_type')
-        kwargs['survey__content__object_pk'] = kwargs.pop('object_pk')
-        kwargs['survey__creator'] = kwargs.pop('creator')
+        related_prefix = 'content__'
+        kwargs[related_prefix + 'content_type'] = kwargs.pop('content_type')
+        kwargs[related_prefix + 'object_pk'] = kwargs.pop('object_pk')
         return kwargs
+
+
+class SubmissionFormFilter(SurveyFormFilter):
+    """Form used as the filter base for submissions related to a survey content"""
+
+    @property
+    def filter_kwargs(self):
+        kwargs = self.cleaned_data.copy()
+        related_prefix = 'survey__'
+        filter_kwargs = {
+            related_prefix + 'content__content_type': kwargs.pop('content_type'),
+            related_prefix + 'content__object_pk': kwargs.pop('object_pk')
+        }
+        for field_name in kwargs:
+            filter_kwargs[related_prefix + field_name] = kwargs.get(field_name)
+        return filter_kwargs
 
 
 def forms_for_survey(survey, request='testing', submission=None):

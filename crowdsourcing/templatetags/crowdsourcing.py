@@ -9,6 +9,7 @@ from django.core.files.images import get_image_dimensions
 from django.core.urlresolvers import reverse
 from django.utils.html import escape, strip_tags
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 try:
     from sorl.thumbnail.base import ThumbnailException
@@ -671,10 +672,10 @@ def issue(message):
 register.simple_tag(issue)
 
 
-def thanks_for_entering(request, forms, survey):
+def thanks_for_entering(request, forms, survey, tag='p'):
     if "POST" == request.method and all([f.is_valid() for f in forms]):
-        message = survey.thanks or "Thanks for entering!"
-        return mark_safe("<p>%s</p>" % message)
+        message = survey.thanks or _("Thanks for entering!")
+        return mark_safe(u"<{0}>{1}</{0}>".format(tag, message))
     return ""
 
 

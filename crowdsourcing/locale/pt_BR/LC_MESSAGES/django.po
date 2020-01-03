@@ -696,7 +696,7 @@ msgstr "Exibição de relatórios"
 
 #: templatetags/crowdsourcing.py:677
 msgid "Thanks for entering!"
-msgstr ""
+msgstr "Obrigado por participar!"
 
 #: venv/lib/python3.8/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"

@@ -1,17 +1,17 @@
 from __future__ import absolute_import
 
 import re
-
 from django.contrib import admin
 from django.forms import ModelForm, ValidationError
 from django.forms.widgets import Select
 from django.utils.translation import ugettext_lazy as _
 
-from .models import (Question, Survey, Answer, Section, Submission,
-                     SurveyReport, SurveyReportDisplay, OPTION_TYPE_CHOICES,
-                     SURVEY_DISPLAY_TYPE_CHOICES,
-                     SURVEY_AGGREGATE_TYPE_CHOICES)
-
+from crowdsourcing.models import (
+    Question, Survey, Answer, Section, Submission,
+    SurveyReport, SurveyReportDisplay, OPTION_TYPE_CHOICES,
+    SURVEY_DISPLAY_TYPE_CHOICES,
+    SURVEY_AGGREGATE_TYPE_CHOICES
+)
 
 
 class QuestionForm(ModelForm):

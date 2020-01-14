@@ -2,18 +2,20 @@ from __future__ import absolute_import
 
 from django.conf.urls import url
 
-from .views import (allowed_actions,
-                    embeded_survey_questions,
-                    embeded_survey_report,
-                    location_question_results,
-                    location_question_map,
-                    questions,
-                    submissions,
-                    submission,
-                    submission_for_map,
-                    survey_detail,
-                    survey_report,
-                    survey_search)
+from crowdsourcing.views import (
+    allowed_actions,
+    embeded_survey_questions,
+    embeded_survey_report,
+    location_question_results,
+    location_question_map,
+    questions,
+    submissions,
+    submission,
+    submission_for_map,
+    survey_detail,
+    survey_report,
+    survey_search
+)
 
 urlpatterns = [
     url(r'submissions/$', submissions, {"format": "json"}, name='submissions'),
@@ -33,8 +35,7 @@ urlpatterns = [
         location_question_results,
         kwargs={"survey_report_slug": ""}),
 
-    url(
-        r'location_question_results/(?P<question_id>\d+)/(?P<limit_map_answers>\d*)/(?P<survey_report_slug>[-a-z0-9_]*)/$',
+    url(r'location_question_results/(?P<question_id>\d+)/(?P<limit_map_answers>\d*)/(?P<survey_report_slug>[-a-z0-9_]*)/$',
         location_question_results,
         name="location_question_results"),
 

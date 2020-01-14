@@ -19,10 +19,10 @@ from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 from django.core import serializers
 
-from . import settings as crowdsourcing_settings
-from .forms import forms_for_survey, SubmissionFormFilter, SurveyFormFilter
-from .jsonutils import dump, datetime_to_string
-from .models import (
+import crowdsourcing.settings as crowdsourcing_settings
+from crowdsourcing.forms import forms_for_survey, SubmissionFormFilter, SurveyFormFilter
+from crowdsourcing.jsonutils import dump, datetime_to_string
+from crowdsourcing.models import (
     BALLOT_STUFFING_FIELDS,
     FORMAT_CHOICES,
     OPTION_TYPE_CHOICES,
@@ -35,7 +35,7 @@ from .models import (
     extra_from_filters,
     get_all_answers,
     get_filters)
-from .util import get_function
+from crowdsourcing.util import get_function
 
 admin_app_name = crowdsourcing_settings.CROWDSOURCING_ADMIN_APP_NAME
 

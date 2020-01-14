@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
-from .settings import CROWDSOURCING_APP_NAME
+from crowdsourcing.settings import CROWDSOURCING_APP_NAME
 
 
 class CrowdsourcingAppConfig(AppConfig):

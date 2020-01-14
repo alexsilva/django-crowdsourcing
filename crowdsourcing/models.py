@@ -26,10 +26,10 @@ from django.db.models.fields.files import ImageFieldFile
 from decimal import Decimal
 from django.utils.translation import gettext as _
 
-from .fields import ImageWithThumbnailsField
-from .geo import get_latitude_and_longitude
-from .util import ChoiceEnum
-from . import settings as local_settings
+from crowdsourcing.fields import ImageWithThumbnailsField
+from crowdsourcing.geo import get_latitude_and_longitude
+from crowdsourcing.util import ChoiceEnum
+import crowdsourcing.settings as local_settings
 
 # autoslug support
 try:

@@ -1,12 +1,12 @@
 from __future__ import absolute_import
 
 import copy
-
 from django.db.models.fields.files import ImageFieldFile
 from django.forms import MultiValueField
 from django.forms.fields import ChoiceField
 
-from .widgets import RankedChoiceWidget
+from crowdsourcing.widgets import RankedChoiceWidget
+
 try:
     from sorl.thumbnail.fields import ImageField
 except ImportError:

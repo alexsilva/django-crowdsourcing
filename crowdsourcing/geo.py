@@ -5,10 +5,9 @@ import sys
 try:
     import geopy
 except ImportError:
-    logging.warn('no geocoding support available')
     geopy = None
 
-from . import settings as local_settings
+import crowdsourcing.settings as local_settings
 
 
 def get_latitude_and_longitude(location):

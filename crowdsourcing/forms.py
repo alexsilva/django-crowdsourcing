@@ -39,7 +39,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 try:
-    from .oembedutils import oembed_expand
+    from crowdsourcing.oembedutils import oembed_expand
 except ImportError:
     oembed_expand = None
 

@@ -1,4 +1,5 @@
 from django import forms
+from django.template.loader import render_to_string
 
 
 class RankedChoiceWidget(forms.MultiWidget):
@@ -22,12 +23,8 @@ class RankedChoiceWidget(forms.MultiWidget):
         return [None, None, None]
 
     def format_output(self, rendered_widgets):
-        markup = """<p class="ranked">
-                    <label><span>1<sup>st</sup></span></label> %s
-                    <label><span>2<sup>nd</sup></span></label> %s
-                    <label><span>3<sup>rd</sup></span></label> %s
-                    </p>
-                    """ % (rendered_widgets[0],
-                           rendered_widgets[1],
-                           rendered_widgets[2],)
+        markup = render_to_string(
+            'crowdsourcing/forms/widgets/ranked_choice.html',
+            context={'rendered_widgets': rendered_widgets}
+        )
         return markup

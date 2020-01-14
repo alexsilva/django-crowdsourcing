@@ -39,13 +39,11 @@ else:
     try:
         from crowdsourcing.oembedutils import oembed_expand
     except ImportError as ex:
-        message = 'oembed not installed. Will just display links to videos. %s'
-        logging.warn(message % str(ex))
         oembed_expand = None
 
-""" We originally developed for Mako templates, but we also want to support
-Django templates. We use simple tags which work both as tags and as functions
-returning safe strings. """
+# We originally developed for Mako templates, but we also want to support
+# Django templates. We use simple tags which work both as tags and as functions
+# returning safe strings. """
 
 register = template.Library()
 

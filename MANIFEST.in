@@ -2,5 +2,6 @@ include README
 include CHANGES
 include crowdsourcing_requirements.txt
 recursive-include crowdsourcing/locale *
+recursive-include crowdsourcing/templates *
 recursive-include docs *
 prune docs/_build

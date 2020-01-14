@@ -193,7 +193,7 @@ class BaseOptionAnswer(BaseAnswerForm):
     def clean_answer(self):
         key = self.cleaned_data['answer']
         if not key and self.fields['answer'].required:
-            raise ValidationError, _('This field is required.')
+            raise ValidationError(_('This field is required.'))
         if not isinstance(key, (list, tuple)):
             key = (key,)
         return key

@@ -11,11 +11,6 @@ import oembed
 
 config = [
     {
-        "regex": "http://(?:www\\.)?flickr\\.com/photos/\\S+?/(?:sets/)?\\d+/?",
-        "endpoint": "http://www.flickr.com/services/oembed/",
-        "name": "Flickr"
-    },
-    {
         "regex": "http://\\S*?viddler.com/\\S*",
         "endpoint": "http://lab.viddler.com/services/oembed/",
         "name": "Viddler"

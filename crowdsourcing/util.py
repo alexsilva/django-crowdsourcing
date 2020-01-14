@@ -1,17 +1,11 @@
 import itertools
 import re
+from django.utils.module_loading import import_string
 
 
 def get_function(path):
-    """ This used to use import_module, but certain Django-isms such as object
-    models appeared to not be available with that approach. """
-    parts = path.split(".")
-    to_exec = "from %s import %s as got" % (".".join(parts[:-1]), parts[-1])
-    try:
-        exec (to_exec)
-    except ImportError, error:
-        raise ImportError(error.msg, to_exec)
-    return got
+    """ Import a function by fqn """
+    return import_string(path)
 
 
 class ChoiceEnum(object):

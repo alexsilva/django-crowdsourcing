@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-import httplib
+import http.client
 import logging
 import smtplib
 from datetime import datetime
@@ -83,7 +83,7 @@ def _survey_submit(request, survey):
         return HttpResponseRedirect(_login_url(request))
     if not hasattr(request, 'session'):
         return HttpResponse(_("Cookies must be enabled to use this application."),
-                            status=httplib.FORBIDDEN)
+                            status=http.client.FORBIDDEN)
     if _entered_no_more_allowed(request, survey):
         slug_template = 'crowdsourcing/%s_already_submitted.html' % survey.slug
         return render_to_response([slug_template,
@@ -654,7 +654,7 @@ def paginate_or_404(queryset, page, num_per_page=20):
     paginator = Paginator(queryset, num_per_page)
     try:
         page_obj = paginator.page(page)
-    except EmptyPage, InvalidPage:
+    except (EmptyPage, InvalidPage) as exec:
         raise Http404
     return paginator, page_obj
 

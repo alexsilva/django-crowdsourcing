@@ -452,7 +452,7 @@ def simple_slideshow(display, question, request_GET, css):
             image = answer.image_answer.thumbnail_tag
         except ThumbnailException as err:
             image = "Can't find %s" % answer.image_answer.url
-            print err
+            print(err)
         out.extend([
             '<li>',
             image,
@@ -519,7 +519,7 @@ def submission_fields(submission,
                 except ThumbnailException as err:
                     valid = False
                     out.append('<div class="error">%s</div>' % str(ex))
-                    print err
+                    print(err)
                 thumb_width = answer.image_answer.extra_thumbnails['default']["size"][0]
                 # This extra hidden input is in case you want to enlarge
                 # images. Don't bother enlarging images unless we'll increase

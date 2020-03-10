@@ -361,7 +361,7 @@ class Question(models.Model):
                              help_text=_("Appears on the results page."))
     help_text = models.TextField(verbose_name=_("Help text"), blank=True)
     section = models.ForeignKey('Section',
-                                verbose_name=lazy(lambda: Section._meta.verbose_name, unicode)(),
+                                verbose_name=lazy(lambda: Section._meta.verbose_name, str)(),
                                 blank=True, null=True,
                                 related_name="question_section")
     required = models.BooleanField(

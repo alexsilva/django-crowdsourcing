@@ -10,13 +10,13 @@ def get_function(path):
 
 class ChoiceEnum(object):
     def __init__(self, choices):
-        if isinstance(choices, basestring):
+        if isinstance(choices, str):
             choices = choices.split()
         if all([isinstance(choices, (list, tuple)),
                 all(isinstance(x, tuple) and len(x) == 2 for x in choices)]):
             values = choices
         else:
-            values = zip(itertools.count(1), choices)
+            values = list(zip(itertools.count(1), choices))
         for v, n in values:
             name = re.sub('[- ]', '_', n.upper())
             setattr(self, name, v)

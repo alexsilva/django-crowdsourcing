@@ -1,4 +1,4 @@
-import cStringIO
+import io
 import logging
 import sys
 
@@ -20,7 +20,7 @@ def get_latitude_and_longitude(location):
         g = geopy.geocoders.GeoNames(output_format='json')
     oldstdout = sys.stdout
     try:
-        sys.stdout = cStringIO.StringIO()
+        sys.stdout = io.StringIO()
         try:
             some = list(g.geocode(location, exactly_one=False))
             if some:

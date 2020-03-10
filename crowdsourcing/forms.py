@@ -140,7 +140,7 @@ class VideoAnswer(BaseAnswerForm):
                 if oembed_expand(value):
                     return value
                 else:
-                    print "Couldn't expand %s" % value
+                    print("Couldn't expand {0}").format(value)
             else:
                 matches = [re.match(v, value) for v in VIDEO_URL_PATTERNS]
                 first_match = reduce(lambda x, y: x or y, matches)

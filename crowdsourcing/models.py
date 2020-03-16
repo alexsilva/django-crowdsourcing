@@ -25,6 +25,7 @@ from django.db.models import Count
 from django.db.models.fields.files import ImageFieldFile
 from decimal import Decimal
 from django.utils.translation import gettext as _
+from django.utils.safestring import mark_safe
 
 from crowdsourcing.fields import ImageWithThumbnailsField
 from crowdsourcing.geo import get_latitude_and_longitude
@@ -170,6 +171,9 @@ class AbstractSurvey(models.Model):
         help_text=_("Whenever we automatically generate a link to the results "
                     "of this survey we'll use this report. If it's left blank, "
                     "we'll use the default report behavior."))
+
+    def __str__(self):
+        return self.title
 
     def to_jsondata(self):
         kwargs = {'slug': self.slug}
@@ -406,6 +410,9 @@ class Question(models.Model):
     answer_is_public = models.BooleanField(verbose_name=_("Answer is public"), default=True)
     use_as_filter = models.BooleanField(verbose_name=_("Use as filter"), default=True)
     _aggregate_result = None
+
+    def __str__(self):
+        return mark_safe(self.question)
 
     @property
     def is_filterable(self):

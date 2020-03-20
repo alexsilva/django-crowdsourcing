@@ -8,8 +8,9 @@ FORMATS = {datetime: "%Y-%m-%dT%H:%M:%S",
 
 def dump(obj, fp, **kw):
     kw.setdefault('cls', Encoder)
-    for options in obj['questions']:
-        options['options'] = list(options['options'])
+    if 'questions' in obj:
+        for options in obj['questions']:
+            options['options'] = list(options['options'])
     return json.dump(obj, fp, **kw)
 
 

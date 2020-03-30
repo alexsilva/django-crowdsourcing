@@ -2,8 +2,6 @@
 run these tests with nose.
 """
 
-from __future__ import absolute_import
-
 import unittest
 
 from .models import Survey
@@ -35,7 +33,7 @@ class SurveyTestCase(unittest.TestCase):
         self.survey.delete()
 
     def testLive1(self):
-        self.assertEquals(self.survey,
+        self.assertEqual(self.survey,
                           Survey.live.get(slug=self.survey.slug))
 
     def testLive2(self):
@@ -60,8 +58,8 @@ class SubmissionTestCase(SurveyTestCase):
             question=self.survey.questions.all()[0])
         answer.value = 'chartreuse'
         answer.save()
-        self.assertEquals(answer.text_answer, 'chartreuse')
-        self.assertEquals(self.submission.color, 'chartreuse')
+        self.assertEqual(answer.text_answer, 'chartreuse')
+        self.assertEqual(self.submission.color, 'chartreuse')
 
     def testAnswer2(self):
         q = self.survey.questions.get(fieldname='video')
@@ -70,8 +68,8 @@ class SubmissionTestCase(SurveyTestCase):
         vid = 'http://www.youtube.com/watch?v=lHVahvnK3Uk'
         answer.value = vid
         answer.save()
-        self.assertEquals(answer.text_answer, vid)
-        self.assertEquals(self.submission.video, vid)
+        self.assertEqual(answer.text_answer, vid)
+        self.assertEqual(self.submission.video, vid)
 
     def testAnswer3(self):
         q = self.survey.questions.get(fieldname='email')
@@ -80,5 +78,5 @@ class SubmissionTestCase(SurveyTestCase):
         e = 'grappelli@fudgesickle.com'
         answer.value = e
         answer.save()
-        self.assertEquals(answer.text_answer, e)
-        self.assertEquals(self.submission.email, e)
+        self.assertEqual(answer.text_answer, e)
+        self.assertEqual(self.submission.email, e)

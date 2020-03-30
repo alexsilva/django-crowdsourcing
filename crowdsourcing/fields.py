@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import copy
 from django.db.models.fields.files import ImageFieldFile
 from django.forms import MultiValueField

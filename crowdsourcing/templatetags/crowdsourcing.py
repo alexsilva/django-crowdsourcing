@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import logging
 
 from django import template
@@ -97,11 +95,11 @@ def select_filter(wrapper_format, key, label, value, choices, blank=True):
             option_value, display = choice[0], choice[1]
         option_value, display = strip_tags(str(option_value)), strip_tags(str(display))
         html.append('<option value="%s"' % option_value)
-        if value == u"%s" % option_value:
+        if value == "%s" % option_value:
             html.append('selected="selected"')
         html.append('>%s</option>' % display)
     html.append('</select>')
-    return filter(wrapper_format, key, label, "\n".join(html))
+    return list(filter(wrapper_format, key, label, "\n".join(html)))
 
 
 register.simple_tag(select_filter)
@@ -117,7 +115,7 @@ def range_filter(wrapper_format, key, label, from_value, to_value):
         '<input type="text" id="%s_to"' % key,
         'name="%s_to" value="%s" />' % (key, escape(to_value)),
         '</span>']
-    return filter(wrapper_format, key, label, "\n".join(html))
+    return list(filter(wrapper_format, key, label, "\n".join(html)))
 
 
 register.simple_tag(range_filter)
@@ -133,7 +131,7 @@ def distance_filter(wrapper_format, key, label, within_value, location_value):
         '<input type="text" id="%s_location"' % key,
         'name="%s_location" value="%s" />' % (key, escape(location_value)),
         '</span>']
-    return filter(wrapper_format, key, label, "\n".join(html))
+    return list(filter(wrapper_format, key, label, "\n".join(html)))
 
 
 register.simple_tag(distance_filter)
@@ -658,7 +656,7 @@ register.simple_tag(map_key)
 
 
 def number_to_javascript(number):
-    if isinstance(number, (int, float,)):
+    if isinstance(number, (int, float)):
         return str(number)
     return "null"
 
@@ -673,7 +671,7 @@ register.simple_tag(issue)
 def thanks_for_entering(request, forms, survey, tag='p'):
     if "POST" == request.method and all([f.is_valid() for f in forms]):
         message = survey.thanks or _("Thanks for entering!")
-        return mark_safe(u"<{0}>{1}</{0}>".format(tag, message))
+        return mark_safe("<{0}>{1}</{0}>".format(tag, message))
     return ""
 
 

@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import http.client
 import logging
 import smtplib
@@ -335,7 +333,7 @@ def submissions(request, format, **kwargs):
             results = Submission.objects.none()
     results = results.select_related("survey", "user")
     limit = int(get.pop("limit", [0])[0])
-    keys = get.keys()
+    keys = list(get.keys())
     basic_filters = (
         'survey',
         'user',
@@ -402,7 +400,7 @@ def submissions(request, format, **kwargs):
                 "rare. If that's what you're trying to do I'm afraid you'll "
                 "have to do something more complicated like iterating through "
                 "all your surveys.")
-            item = get.items()[0]
+            item = next(get.items())
             message = message % (", ".join(basic_filters), item[0], item[1])
             return HttpResponse(message)
     if not is_staff:
@@ -443,7 +441,7 @@ def submissions(request, format, **kwargs):
         for data in result_data:
             row = []
             for k in keys:
-                row.append((u"%s" % _encode(data.get(k, ""))).encode("utf-8"))
+                row.append("%s" % _encode(data.get(k, ""))).encode("utf-8")
             writer.writerow(row)
     elif format == 'xml':
         doc = Document()
@@ -456,7 +454,7 @@ def submissions(request, format, **kwargs):
                 if value:
                     cell = doc.createElement(key)
                     submission.appendChild(cell)
-                    cell.appendChild(doc.createTextNode(u"%s" % value))
+                    cell.appendChild(doc.createTextNode("%s" % value))
         response = HttpResponse(doc.toxml(), content_type='text/xml')
     elif format == 'html':  # mostly for debugging.
         keys = get_keys()
@@ -518,7 +516,7 @@ def _default_report(survey):
             display_type=type,
             fieldnames=field.fieldname,
             annotation=field.label,
-            order=field_count.next()))
+            order=next(field_count)))
     report.survey_report_displays = displays
     return report
 
@@ -704,8 +702,7 @@ def location_question_results(
         request.GET)
     limit_map_answers = int(limit_map_answers) if limit_map_answers else 0
     if limit_map_answers or limit_results_to:
-        answers = answers[:min(filter(None, [limit_map_answers,
-                                             limit_results_to, ]))]
+        answers = answers[:min([v for v in [limit_map_answers, limit_results_to, ] if v])]
     entries = []
     view = "crowdsourcing.views.submission_for_map"
     for answer in answers:

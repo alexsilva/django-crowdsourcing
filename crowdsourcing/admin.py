@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import re
 from django.contrib import admin
 from django.forms import ModelForm, ValidationError
@@ -25,7 +23,7 @@ class QuestionForm(ModelForm):
         option_type = self.cleaned_data.get('option_type', "")
         numeric_list = option_type in (OTC.NUMERIC_SELECT, OTC.NUMERIC_CHOICE,)
         if numeric_list:
-            for option in filter(None, (s.strip() for s in opts.splitlines())):
+            for option in [v for v in (s.strip() for s in opts.splitlines()) if v]:
                 try:
                     float(option)
                 except ValueError:

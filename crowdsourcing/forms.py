@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import re
 
 import django.forms
@@ -35,6 +33,8 @@ from .geo import get_latitude_and_longitude
 from .models import OPTION_TYPE_CHOICES, Answer, Submission
 from .settings import VIDEO_URL_PATTERNS
 from django.contrib.auth import get_user_model
+from functools import reduce
+
 
 User = get_user_model()
 
@@ -140,7 +140,7 @@ class VideoAnswer(BaseAnswerForm):
                 if oembed_expand(value):
                     return value
                 else:
-                    print("Couldn't expand {0}").format(value)
+                    print("Couldn't expand {0}".format(value))
             else:
                 matches = [re.match(v, value) for v in VIDEO_URL_PATTERNS]
                 first_match = reduce(lambda x, y: x or y, matches)

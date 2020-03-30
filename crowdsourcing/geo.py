@@ -24,12 +24,12 @@ def get_latitude_and_longitude(location):
         try:
             some = list(g.geocode(location, exactly_one=False))
             if some:
-                place, (lat, long) = some[0]
+                place, (lat, int) = some[0]
             else:
-                lat = long = None
+                lat = int = None
         except Exception as ex:
             logging.exception("error in geocoding: %s" % str(ex))
-            lat = long = None
+            lat = int = None
     finally:
         sys.stdout = oldstdout
-    return lat, long
+    return lat, int

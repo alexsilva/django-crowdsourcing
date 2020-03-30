@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import logging
 import re
 from math import sin, cos
@@ -74,8 +72,8 @@ class GenericContent(models.Model):
     object_pk = models.TextField(_('object ID'))
     object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
 
-    def __unicode__(self):
-        return unicode(self.object)
+    def __str__(self):
+        return str(self.object)
 
     class Meta:
         verbose_name = _("Content")
@@ -280,7 +278,7 @@ class AbstractSurvey(models.Model):
                                      answer_is_public=True,
                                      option_type__in=FILTERABLE_OPTION_TYPES)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     @models.permalink
@@ -466,11 +464,11 @@ class Question(models.Model):
     def parsed_options(self):
         if OPTION_TYPE_CHOICES.BOOL == self.option_type:
             return [True, False]
-        return filter(None, (s.strip() for s in self.options.splitlines()))
+        return [v for v in (s.strip() for s in self.options.splitlines()) if v]
 
     @property
     def parsed_map_icons(self):
-        return filter(None, (s.strip() for s in self.map_icons.splitlines()))
+        return [v for v in (s.strip() for s in self.map_icons.splitlines()) if v]
 
     def parsed_option_icon_pairs(self):
         options = self.parsed_options
@@ -709,7 +707,7 @@ class AggregateResultCount(object):
                 self.answer_set = self.answer_set.filter(
                     submission__featured=True)
         for answer in self.answer_set:
-            text = fill(u"%s" % answer[field.value_column], 30)
+            text = fill("%s" % answer[field.value_column], 30)
             if answer["count"]:
                 self.answer_value_lookup[text] = {
                     field.fieldname: text,
@@ -888,7 +886,7 @@ class Submission(models.Model):
             return d
 
     def items(self):
-        return self.get_answer_dict().items()
+        return list(self.get_answer_dict().items())
 
     def get_absolute_url(self):
         view = 'crowdsourcing.views.submission'
@@ -898,8 +896,8 @@ class Submission(models.Model):
     def email(self):
         return self.get_answer_dict().get('email', '')
 
-    def __unicode__(self):
-        return u"%s Submission" % self.survey.title
+    def __str__(self):
+        return "%s Submission" % self.survey.title
 
 
 class Answer(models.Model):
@@ -955,8 +953,8 @@ class Answer(models.Model):
         verbose_name_plural = _("Answers")
         ordering = ('question',)
 
-    def __unicode__(self):
-        return unicode(self.question)
+    def __str__(self):
+        return str(self.question)
 
 
 class SurveyReport(models.Model):

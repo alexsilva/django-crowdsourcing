@@ -6,12 +6,12 @@ readme_file = os.path.join(os.path.dirname(__file__), 'README')
 long_description = open(readme_file).read()
 
 classifiers = [
-    'Development Status :: 4 - Beta',
+    'Development Status :: 5 - Beta',
     'Framework :: Django',
     'License :: OSI Approved :: MIT License']
 
 setup(name='django-crowdsourcing',
-      version='1.2.0',
+      version='2.0.0',
       include_package_data=True,
       classifiers=classifiers,
       description='Django app for collecting and displaying surveys.',

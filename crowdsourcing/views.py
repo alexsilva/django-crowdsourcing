@@ -9,7 +9,7 @@ from xml.dom.minidom import Document
 
 import unicodecsv as csv
 from django.core.mail import EmailMultiAlternatives
-from django.core.paginator import Paginator, EmptyPage
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -654,7 +654,7 @@ def paginate_or_404(queryset, page, num_per_page=20):
     paginator = Paginator(queryset, num_per_page)
     try:
         page_obj = paginator.page(page)
-    except (EmptyPage, InvalidPage) as exec:
+    except (EmptyPage, InvalidPage) as exc:
         raise Http404
     return paginator, page_obj
 

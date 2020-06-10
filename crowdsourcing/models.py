@@ -44,9 +44,9 @@ except ImportError:
     PositionField = None
 
 
-ARCHIVE_POLICY_CHOICES = ChoiceEnum((_('immediate'),
-                                     _('post-close'),
-                                     _('never')))
+ARCHIVE_POLICY_CHOICES = ChoiceEnum(('immediate',
+                                     'post-close',
+                                     'never'))
 
 
 class LiveSurveyManager(models.Manager):

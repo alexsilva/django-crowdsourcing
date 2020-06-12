@@ -43,10 +43,18 @@ except ImportError:
                  'Will just use integers for position fields.')
     PositionField = None
 
-
-ARCHIVE_POLICY_CHOICES = ChoiceEnum(('immediate',
-                                     'post-close',
-                                     'never'))
+ARCHIVE_POLICY_CHOICES = ChoiceEnum(
+        (
+            'immediate',
+            'post-close',
+            'never'
+        ),
+        translated_choices={
+            'immediate': _('immediate'),
+            'post_close': _('post-close'),
+            'never': _('never')
+        }
+    )
 
 
 class LiveSurveyManager(models.Manager):
@@ -262,8 +270,8 @@ class AbstractSurvey(models.Model):
 
     def can_have_public_submissions(self):
         return self.archive_policy != ARCHIVE_POLICY_CHOICES.NEVER and (
-            self.archive_policy == ARCHIVE_POLICY_CHOICES.IMMEDIATE or
-            not self.is_open)
+                self.archive_policy == ARCHIVE_POLICY_CHOICES.IMMEDIATE or
+                not self.is_open)
 
     def public_submissions(self):
         if not self.can_have_public_submissions():

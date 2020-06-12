@@ -9,7 +9,7 @@ def get_function(path):
 
 
 class ChoiceEnum(object):
-    def __init__(self, choices):
+    def __init__(self, choices, translated_choices={}):
         if isinstance(choices, str):
             choices = choices.split()
         if all([isinstance(choices, (list, tuple)),
@@ -23,12 +23,16 @@ class ChoiceEnum(object):
             if isinstance(v, str):
                 setattr(self, v.upper(), v)
         self._choices = values
+        self._translated_choices = translated_choices
 
     def __getitem__(self, idx):
-        return self._choices[idx]
+        if self._choices[idx]:
+            return self._choices[idx][0], self._translated_choices.get(self._choices[idx][1], self._choices[idx][1])
 
     def getdisplay(self, key):
-        return [v[1] for v in self._choices if v[0] == key][0]
+        for v in self._choices:
+            if v[0] == key:
+                return self._translated_choices.get(key, v[1])
 
     def deconstruct(self):
         """migration serializer"""

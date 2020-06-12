@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-10 12:16-0300\n"
+"POT-Creation-Date: 2020-06-12 10:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,77 +108,77 @@ msgstr "pk inválida"
 msgid "invalid user pk"
 msgstr "pk inválida"
 
-#: models.py:47
+#: models.py:53
 msgid "immediate"
 msgstr "sempre mostrar"
 
-#: models.py:48
+#: models.py:54
 msgid "post-close"
 msgstr "mostrar apos término"
 
-#: models.py:49
+#: models.py:55
 msgid "never"
 msgstr "nunca mostrar"
 
-#: models.py:69
+#: models.py:77
 msgid "content type"
 msgstr "Tipo de conteúdo"
 
-#: models.py:72
+#: models.py:80
 msgid "object ID"
 msgstr "ID do objeto"
 
-#: models.py:79
+#: models.py:87
 #, fuzzy
 #| msgid "content type"
 msgid "Content"
 msgstr "Tipo de conteúdo"
 
-#: models.py:85 models.py:969
+#: models.py:93 models.py:977
 msgid "Title"
 msgstr "Título"
 
-#: models.py:87 models.py:975
+#: models.py:95 models.py:983
 msgid "Slug"
 msgstr "Apelido"
 
-#: models.py:91
+#: models.py:99
 msgid "Tease"
 msgstr "Provocação"
 
-#: models.py:92
+#: models.py:100
 msgid "User encouraging message."
 msgstr "Mensagem de insentivo ao usuário."
 
-#: models.py:94 models.py:527
+#: models.py:102 models.py:535
 msgid "Description"
 msgstr "Descrição"
 
-#: models.py:101
+#: models.py:109
 msgid "Creator"
 msgstr ""
 
-#: models.py:105
+#: models.py:113
 msgid "Thanks"
 msgstr "Agradecimento"
 
-#: models.py:107
+#: models.py:115
 msgid "When a user submits the survey, display this message."
 msgstr "Quando um usuário enviar uma submissão, exiba esta mensagem."
 
-#: models.py:109
+#: models.py:117
 msgid "Require login"
 msgstr "Requer autenticação"
 
-#: models.py:112
+#: models.py:120
 msgid "Allow multiple submissions"
 msgstr "Permitir multiplas submissões"
 
-#: models.py:115
+#: models.py:123
 msgid "Moderate submissions"
 msgstr "Moderar submissões"
 
-#: models.py:117
+#: models.py:125
 msgid ""
 "If checked, all submissions will start as NOT public and you will have to "
 "manually make them public. If your survey doesn't show any results, it may "
@@ -188,27 +188,27 @@ msgstr ""
 "manualmente torná-las públicas. Se o sua enquete não mostrar quaisquer "
 "resultados, pode ser porque esta opção está marcada."
 
-#: models.py:123
+#: models.py:131
 msgid "Allow comments"
 msgstr "Permitir comentários"
 
-#: models.py:125
+#: models.py:133
 msgid "Allow comments on user submissions."
 msgstr "Permitir comentários sobre submissões de usuários."
 
-#: models.py:127
+#: models.py:135
 msgid "Allow voting"
 msgstr "Permitir voto"
 
-#: models.py:129
+#: models.py:137
 msgid "Users can vote on submissions."
 msgstr "Os usuários podem votar nas submissões"
 
-#: models.py:131
+#: models.py:139
 msgid "Archive policy"
 msgstr "Política de arquivamento"
 
-#: models.py:134
+#: models.py:142
 msgid ""
 "How to make the results public ? immediate: All results are immediately "
 "public. post-close: Results are public on or after the \"ends at\" option "
@@ -218,23 +218,23 @@ msgstr ""
 "imediatamente público. post-close: Os resultados serão público após a opção "
 "\"termina em\" mostrado abaixo. never: Os resultados nunca serão público."
 
-#: models.py:139
+#: models.py:147
 msgid "Starts at"
 msgstr "Inicia em"
 
-#: models.py:141
+#: models.py:149
 msgid "Survey date"
 msgstr "Data da enquete"
 
-#: models.py:144
+#: models.py:152
 msgid "Ends at"
 msgstr "Termina em"
 
-#: models.py:147
+#: models.py:155
 msgid "Has script"
 msgstr "Tem script"
 
-#: models.py:149
+#: models.py:157
 msgid ""
 "If enabled, template will render script tag for STATIC_URL/surveys/slug-name."
 "js"
@@ -242,15 +242,15 @@ msgstr ""
 "Se ativado, o modelo renderizará a tag do script para STATIC_URL/surveys/"
 "slug-name.js"
 
-#: models.py:151
+#: models.py:159
 msgid "Is published"
 msgstr "Está publicado"
 
-#: models.py:153
+#: models.py:161
 msgid "Email"
 msgstr "Email"
 
-#: models.py:155
+#: models.py:163
 msgid ""
 "Send a notification to these e-mail addresses whenever someone submits an "
 "entry to this survey. Comma delimited."
@@ -258,7 +258,7 @@ msgstr ""
 "Enviar uma notificação para esses endereços de e-mail sempre que alguém "
 "enviar uma entrada para esta enquete. Separar por vígula."
 
-#: models.py:169
+#: models.py:177
 msgid ""
 "Whenever we automatically generate a link to the results of this survey "
 "we'll use this report. If it's left blank, we'll use the default report "
@@ -268,90 +268,90 @@ msgstr ""
 "usaremos esse relatório. Se ele for deixado em branco, usaremos o "
 "comportamento do relatório padrão."
 
-#: models.py:306 models.py:528
+#: models.py:314 models.py:536
 msgid "Survey"
 msgstr "Enquete"
 
-#: models.py:307
+#: models.py:315
 msgid "Surveys"
 msgstr "Enquetes"
 
-#: models.py:317
+#: models.py:325
 msgid "Text Box"
 msgstr "Caixa de texto"
 
-#: models.py:318
+#: models.py:326
 msgid "Email Text Box"
 msgstr "Caixa de email"
 
-#: models.py:319
+#: models.py:327
 msgid "Date Box"
 msgstr "Caixa de data"
 
-#: models.py:320
+#: models.py:328
 msgid "Photo Upload"
 msgstr "Envio de fotos"
 
-#: models.py:321
+#: models.py:329
 msgid "Video Link Text Box"
 msgstr "Caixa de texto com link de vídeo"
 
-#: models.py:322
+#: models.py:330
 msgid "Location Text Box"
 msgstr "Caixa de texto de localização"
 
-#: models.py:323
+#: models.py:331
 msgid "Integer Text Box"
 msgstr "Caixa de texto inteiro"
 
-#: models.py:324
+#: models.py:332
 msgid "Decimal Text Box"
 msgstr "Caixa de texto decimal"
 
-#: models.py:325
+#: models.py:333
 msgid "Checkbox"
 msgstr "Caixa de marcação"
 
-#: models.py:326
+#: models.py:334
 msgid "Text Area"
 msgstr "Área de texto"
 
-#: models.py:327
+#: models.py:335
 msgid "Drop Down List"
 msgstr "Lista suspensa"
 
-#: models.py:328
+#: models.py:336
 msgid "Radio Button List"
 msgstr "Lista de botões de rádio"
 
-#: models.py:329
+#: models.py:337
 msgid "Checkbox List"
 msgstr "Lista caixa de marcação"
 
-#: models.py:330
+#: models.py:338
 msgid "Numeric Drop Down List"
 msgstr "Lista de lista suspensa numérica"
 
-#: models.py:331
+#: models.py:339
 msgid "Numeric Radio Button List"
 msgstr "Lista de botões de rádio numéricos"
 
-#: models.py:332
+#: models.py:340
 msgid "Ranked List"
 msgstr "Lista classificada"
 
-#: models.py:345
+#: models.py:353
 msgid ""
 "What order does this question appear in the survey form and in permalinks?"
 msgstr ""
 "Em que ordem essa pergunta deve aparecer nos formulários de enquete e nos "
 "permalinks ?"
 
-#: models.py:352
+#: models.py:360
 msgid "Field name"
 msgstr "Nome do campo"
 
-#: models.py:354
+#: models.py:362
 msgid ""
 "a single-word identifier used to track this value; it must begin with a "
 "letter and may contain alphanumerics and underscores (no spaces)."
@@ -359,35 +359,35 @@ msgstr ""
 "Um identificador de palavra única usada para rastrear esse valor; ele deve "
 "começar com um letra e pode conter alfanuméricos e sublinhados (sem espaços)."
 
-#: models.py:357 models.py:439
+#: models.py:365 models.py:447
 msgid "Question"
 msgstr "Questão"
 
-#: models.py:358
+#: models.py:366
 msgid "Appears on the survey entry page."
 msgstr "Aparece na página de entrada da enquete."
 
-#: models.py:359
+#: models.py:367
 msgid "Question HTML"
 msgstr "Questão HTML"
 
-#: models.py:362
+#: models.py:370
 msgid "Label"
 msgstr "Legenda"
 
-#: models.py:363
+#: models.py:371
 msgid "Appears on the results page."
 msgstr "Aparece na página de resultados."
 
-#: models.py:364
+#: models.py:372
 msgid "Help text"
 msgstr "Texto de ajuda"
 
-#: models.py:370
+#: models.py:378
 msgid "Required"
 msgstr "Obrigatório"
 
-#: models.py:372
+#: models.py:380
 msgid ""
 "Unsafe to change on live surveys. Radio button list and drop down list "
 "questions will have a blank option if they aren't required."
@@ -396,31 +396,31 @@ msgstr ""
 "rádio' e 'listas suspensas' terão uma opção em branco se não forem "
 "necessárias."
 
-#: models.py:377 models.py:381 models.py:1112 models.py:1114
+#: models.py:385 models.py:389 models.py:1120 models.py:1122
 msgid "Order"
 msgstr "Ordem"
 
-#: models.py:379
+#: models.py:387
 msgid " Use -1 to auto-assign."
 msgstr " Use -1 para atribuir automaticamente."
 
-#: models.py:383
+#: models.py:391
 msgid "Option type"
 msgstr "Tipo de opção"
 
-#: models.py:386
+#: models.py:394
 msgid "You must not change this field on a live survey."
 msgstr "Você não deve alterar esse campo em uma enquete ao vivo."
 
-#: models.py:388
+#: models.py:396
 msgid "Numeric is INT"
 msgstr "Numérico é um inteiro"
 
-#: models.py:391
+#: models.py:399
 msgid "Options"
 msgstr "Opções"
 
-#: models.py:395
+#: models.py:403
 msgid ""
 "Use one option per line. On a live survey you can modify the order of these "
 "options. You can, at your own risk, add new options, but you must not change "
@@ -430,7 +430,7 @@ msgstr ""
 "dessas opções. Você pode, por sua conta e risco, adicionar novas opções, mas "
 "você não deve alterar ou remover opções."
 
-#: models.py:401
+#: models.py:409
 msgid ""
 "Use one icon url per line. These should line up with the options. If the "
 "user's submission appears on a map, we'll use the corresponding icon on the "
@@ -440,51 +440,51 @@ msgid ""
 "can safely modify this field on live surveys."
 msgstr ""
 
-#: models.py:408
+#: models.py:416
 msgid "Answer is public"
 msgstr "Reposta é pública"
 
-#: models.py:409
+#: models.py:417
 msgid "Use as filter"
 msgstr "Use com filtro"
 
-#: models.py:440
+#: models.py:448
 msgid "Questions"
 msgstr "Questões"
 
-#: models.py:526
+#: models.py:534
 msgid "Name"
 msgstr ""
 
-#: models.py:534
+#: models.py:542
 msgid "Section"
 msgstr "Seção"
 
-#: models.py:535
+#: models.py:543
 msgid "Sections"
 msgstr "Seções"
 
-#: models.py:826
+#: models.py:834
 msgid "User"
 msgstr "Usuário"
 
-#: models.py:828
+#: models.py:836
 msgid "IP address"
 msgstr "Endereço de IP"
 
-#: models.py:829
+#: models.py:837
 msgid "Submitted at"
 msgstr "Submetido em"
 
-#: models.py:832 models.py:998
+#: models.py:840 models.py:1006
 msgid "Featured"
 msgstr "Destaque"
 
-#: models.py:836
+#: models.py:844
 msgid "Is public"
 msgstr "É público"
 
-#: models.py:838
+#: models.py:846
 msgid ""
 "Only displays public submissions. The 'Moderate submissions' checkbox of the "
 "survey determines the default value of this field."
@@ -492,23 +492,23 @@ msgstr ""
 "Somente exibe submissões públicas. A caixa de seleção 'Envio moderado' da "
 "enquete determina o valor padrão desse campo."
 
-#: models.py:843
+#: models.py:851
 msgid "Submission"
 msgstr "Submissão"
 
-#: models.py:844
+#: models.py:852
 msgid "Submissions"
 msgstr "Submissões"
 
-#: models.py:952
+#: models.py:960
 msgid "Answer"
 msgstr "Resposta"
 
-#: models.py:953
+#: models.py:961
 msgid "Answers"
 msgstr "Respostas"
 
-#: models.py:972
+#: models.py:980
 msgid ""
 "You may leave this field blank. Crowdsourcing will use the survey title as a "
 "default."
@@ -516,19 +516,19 @@ msgstr ""
 "Você pode deixar este campo em branco. Crowdsourcing usará o título da "
 "pesquisa como um padrão."
 
-#: models.py:977
+#: models.py:985
 msgid "The default is the description of the survey."
 msgstr "O padrão é a descrição da enquete."
 
-#: models.py:979
+#: models.py:987
 msgid "Summary"
 msgstr "Resumo"
 
-#: models.py:984
+#: models.py:992
 msgid "Sort by rating"
 msgstr "Ordenar por classificação"
 
-#: models.py:986
+#: models.py:994
 msgid ""
 "By default, sort descending by highest rating. Otherwise, the default sort "
 "is by date descending."
@@ -536,31 +536,31 @@ msgstr ""
 "Por padrão, ordena decrescente pela classificação mais alta. Caso contrário, "
 "a ordenção padrão é por data decrescente."
 
-#: models.py:989
+#: models.py:997
 msgid "Display the filters"
 msgstr "Exibir os filtros"
 
-#: models.py:991
+#: models.py:999
 msgid "Display the filters at the top of the report page."
 msgstr "Exibir os filtros na parte superior da página do relatório."
 
-#: models.py:993
+#: models.py:1001
 msgid "Limit results to"
 msgstr "Limite resultados para"
 
-#: models.py:996
+#: models.py:1004
 msgid "Only use the top X submissions."
 msgstr "Utilize apenas as submissões X superiores."
 
-#: models.py:1000
+#: models.py:1008
 msgid "Include only featured submissions."
 msgstr "Inclua apenas submissões em destaque."
 
-#: models.py:1002
+#: models.py:1010
 msgid "Display individual results"
 msgstr "Exiba resultados individuais"
 
-#: models.py:1004
+#: models.py:1012
 msgid ""
 "Display separate, individual results if this field is True and you have "
 "archivable questions, like those with paragraph answers."
@@ -568,23 +568,23 @@ msgstr ""
 "Exibir resultados individuais separados se este campo for 'verdadeiro' e "
 "você tiver perguntas arquiváveis, como aquelas com respostas de parágrafo."
 
-#: models.py:1035
+#: models.py:1043
 msgid "Survey report"
 msgstr "Relatório"
 
-#: models.py:1036
+#: models.py:1044
 msgid "Survey reports"
 msgstr "Relatórios"
 
-#: models.py:1059
+#: models.py:1067
 msgid "Display type"
 msgstr "Tipo de exibição"
 
-#: models.py:1062
+#: models.py:1070
 msgid "Aggregate type"
 msgstr "Tipo de agregador"
 
-#: models.py:1064
+#: models.py:1072
 msgid ""
 "We only use this field if you chose a Bar or Line Chart. How should we "
 "aggregate the y-axis? 'Average' is good for things like ratings, 'Sum' is "
@@ -594,11 +594,11 @@ msgstr ""
 "devemos agrega o eixo y ? 'average' é bom para coisas como avaliações, 'sum' "
 "é bom para os totais, e 'count' é bom para mostrar quantidade."
 
-#: models.py:1070
+#: models.py:1078
 msgid "Field names"
 msgstr "Nome do campos"
 
-#: models.py:1072
+#: models.py:1080
 msgid ""
 "Pull these values from Survey -> Questions -> Fieldname. Separate by spaces. "
 "These are the y-axes of bar and line charts."
@@ -606,24 +606,24 @@ msgstr ""
 "Puxe esses valores de Pesquisa -> Perguntas -> Nome de campo. Separar por "
 "espaços.Estes são os eixos-y de barras e gráficos de linhas."
 
-#: models.py:1076
+#: models.py:1084
 msgid "X axis field name"
 msgstr "Nome do campo do exio X"
 
-#: models.py:1078
+#: models.py:1086
 msgid "This only applies to bar and line charts. Use only 1 field."
 msgstr ""
 "Isso se aplica apenas a gráficos de barras e linhas. Use apenas 1 campo."
 
-#: models.py:1081
+#: models.py:1089
 msgid "Annotation"
 msgstr "Anotação"
 
-#: models.py:1083
+#: models.py:1091
 msgid "Limit map answers"
 msgstr "Limitar resposta ao mapa"
 
-#: models.py:1086
+#: models.py:1094
 msgid ""
 "Google maps gets pretty slow if you add too many points. Use this field to "
 "limit the number of points that display on the map."
@@ -631,11 +631,11 @@ msgstr ""
 "O Google Maps fica muito lento se você adicionar muitos pontos. Use este "
 "campo para limitar o número de pontos que aparecem no mapa."
 
-#: models.py:1090
+#: models.py:1098
 msgid "Map center latitude"
 msgstr "Latitude central do mapa"
 
-#: models.py:1093
+#: models.py:1101
 msgid ""
 "If you don't specify latitude, longitude, or zoom, the map will just center "
 "and zoom so that the map shows all the points."
@@ -643,19 +643,19 @@ msgstr ""
 "Se você não especificar latitude, longitude ou zoom, o mapa apenas no centro "
 "e zoom para que o mapa mostre todos os pontos."
 
-#: models.py:1098
+#: models.py:1106
 msgid "Map zoom"
 msgstr "Zoom do mapa"
 
-#: models.py:1101
+#: models.py:1109
 msgid "13 is about the right level for Manhattan. 0 shows the entire world."
 msgstr "13 é sobre o nível certo de Manhattan. 0 mostra o mundo inteiro."
 
-#: models.py:1104
+#: models.py:1112
 msgid "Caption fields"
 msgstr "Campos de legenda"
 
-#: models.py:1107
+#: models.py:1115
 msgid ""
 "The answers to these questions will appear as captions below their "
 "corresponding slides. Separate by spaces."
@@ -663,11 +663,11 @@ msgstr ""
 "As respostas a essas perguntas aparecerão como legendas abaixo de seus "
 "slides correspondentes. Separar por espaços."
 
-#: models.py:1162
+#: models.py:1170
 msgid "Survey report display"
 msgstr "Exibição de relatórios"
 
-#: models.py:1163
+#: models.py:1171
 msgid "Survey reports display"
 msgstr "Exibição de relatórios"
 

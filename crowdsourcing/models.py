@@ -51,7 +51,7 @@ ARCHIVE_POLICY_CHOICES = ChoiceEnum(
         ),
         translated_choices={
             'immediate': _('immediate'),
-            'post_close': _('post-close'),
+            'post-close': _('post-close'),
             'never': _('never')
         }
     )

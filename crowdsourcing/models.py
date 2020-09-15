@@ -292,9 +292,8 @@ class AbstractSurvey(models.Model):
     def __str__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('survey_detail', (), {'slug': self.slug})
+        return reverse('survey_detail', kwargs={'slug': self.slug})
 
     def get_download_url(self, format):
         url = reverse('submissions_by_format', kwargs={"format": format})
@@ -1037,10 +1036,11 @@ class SurveyReport(models.Model):
         SRDC = SURVEY_DISPLAY_TYPE_CHOICES
         return self.has_display_type([SRDC.PIE, SRDC.BAR, SRDC.LINE])
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('survey_report_page_1', (), {'slug': self.survey.slug,
-                                             'report': self.slug})
+        return reverse('survey_report_page_1', kwargs={
+            'slug': self.survey.slug,
+            'report': self.slug
+        })
 
     class Meta:
         verbose_name = _("Survey report")

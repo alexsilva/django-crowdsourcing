@@ -540,7 +540,7 @@ class Section(models.Model):
                                verbose_name=_("Survey"),
                                related_name='survey')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -1060,7 +1060,7 @@ class SurveyReport(models.Model):
     def get_summary(self):
         return self.summary or self.survey.description or self.survey.tease
 
-    def __unicode__(self):
+    def __str__(self):
         return self.get_title()
 
 
@@ -1131,7 +1131,7 @@ class SurveyReportDisplay(models.Model):
     else:
         order = models.IntegerField(verbose_name=_("Order"))
 
-    def __unicode__(self):
+    def __str__(self):
         type = SURVEY_DISPLAY_TYPE_CHOICES.getdisplay(self.display_type)
         return_value = [type]
         SATC = SURVEY_AGGREGATE_TYPE_CHOICES

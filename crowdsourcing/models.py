@@ -109,6 +109,7 @@ class AbstractSurvey(models.Model):
 
     # the user who creates the survey
     creator = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.SET_NULL,
                                 verbose_name=_('Creator'),
                                 null=True, blank=True)
 
@@ -166,16 +167,15 @@ class AbstractSurvey(models.Model):
         help_text=_("Send a notification to these e-mail addresses whenever "
                     "someone submits an entry to this survey. Comma "
                     "delimited."))
-    sections = models.ForeignKey('Section',
-                                 blank=True, null=True,
-                                 editable=True,
+    sections = models.ForeignKey('Section', on_delete=models.SET_NULL,
+                                 blank=True, null=True, editable=True,
                                  related_name='sections')
-    site = models.ForeignKey(Site)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
     default_report = models.ForeignKey(
         'SurveyReport',
-        blank=True,
-        null=True,
+        on_delete=models.SET_NULL,
+        blank=True, null=True,
         related_name='reports',
         help_text=_("Whenever we automatically generate a link to the results "
                     "of this survey we'll use this report. If it's left blank, "

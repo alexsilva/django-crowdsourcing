@@ -357,7 +357,8 @@ POSITION_HELP = _("What order does this question appear in the survey form and "
 
 
 class Question(models.Model):
-    survey = models.ForeignKey(Survey, related_name="questions")
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE,
+                               related_name="questions")
     fieldname = models.CharField(
         verbose_name=_("Field name"),
         max_length=55,
@@ -372,7 +373,7 @@ class Question(models.Model):
     label = models.TextField(verbose_name=_("Label"),
                              help_text=_("Appears on the results page."))
     help_text = models.TextField(verbose_name=_("Help text"), blank=True)
-    section = models.ForeignKey('Section',
+    section = models.ForeignKey('Section', on_delete=models.SET_NULL,
                                 verbose_name=lazy(lambda: Section._meta.verbose_name, str)(),
                                 blank=True, null=True,
                                 related_name="question_section")
@@ -535,7 +536,9 @@ FILTER_TYPE = ChoiceEnum("choice range distance")
 class Section(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=100)
     description = models.TextField(verbose_name=_("Description"), blank=True)
-    survey = models.ForeignKey('Survey', verbose_name=_("Survey"), related_name='survey')
+    survey = models.ForeignKey('Survey', on_delete=models.CASCADE,
+                               verbose_name=_("Survey"),
+                               related_name='survey')
 
     def __unicode__(self):
         return self.name
@@ -831,8 +834,10 @@ BALLOT_STUFFING_FIELDS = ('ip_address', 'session_key',)
 
 
 class Submission(models.Model):
-    survey = models.ForeignKey(Survey, verbose_name=Survey._meta.verbose_name)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE,
+                               verbose_name=Survey._meta.verbose_name)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.SET_NULL,
                              verbose_name=_("User"),
                              blank=True, null=True)
     ip_address = models.GenericIPAddressField(verbose_name=_("IP address"))
@@ -911,8 +916,8 @@ class Submission(models.Model):
 
 
 class Answer(models.Model):
-    submission = models.ForeignKey(Submission)
-    question = models.ForeignKey(Question)
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text_answer = models.TextField(blank=True, null=True)
     date_answer = models.DateField(blank=True, null=True)
     integer_answer = models.IntegerField(blank=True, null=True)
@@ -974,7 +979,8 @@ class SurveyReport(models.Model):
     options, which each take a display type, a series of fieldnames,
     and an annotation.  It also has article-like fields of its own.
     """
-    survey = models.ForeignKey(Survey, verbose_name=Survey._meta.verbose_name)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE,
+                               verbose_name=Survey._meta.verbose_name)
     title = models.CharField(
         verbose_name=_("Title"),
         max_length=100,
@@ -1065,7 +1071,8 @@ SURVEY_AGGREGATE_TYPE_CHOICES = ChoiceEnum('default sum count average')
 
 class SurveyReportDisplay(models.Model):
     """ Think of this as a line item of SurveyReport. """
-    report = models.ForeignKey(SurveyReport, verbose_name=SurveyReport._meta.verbose_name)
+    report = models.ForeignKey(SurveyReport, on_delete=models.CASCADE,
+                               verbose_name=SurveyReport._meta.verbose_name)
     display_type = models.PositiveIntegerField(
         verbose_name=_("Display type"),
         choices=SURVEY_DISPLAY_TYPE_CHOICES)

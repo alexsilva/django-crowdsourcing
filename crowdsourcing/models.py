@@ -17,10 +17,7 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.utils import timezone
 from django.core.cache import cache
-try:
-    from django.core.urlresolvers import reverse
-except ImportError:
-    from django.urls import reverse
+from crowdsourcing.compat.urls import reverse
 from django.db import models, connection
 from django.db.models import Count
 from django.db.models.fields.files import ImageFieldFile

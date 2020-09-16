@@ -8,7 +8,7 @@ from xml.dom.minidom import Document
 import unicodecsv as csv
 from django.core.mail import EmailMultiAlternatives
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from django.core.urlresolvers import reverse, NoReverseMatch
+from crowdsourcing.compat.urls import reverse, NoReverseMatch
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render_to_response

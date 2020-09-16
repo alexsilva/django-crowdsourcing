@@ -15,6 +15,8 @@ from crowdsourcing.views import (
     survey_search
 )
 
+app_name = 'crowdsourcing'
+
 urlpatterns = [
     url(r'submissions/$', submissions, {"format": "json"}, name='submissions'),
 

@@ -19,6 +19,6 @@ setup(name='django-crowdsourcing',
       author='Jacob Smullyan, Dave Smith',
       author_email='jsmullyan@gmail.com',
       url='http://code.google.com/p/django-crowdsourcing/',
-      packages=find_packages(),
+      packages=find_packages(exclude=('example_app*',)),
       license='MIT',
       )

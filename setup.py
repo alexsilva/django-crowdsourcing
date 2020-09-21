@@ -1,6 +1,6 @@
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 readme_file = os.path.join(os.path.dirname(__file__), 'README')
 long_description = open(readme_file).read()
@@ -19,6 +19,6 @@ setup(name='django-crowdsourcing',
       author='Jacob Smullyan, Dave Smith',
       author_email='jsmullyan@gmail.com',
       url='http://code.google.com/p/django-crowdsourcing/',
-      packages=['crowdsourcing', 'crowdsourcing.templatetags'],
+      packages=find_packages(),
       license='MIT',
       )

@@ -361,7 +361,7 @@ class SubmissionFormFilter(SurveyFormFilter):
 
 def forms_for_survey(survey, request='testing', submission=None):
     testing = bool(request == 'testing')
-    session_key = "" if testing or not request.user.is_authenticated() else request.session.session_key.lower()
+    session_key = "" if testing or not request.user.is_authenticated else request.session.session_key.lower()
     post = None if testing else request.POST or None
     files = None if testing else request.FILES or None
     main_form = SubmissionForm(survey, data=post, files=files)

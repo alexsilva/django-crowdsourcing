@@ -39,7 +39,7 @@ admin_app_name = crowdsourcing_settings.CROWDSOURCING_ADMIN_APP_NAME
 
 
 def _user_entered_survey(request, survey):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return False
     return bool(survey.submissions_for(
         request.user,
@@ -75,7 +75,7 @@ def _get_survey_or_404(slug, request=None):
 
 
 def _survey_submit(request, survey):
-    if survey.require_login and request.user.is_anonymous():
+    if survey.require_login and request.user.is_anonymous:
         # again, the form should only be shown after the user is logged in, but
         # to be safe...
         return HttpResponseRedirect(_login_url(request))
@@ -113,7 +113,7 @@ def _submit_valid_forms(forms, request, survey):
     object_pk = submission_form.cleaned_data.get('object_pk')
     if object_pk:  # opcional field
         submission.object_pk = object_pk
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         submission.user = request.user
     submission.save()
     for form in forms[1:]:
@@ -190,7 +190,7 @@ def _survey_show_form(request, survey, forms):
 
 
 def _can_show_form(request, survey):
-    authenticated = request.user.is_authenticated()
+    authenticated = request.user.is_authenticated
     return all((
         survey.is_open,
         authenticated or not survey.require_login,
@@ -222,7 +222,7 @@ def survey_detail(request, slug):
         return _survey_results_redirect(request, survey)
     need_login = (survey.is_open
                   and survey.require_login
-                  and not request.user.is_authenticated())
+                  and not request.user.is_authenticated)
     if _can_show_form(request, survey):
         if request.method == 'POST':
             return _survey_submit(request, survey)
@@ -271,7 +271,7 @@ def _survey_report_url(survey):
 
 def allowed_actions(request, slug):
     survey = _get_survey_or_404(slug, request)
-    authenticated = request.user.is_authenticated()
+    authenticated = request.user.is_authenticated
     response = HttpResponse(content_type='application/json')
     dump({"enter": _can_show_form(request, survey),
           "view": survey.can_have_public_submissions(),
@@ -317,7 +317,7 @@ def submissions(request, format, **kwargs):
                 }
         return HttpResponse(msg)
     get = request.GET.copy()
-    is_staff = request.user.is_authenticated() and request.user.is_staff
+    is_staff = request.user.is_authenticated and request.user.is_staff
     if is_staff:
         results = Submission.objects.all()
     else:

@@ -259,7 +259,7 @@ class AbstractSurvey(models.Model):
 
     def submissions_for(self, user, session_key):
         q = models.Q(survey=self)
-        if user.is_authenticated():
+        if user.is_authenticated:
             q = q & models.Q(user=user)
         elif session_key:
             q = q & models.Q(session_key=session_key)

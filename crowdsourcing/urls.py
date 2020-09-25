@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'submissions/(?P<content_type>.+?)/(?P<object_pk>\d+)/(?P<format>[a-z]+)/$',
         submissions, name='submissions_search_and_format'),
 
-    url(r'submission/(?P<id>\d+)/$', submission),
+    url(r'submission/(?P<id>\d+)/$', submission, name='submission_by_id'),
     url(r'submission_for_map/(?P<id>\d+)/$', submission_for_map),
 
     url(r'location_question_results/(?P<question_id>\d+)/(?P<limit_map_answers>\d+)/$',

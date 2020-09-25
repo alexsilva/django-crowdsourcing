@@ -394,7 +394,7 @@ def google_map(display, question, report, is_popup=False):
             display_id=display.pk if display.pk else 0)
         if report.slug:
             kwargs["survey_report_slug"] = report.slug
-        url = reverse('location_question_map', kwargs=kwargs)
+        url = reverse('crowdsourcing:location_question_map', kwargs=kwargs)
         full_url = "http://%s%s" % (Site.objects.get_current().domain, url)
         out.extend([
             '  <ul class="map_tools">',
@@ -590,10 +590,10 @@ def submission_link(submission,
     elif link_detail_survey_none == DETAIL_SURVEY_NONE.SURVEY:
         text = "Back to %s" % submission.survey.title
         kwargs = {"slug": submission.survey.slug}
-        view = "survey_default_report_page_1"
+        view = "crowdsourcing:survey_default_report_page_1"
         if submission.survey.default_report:
             kwargs["report"] = submission.survey.default_report.slug
-            view = "survey_report_page_1"
+            view = "crowdsourcing:survey_report_page_1"
         url = reverse(view, kwargs=kwargs)
     elif link_detail_survey_none == DETAIL_SURVEY_NONE.DETAIL:
         url = submission.get_absolute_url()
@@ -609,9 +609,9 @@ register.simple_tag(submission_link)
 def paginator(survey, report, pages_to_link, page_obj):
     out = []
     url_args = dict(slug=survey.slug, page=0)
-    view_name = "survey_default_report"
+    view_name = "crowdsourcing:survey_default_report"
     if report.slug:
-        view_name = "survey_report"
+        view_name = "crowdsourcing:survey_report"
         url_args["report"] = report.slug
     if len(pages_to_link) > 1:
         out.append('<div class="pages">')

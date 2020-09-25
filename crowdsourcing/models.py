@@ -183,8 +183,8 @@ class AbstractSurvey(models.Model):
 
     def to_jsondata(self):
         kwargs = {'slug': self.slug}
-        submit_url = reverse('embeded_survey_questions', kwargs=kwargs)
-        report_url = reverse('survey_default_report_page_1', kwargs=kwargs)
+        submit_url = reverse('crowdsourcing:embeded_survey_questions', kwargs=kwargs)
+        report_url = reverse('crowdsourcing:survey_default_report_page_1', kwargs=kwargs)
         questions = self.questions.order_by("order")
         return dict(title=self.title,
                     id=self.id,
@@ -290,10 +290,10 @@ class AbstractSurvey(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('survey_detail', kwargs={'slug': self.slug})
+        return reverse('crowdsourcing:survey_detail', kwargs={'slug': self.slug})
 
     def get_download_url(self, format):
-        url = reverse('submissions_by_format', kwargs={"format": format})
+        url = reverse('crowdsourcing:submissions_by_format', kwargs={"format": format})
         return url + "?survey=" + self.slug
 
     def get_download_tag(self, format):
@@ -901,8 +901,7 @@ class Submission(models.Model):
         return list(self.get_answer_dict().items())
 
     def get_absolute_url(self):
-        view = 'crowdsourcing.views.submission'
-        return reverse(view, kwargs={"id": self.pk})
+        return reverse("crowdsourcing:submission_by_id", kwargs={"id": self.pk})
 
     @property
     def email(self):
@@ -1040,7 +1039,7 @@ class SurveyReport(models.Model):
         return self.has_display_type([SRDC.PIE, SRDC.BAR, SRDC.LINE])
 
     def get_absolute_url(self):
-        return reverse('survey_report_page_1', kwargs={
+        return reverse('crowdsourcing:survey_report_page_1', kwargs={
             'slug': self.survey.slug,
             'report': self.slug
         })

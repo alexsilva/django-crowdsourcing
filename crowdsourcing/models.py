@@ -919,7 +919,7 @@ class Answer(models.Model):
     date_answer = models.DateField(blank=True, null=True)
     integer_answer = models.IntegerField(blank=True, null=True)
     float_answer = models.FloatField(blank=True, null=True)
-    boolean_answer = models.NullBooleanField()
+    boolean_answer = models.BooleanField(null=True, blank=True)
     image_answer = ImageWithThumbnailsField(
         extra_thumbnails=local_settings.EXTRA_THUMBNAILS,
         upload_to=local_settings.IMAGE_UPLOAD_PATTERN,

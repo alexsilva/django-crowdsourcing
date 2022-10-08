@@ -3,15 +3,16 @@ import logging
 import smtplib
 from datetime import datetime
 from itertools import count
+from urllib import parse as urlparse
+from django.urls import reverse, NoReverseMatch
 from xml.dom.minidom import Document
 
 import unicodecsv as csv
 from django.core.mail import EmailMultiAlternatives
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from crowdsourcing.compat.urls import reverse, NoReverseMatch
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render
 from django.template import RequestContext as _rc
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
@@ -62,7 +63,9 @@ def _get_remote_ip(request):
 
 def _login_url(request):
     if crowdsourcing_settings.LOGIN_VIEW:
-        start_with = reverse(crowdsourcing_settings.LOGIN_VIEW) + '?next=%s'
+        start_with = reverse(crowdsourcing_settings.LOGIN_VIEW) + urlparse.urlencode({
+            'next': request.path
+        })
         return start_with % request.path
     return "/?login_required=true"
 
@@ -84,10 +87,9 @@ def _survey_submit(request, survey):
                             status=http.client.FORBIDDEN)
     if _entered_no_more_allowed(request, survey):
         slug_template = 'crowdsourcing/%s_already_submitted.html' % survey.slug
-        return render_to_response([slug_template,
-                                   'crowdsourcing/already_submitted.html'],
-                                  dict(survey=survey),
-                                  _rc(request))
+        context = _rc(request)
+        context.update(dict(survey=survey))
+        return render(request, [slug_template, 'crowdsourcing/already_submitted.html'], context)
 
     forms = forms_for_survey(survey, request)
 
@@ -158,8 +160,8 @@ def _send_survey_email(request, survey, submission):
         url = http + request.META["HTTP_HOST"] + _survey_report_url(survey)
         links.append((url, _("View Survey"),))
     parts = ["<a href=\"%s\">%s</a>" % link for link in links]
-    set = submission.answer_set.all()
-    lines = ["%s: %s" % (a.question.label, escape(a.value),) for a in set]
+    answers = submission.answer_set.all()
+    lines = ["%s: %s" % (a.question.label, escape(a.value),) for a in answers]
     parts.extend(lines)
     html_email = "<br/>\n".join(parts)
     recipients = [a.strip() for a in survey.email.split(",")]
@@ -179,14 +181,15 @@ def _send_survey_email(request, survey, submission):
 def _survey_show_form(request, survey, forms):
     specific_template = 'crowdsourcing/%s_survey_detail.html' % survey.slug
     entered = _user_entered_survey(request, survey)
-    return render_to_response([specific_template,
-                               'crowdsourcing/survey_detail.html'],
-                              dict(survey=survey,
-                                   forms=forms,
-                                   entered=entered,
-                                   login_url=_login_url(request),
-                                   request=request),
-                              _rc(request))
+    context = _rc(request)
+    context.update(dict(
+        survey=survey,
+        forms=forms,
+        entered=entered,
+        login_url=_login_url(request),
+        request=request
+    ))
+    return render(request, [specific_template, 'crowdsourcing/survey_detail.html'], context)
 
 
 def _can_show_form(request, survey):
@@ -194,7 +197,8 @@ def _can_show_form(request, survey):
     return all((
         survey.is_open,
         authenticated or not survey.require_login,
-        not _entered_no_more_allowed(request, survey)))
+        not _entered_no_more_allowed(request, survey)
+    ))
 
 
 def survey_search(request, **kwargs):
@@ -248,13 +252,16 @@ def embeded_survey_questions(request, slug):
             valid = _submit_valid_forms(forms, request, survey)
             if valid:
                 forms = ()
-    return render_to_response(templates, dict(
+    context = _rc(request)
+    context.update(dict(
         entered=_user_entered_survey(request, survey),
         request=request,
         valid=valid,
         forms=forms,
         survey=survey,
-        login_url=_login_url(request)), _rc(request))
+        login_url=_login_url(request)
+    ))
+    return render(request, templates, context)
 
 
 def _survey_results_redirect(request, survey, thanks=False):
@@ -483,20 +490,22 @@ def _encode(possible):
 def submission(request, id):
     template = 'crowdsourcing/submission.html'
     sub = get_object_or_404(Submission.objects, is_public=True, pk=id)
-    return render_to_response(template, dict(submission=sub), _rc(request))
+    context = _rc(request)
+    context.update(dict(submission=sub))
+    return render(request, template, context)
 
 
 def _default_report(survey):
     field_count = count(1)
-    OTC = OPTION_TYPE_CHOICES
+    otc = OPTION_TYPE_CHOICES
     pie_choices = (
-        OTC.BOOL,
-        OTC.SELECT,
-        OTC.CHOICE,
-        OTC.NUMERIC_SELECT,
-        OTC.NUMERIC_CHOICE,
-        OTC.BOOL_LIST,)
-    all_choices = pie_choices + (OTC.LOCATION, OTC.PHOTO)
+        otc.BOOL,
+        otc.SELECT,
+        otc.CHOICE,
+        otc.NUMERIC_SELECT,
+        otc.NUMERIC_CHOICE,
+        otc.BOOL_LIST,)
+    all_choices = pie_choices + (otc.LOCATION, otc.PHOTO)
     public_fields = survey.get_public_fields()
     fields = [f for f in public_fields if f.option_type in all_choices]
     report = SurveyReport(
@@ -506,14 +515,16 @@ def _default_report(survey):
     displays = []
     for field in fields:
         if field.option_type in pie_choices:
-            type = SURVEY_DISPLAY_TYPE_CHOICES.PIE
-        elif field.option_type == OTC.LOCATION:
-            type = SURVEY_DISPLAY_TYPE_CHOICES.MAP
-        elif field.option_type == OTC.PHOTO:
-            type = SURVEY_DISPLAY_TYPE_CHOICES.SLIDESHOW
+            choice_type = SURVEY_DISPLAY_TYPE_CHOICES.PIE
+        elif field.option_type == otc.LOCATION:
+            choice_type = SURVEY_DISPLAY_TYPE_CHOICES.MAP
+        elif field.option_type == otc.PHOTO:
+            choice_type = SURVEY_DISPLAY_TYPE_CHOICES.SLIDESHOW
+        else:
+            choice_type = SURVEY_DISPLAY_TYPE_CHOICES.TEXT
         displays.append(SurveyReportDisplay(
             report=report,
-            display_type=type,
+            display_type=choice_type,
             fieldnames=field.fieldname,
             annotation=field.label,
             order=next(field_count)))
@@ -599,7 +610,9 @@ def _survey_report(request, slug, report, page, templates):
     display_individual_results = all([
         report_obj.display_individual_results,
         archive_fields or (is_staff and fields)])
-    context = dict(
+
+    context = _rc(request)
+    context.update(dict(
         survey=survey,
         submissions=submissions,
         paginator=paginator,
@@ -612,9 +625,9 @@ def _survey_report(request, slug, report, page, templates):
         page_answers=page_answers,
         is_public=is_public,
         display_individual_results=display_individual_results,
-        request=request)
-
-    return render_to_response(templates, context, _rc(request))
+        request=request
+    ))
+    return render(request, templates, context)
 
 
 def pages_to_link_from_paginator(page, paginator):
@@ -630,16 +643,16 @@ def pages_to_link_from_paginator(page, paginator):
     if pages[-1] < paginator.num_pages:
         pages = pages + [False, paginator.num_pages]
 
-    DISCARD = -999
+    discard = -999
     for i in range(1, len(pages) - 1):
         if pages[i - 1] + 2 == pages[i + 1]:
             # Turn [1, False, 3... into [1, 2, 3
             pages[i] = (pages[i - 1] + pages[i + 1]) / 2
         elif pages[i - 1] + 1 == pages[i + 1]:
             # Turn [1, False, 2... into [1, DISCARD, 2...
-            pages[i] = DISCARD
+            pages[i] = discard
 
-    return [p for p in pages if p != DISCARD]
+    return [p for p in pages if p != discard]
 
 
 def paginate_or_404(queryset, page, num_per_page=20):
@@ -747,11 +760,12 @@ def location_question_map(
             if question.pk in [q.pk for q in d.questions()]:
                 display = d
                 display.limit_map_answers = limit
-
-    return render_to_response('crowdsourcing/location_question_map.html', dict(
+    context = dict(
         display=display,
         question=question,
-        report=report))
+        report=report
+    )
+    return render(request, 'crowdsourcing/location_question_map.html', context)
 
 
 def submission_for_map(request, id):
@@ -760,4 +774,8 @@ def submission_for_map(request, id):
         sub = get_object_or_404(Submission.objects, pk=id)
     else:
         sub = get_object_or_404(Submission.objects, is_public=True, pk=id)
-    return render_to_response(template, dict(submission=sub), _rc(request))
+    context = _rc(request)
+    context.update(dict(
+        submission=sub
+    ))
+    return render(request, template, context)

@@ -18,10 +18,10 @@ class QuestionForm(ModelForm):
         fields = "__all__"
 
     def clean(self):
-        OTC = OPTION_TYPE_CHOICES
+        otc = OPTION_TYPE_CHOICES
         opts = self.cleaned_data.get('options', "")
         option_type = self.cleaned_data.get('option_type', "")
-        numeric_list = option_type in (OTC.NUMERIC_SELECT, OTC.NUMERIC_CHOICE,)
+        numeric_list = option_type in (otc.NUMERIC_SELECT, otc.NUMERIC_CHOICE,)
         if numeric_list:
             for option in [v for v in (s.strip() for s in opts.splitlines()) if v]:
                 try:
@@ -31,19 +31,19 @@ class QuestionForm(ModelForm):
                         "For numeric select or numeric choice, all your "
                         "options must be a number. This is not a number: ") +
                                           option)
-        if numeric_list or option_type in (OTC.SELECT, OTC.CHOICE, OTC.RANKED):
+        if numeric_list or option_type in (otc.SELECT, otc.CHOICE, otc.RANKED):
             if not opts.splitlines():
                 raise ValidationError(_(
                     "Choice type questions require a list of options."))
         return self.cleaned_data
 
     def clean_fieldname(self):
-        fieldname = self.cleaned_data.get('fieldname', "").strip()
-        if not re.match(r'^[a-zA-Z][a-zA-Z0-9_]*$', fieldname):
+        field_name = self.cleaned_data.get('fieldname', "").strip()
+        if not re.match(r'^[a-zA-Z][a-zA-Z0-9_]*$', field_name):
             raise ValidationError(_('The field name must start with a letter '
                                     'and contain nothing but alphanumerics '
                                     'and underscore.'))
-        return fieldname
+        return field_name
 
 
 class SectionForm(ModelForm):

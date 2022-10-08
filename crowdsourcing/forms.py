@@ -21,7 +21,7 @@ from django.forms import (
     Textarea,
     ValidationError,
 )
-from django.forms.forms import BoundField
+from django.forms import BoundField
 from django.forms.models import ModelForm
 from django.template import Context, loader
 from django.utils.html import strip_tags

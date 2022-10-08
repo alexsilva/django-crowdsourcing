@@ -9,7 +9,9 @@ def get_function(path):
 
 
 class ChoiceEnum(object):
-    def __init__(self, choices, translated_choices={}):
+    def __init__(self, choices, translated_choices=None):
+        if translated_choices is None:
+            translated_choices = {}
         if isinstance(choices, str):
             choices = choices.split()
         if all([isinstance(choices, (list, tuple)),

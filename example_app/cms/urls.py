@@ -1,9 +1,6 @@
-from __future__ import absolute_import
-
-from django.conf.urls import patterns, url
-
-from .views import home
+from example_app.cms.views import home
+from django.urls import re_path
 
 urlpatterns = [
-    url(r'^$', home)
+    re_path(r'^$', home)
 ]

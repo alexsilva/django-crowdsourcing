@@ -1,6 +1,8 @@
 import logging
 import re
 from math import sin, cos
+
+from django.urls import reverse
 from operator import itemgetter
 from textwrap import fill
 
@@ -17,7 +19,6 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.utils import timezone
 from django.core.cache import cache
-from crowdsourcing.compat.urls import reverse
 from django.db import models, connection
 from django.db.models import Count
 from django.db.models.fields.files import ImageFieldFile
@@ -223,7 +224,7 @@ class AbstractSurvey(models.Model):
         return [f for f in self.get_fields() if f.answer_is_public]
 
     def get_fields(self, fieldnames=None):
-        if not "_fields" in self.__dict__:
+        if "_fields" not in self.__dict__:
             questions = self.questions.all()
             questions = questions.select_related("survey")
             self.__dict__["_fields"] = list(questions.order_by("order"))
@@ -243,13 +244,13 @@ class AbstractSurvey(models.Model):
         return [f for f in self.get_public_fields() if f.option_type in types]
 
     def icon_questions(self):
-        OTC = OPTION_TYPE_CHOICES
+        otc = OPTION_TYPE_CHOICES
         return self.questions.filter(
             ~models.Q(map_icons=""),
-            option_type__in=[OTC.SELECT,
-                             OTC.CHOICE,
-                             OTC.NUMERIC_SELECT,
-                             OTC.NUMERIC_CHOICE])
+            option_type__in=[otc.SELECT,
+                             otc.CHOICE,
+                             otc.NUMERIC_SELECT,
+                             otc.NUMERIC_CHOICE])
 
     def parsed_option_icon_pairs(self):
         icon_questions = self.icon_questions()
@@ -454,15 +455,15 @@ class Question(models.Model):
 
     def save(self, *args, **kwargs):
         self.numeric_is_int = True
-        OTC = OPTION_TYPE_CHOICES
-        if self.option_type in (OTC.NUMERIC_SELECT, OTC.NUMERIC_CHOICE):
+        otc = OPTION_TYPE_CHOICES
+        if self.option_type in (otc.NUMERIC_SELECT, otc.NUMERIC_CHOICE):
             for option in self.parsed_options:
                 try:
                     int(option)
                 except ValueError:
                     float(option)
                     self.numeric_is_int = False
-        elif self.option_type == OTC.FLOAT:
+        elif self.option_type == otc.FLOAT:
             self.numeric_is_int = False
         from markdown import markdown  # lazy import
         self.question_html = markdown(self.question)
@@ -492,8 +493,8 @@ class Question(models.Model):
     @property
     def value_column(self):
         ot = self.option_type
-        OTC = OPTION_TYPE_CHOICES
-        if ot == OTC.BOOL:
+        otc = OPTION_TYPE_CHOICES
+        if ot == otc.BOOL:
             return "boolean_answer"
         elif self.is_float:
             return "float_answer"
@@ -501,18 +502,18 @@ class Question(models.Model):
             return "date_answer"
         elif self.is_integer:
             return "integer_answer"
-        elif ot == OTC.PHOTO:
+        elif ot == otc.PHOTO:
             return "image_answer"
         return "text_answer"
 
     @property
     def is_numeric(self):
-        OTC = OPTION_TYPE_CHOICES
-        return self.option_type in [OTC.FLOAT,
-                                    OTC.INTEGER,
-                                    OTC.BOOL,
-                                    OTC.NUMERIC_SELECT,
-                                    OTC.NUMERIC_CHOICE]
+        otc = OPTION_TYPE_CHOICES
+        return self.option_type in [otc.FLOAT,
+                                    otc.INTEGER,
+                                    otc.BOOL,
+                                    otc.NUMERIC_SELECT,
+                                    otc.NUMERIC_CHOICE]
 
     @property
     def is_float(self):
@@ -594,13 +595,13 @@ def extra_clauses_from_filters(submission_id_column, survey, request_data):
         loc = filter.location_value and filter.within_value
         if filter.value or filter.from_value or filter.to_value or loc:
             try:
-                OTC = OPTION_TYPE_CHOICES
+                otc = OPTION_TYPE_CHOICES
                 where = "".join((
                     submission_id_column,
                     " IN (SELECT submission_id FROM ",
                     "crowdsourcing_answer WHERE question_id = %d ",
                     "AND ")) % filter.field.id
-                if OTC.BOOL == filter.field.option_type:
+                if otc.BOOL == filter.field.option_type:
                     f = ("0", "f",)
                     length = len(filter.value)
                     params = [length and not filter.value[0].lower() in f]
@@ -620,7 +621,7 @@ def extra_clauses_from_filters(submission_id_column, survey, request_data):
                         params.append(convert(filter.value))
                         wheres.append(column + " = %s")
                     where += " AND ".join(wheres)
-                elif OTC.LOCATION == filter.field.option_type:
+                elif otc.LOCATION == filter.field.option_type:
                     e = _extra_from_distance(filter, submission_id_column)
                     if e:
                         d_where, params = e
@@ -940,15 +941,15 @@ class Answer(models.Model):
     @value.setter
     def value(self, v):
         ot = self.question.option_type
-        OTC = OPTION_TYPE_CHOICES
-        if ot == OTC.BOOL:
+        otc = OPTION_TYPE_CHOICES
+        if ot == otc.BOOL:
             self.boolean_answer = bool(v)
-        elif ot == OTC.PHOTO:
+        elif ot == otc.PHOTO:
             self.image_answer = v
-        elif ot in (OTC.FLOAT,
-                    OTC.INTEGER,
-                    OTC.NUMERIC_SELECT,
-                    OTC.NUMERIC_CHOICE):
+        elif ot in (otc.FLOAT,
+                    otc.INTEGER,
+                    otc.NUMERIC_SELECT,
+                    otc.NUMERIC_CHOICE):
             # Keep values in both the integer and float columns just in
             # case the question switches between integer and float types.
             if v:
@@ -1035,8 +1036,8 @@ class SurveyReport(models.Model):
         return bool([1 for srd in displays if srd.display_type in type])
 
     def has_charts(self):
-        SRDC = SURVEY_DISPLAY_TYPE_CHOICES
-        return self.has_display_type([SRDC.PIE, SRDC.BAR, SRDC.LINE])
+        srdc = SURVEY_DISPLAY_TYPE_CHOICES
+        return self.has_display_type([srdc.PIE, srdc.BAR, srdc.LINE])
 
     def get_absolute_url(self):
         return reverse('crowdsourcing:survey_report_page_1', kwargs={
@@ -1130,9 +1131,9 @@ class SurveyReportDisplay(models.Model):
     def __str__(self):
         type = SURVEY_DISPLAY_TYPE_CHOICES.getdisplay(self.display_type)
         return_value = [type]
-        SATC = SURVEY_AGGREGATE_TYPE_CHOICES
-        if self.aggregate_type != SATC.DEFAULT:
-            return_value.append(SATC.getdisplay(self.aggregate_type))
+        satc = SURVEY_AGGREGATE_TYPE_CHOICES
+        if self.aggregate_type != satc.DEFAULT:
+            return_value.append(satc.getdisplay(self.aggregate_type))
         if self.x_axis_fieldname:
             if self.fieldnames:
                 return_value.append("y-axes: %s" % self.fieldnames)
@@ -1197,7 +1198,7 @@ def get_all_answers(submission_list, include_private_questions=False):
     page_answers_list = page_answers_list.select_related("question")
     page_answers = {}
     for answer in page_answers_list:
-        if not answer.submission_id in page_answers:
+        if answer.submission_id not in page_answers:
             page_answers[answer.submission_id] = []
         page_answers[answer.submission_id].append(answer)
     return page_answers

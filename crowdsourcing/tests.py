@@ -33,8 +33,7 @@ class SurveyTestCase(unittest.TestCase):
         self.survey.delete()
 
     def testLive1(self):
-        self.assertEqual(self.survey,
-                          Survey.live.get(slug=self.survey.slug))
+        self.assertEqual(self.survey, Survey.live.get(slug=self.survey.slug))
 
     def testLive2(self):
         self.survey.is_published = False
@@ -65,7 +64,7 @@ class SubmissionTestCase(SurveyTestCase):
         q = self.survey.questions.get(fieldname='video')
         answer = self.submission.answer_set.create(
             question=q)
-        vid = 'http://www.youtube.com/watch?v=lHVahvnK3Uk'
+        vid = 'https://www.youtube.com/watch?v=lHVahvnK3Uk'
         answer.value = vid
         answer.save()
         self.assertEqual(answer.text_answer, vid)

@@ -1,10 +1,10 @@
-import logging
+import warnings
 
 from django import template
 from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.core.files.images import get_image_dimensions
-from crowdsourcing.compat.urls import reverse
+from django.urls import reverse
 from django.utils.html import escape, strip_tags
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
@@ -31,7 +31,7 @@ if local_settings.OEMBED_EXPAND:
                    "settings.OEMBED_EXPAND should be in the format "
                    "path.to.module.function_name Will just display video "
                    "links for now. %s") % args
-        logging.warn(message)
+        warnings.warn(message, RuntimeError)
         oembed_expand = None
 else:
     try:
@@ -62,7 +62,7 @@ def jquery_and_google_api():
     if local_settings.GOOGLE_MAPS_API_KEY:
         key = '?key=%s' % local_settings.GOOGLE_MAPS_API_KEY
     jsapi = "".join([
-        '<script type="text/javascript" src="http://www.google.com/jsapi',
+        '<script type="text/javascript" src="https://www.google.com/jsapi',
         key,
         '"></script>'])
     return mark_safe("\n".join([
@@ -238,9 +238,9 @@ def _yahoo_bar_line_chart_helper(display,
                                  chart_type,
                                  is_staff=False):
     y_axes = display.questions()
-    SATC = SURVEY_AGGREGATE_TYPE_CHOICES
+    satc = SURVEY_AGGREGATE_TYPE_CHOICES
     return_value = []
-    if display.aggregate_type != SATC.COUNT and not y_axes:
+    if display.aggregate_type != satc.COUNT and not y_axes:
         message = ("This chart uses y axes '%s', none of which are questions "
                    "in this survey.") % display.fieldnames
         return issue(message)
@@ -251,13 +251,13 @@ def _yahoo_bar_line_chart_helper(display,
         return issue(message)
     single_count = False
     report = display.get_report()
-    if display.aggregate_type in [SATC.DEFAULT, SATC.SUM]:
+    if display.aggregate_type in [satc.DEFAULT, satc.SUM]:
         aggregate_function = "Sum"
         aggregate = AggregateResultSum(y_axes, x_axis, request_get, report)
-    elif display.aggregate_type == SATC.AVERAGE:
+    elif display.aggregate_type == satc.AVERAGE:
         aggregate_function = "Average"
         aggregate = AggregateResultAverage(y_axes, x_axis, request_get, report)
-    elif display.aggregate_type == SATC.COUNT:
+    elif display.aggregate_type == satc.COUNT:
         aggregate_function = "Count"
         if y_axes:
             aggregate = AggregateResult2AxisCount(
@@ -333,7 +333,7 @@ def _yahoo_chart(display, unique_id, args):
         'Unable to load Flash content. The YUI Charts Control ',
         'requires Flash Player 9.0.45 or higher. You can install the ',
         'latest version at the ',
-        '<a href="http://www.adobe.com/go/getflashplayer">',
+        '<a href="https://www.adobe.com/go/getflashplayer">',
         'Adobe Flash Player Download Center</a>.',
         '</div>']
     args.update(
@@ -343,7 +343,7 @@ def _yahoo_chart(display, unique_id, args):
         <script type="text/javascript">
           yahooChartCallbacks.push(function() {
             YAHOO.widget.Chart.SWFURL =
-              "http://yui.yahooapis.com/2.8.0r4/build/charts/assets/charts.swf";
+              "https://yui.yahooapis.com/2.8.0r4/build/charts/assets/charts.swf";
             var answerData = %(answer_string)s;
             var %(data_var)s = new YAHOO.util.DataSource(answerData);
             %(data_var)s.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
@@ -557,7 +557,7 @@ def video_html(vid, maxheight, maxwidth):
                 html = '<div class="videoplayer">%s</div>' % data['html']
                 value = mark_safe(html)
         except Exception as ex:
-            logging.warn("oembed_expand exception: %s" % str(ex))
+            warnings.warn("oembed_expand exception: %s" % str(ex), RuntimeError)
         # This shouldn't really change and it's an expensive runtime lookup.
         # Cache it for a very long time.
         cache.set(key, value, 7 * 24 * 60 * 60)
@@ -573,8 +573,7 @@ def submissions(object_list, fields):
     for submission in object_list:
         out.append('<div class="submission">')
         out.append(submission_fields(submission, fields, page_answers))
-        D = link_detail_survey_none = DETAIL_SURVEY_NONE.DETAIL
-        out.append(submission_link(submission, D))
+        out.append(submission_link(submission, DETAIL_SURVEY_NONE.DETAIL))
         out.append('</div>')
     return mark_safe("\n".join(out))
 

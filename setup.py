@@ -6,7 +6,7 @@ readme_file = os.path.join(os.path.dirname(__file__), 'README')
 long_description = open(readme_file).read()
 
 classifiers = [
-    'Development Status :: 3 - Beta',
+    'Development Status :: 4 - Beta',
     'Framework :: Django',
     'License :: OSI Approved :: MIT License']
 

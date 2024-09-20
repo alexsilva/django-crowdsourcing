@@ -11,7 +11,7 @@ classifiers = [
     'License :: OSI Approved :: MIT License']
 
 setup(name='django-crowdsourcing',
-      version='2.3.1',
+      version='2.4.0',
       include_package_data=True,
       classifiers=classifiers,
       description='Django app for collecting and displaying surveys.',
